@@ -27,6 +27,15 @@ docs/                          VitePress root
 Makefile                       .dot -> .svg, shared defaults live in DOT_FLAGS
 ```
 
+## Build settings
+
+| Variable | Default | Effect |
+|---|---|---|
+| `DOCS_BASE` | `/` | URL prefix, when the site is served from a sub-path |
+| `SITE_URL` | unset | Origin such as `https://visualixir.example.com`. When set, pages get `og:url`, a canonical link, `og:image` / `twitter:image` (absolute URLs, required by social crawlers) and a `sitemap.xml`. Without it those tags are left out. |
+
+Icons and the social image are in `docs/public/` (`favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `og.png`). The mark is a small tree diagram in Blessing UI's colours. `og.png` has the page and diagram counts baked in.
+
 ## Adding a diagram
 
 1. Write `docs/diagrams/<page>/<name>.dot` (a full `digraph`). Put `class=hl` on what the reader should look at.

@@ -1,12 +1,67 @@
 import { defineConfig } from "vitepress";
 
+const base = process.env.DOCS_BASE ?? "/";
+// Origin the site is served from, e.g. https://visualixir.example.com (no trailing slash).
+// Social previews and the sitemap need absolute URLs, so they only appear when this is set.
+const site = process.env.SITE_URL?.replace(/\/$/, "");
+const title = "Visualixir";
+const tagline = "The official Elixir docs, explained with diagrams.";
+const sections: Record<string, string> = {
+  "getting-started": "Getting started",
+  "mix-and-otp": "Mix & OTP",
+  "meta-programming": "Meta-programming",
+  "anti-patterns": "Anti-patterns",
+  cheatsheets: "Cheatsheets",
+  references: "References",
+};
+
 export default defineConfig({
-  title: "Visualixir",
-  description: "Elixir, drawn. The official Elixir docs, explained with diagrams.",
+  title,
+  description: `Elixir, drawn. ${tagline}`,
   lang: "en",
-  base: process.env.DOCS_BASE ?? "/",
+  base,
   cleanUrls: true,
+  sitemap: site ? { hostname: site + base } : undefined,
+  // One description per page: VitePress emits <meta name="description"> from pageData.description.
+  transformPageData(pageData) {
+    const section = sections[pageData.relativePath.split("/")[0]];
+    if (pageData.frontmatter.description || !section) return;
+    pageData.description = `${pageData.title} (${section}): the official Elixir docs, explained with diagrams.`;
+  },
+  transformHead({ pageData }) {
+    const home = pageData.relativePath === "index.md";
+    const pageTitle = home ? `${title}: Elixir, drawn` : `${pageData.title} | ${title}`;
+    const description = pageData.description || tagline;
+    const url = site ? `${site}${base}${pageData.relativePath.replace(/(^|\/)index\.md$/, "$1").replace(/\.md$/, "")}` : undefined;
+    const image = site ? `${site}${base}og.png` : undefined;
+    const meta = (k: string, name: string, content: string): [string, Record<string, string>] => [
+      "meta",
+      { [k]: name, content },
+    ];
+    return [
+      meta("property", "og:type", home ? "website" : "article"),
+      meta("property", "og:site_name", title),
+      meta("property", "og:title", pageTitle),
+      meta("property", "og:description", description),
+      meta("name", "twitter:card", image ? "summary_large_image" : "summary"),
+      meta("name", "twitter:title", pageTitle),
+      meta("name", "twitter:description", description),
+      ...(url ? [meta("property", "og:url", url), ["link", { rel: "canonical", href: url }] as [string, Record<string, string>]] : []),
+      ...(image
+        ? [
+            meta("property", "og:image", image),
+            meta("property", "og:image:width", "1200"),
+            meta("property", "og:image:height", "630"),
+            meta("name", "twitter:image", image),
+          ]
+        : []),
+    ];
+  },
   head: [
+    ["link", { rel: "icon", type: "image/svg+xml", href: `${base}favicon.svg` }],
+    ["link", { rel: "icon", type: "image/png", sizes: "32x32", href: `${base}favicon-32.png` }],
+    ["link", { rel: "apple-touch-icon", href: `${base}apple-touch-icon.png` }],
+    ["meta", { name: "theme-color", content: "#17181a" }],
     // Mirror VitePress's saved appearance onto data-theme before first paint, so Bless tokens
     // (and the diagrams painted from them) don't flash the OS theme.
     [
