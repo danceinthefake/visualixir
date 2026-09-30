@@ -27,4 +27,11 @@
 @media (max-width: 640px) {
   .diagram > div { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .diagram svg { max-width: none; zoom: 0.7; }
+
+  /* fade the edge that still has more to scroll to (classes set by Diagram.vue) */
+  .diagram > div.more-right { mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent); }
+  .diagram > div.more-left { mask-image: linear-gradient(to left, #000 calc(100% - 32px), transparent); }
+  .diagram > div.more-left.more-right {
+    mask-image: linear-gradient(to right, transparent, #000 32px, #000 calc(100% - 32px), transparent);
+  }
 }
