@@ -1,0 +1,16 @@
+digraph code_loading {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_int {
+    label="interactive: the default outside releases"
+    i1 [label="boot"]
+    i2 [label="first call to Enum.map/2:\nEnum is loaded now\n(a latency spike for early requests)"]
+    i1 -> i2
+  }
+  subgraph cluster_emb {
+    label="embedded: what releases use"
+    e1 [label="boot: every module loaded"]
+    e2 [label="first request: ready" class=hl]
+    e1 -> e2
+  }
+}

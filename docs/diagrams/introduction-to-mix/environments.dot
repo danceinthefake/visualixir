@@ -1,0 +1,15 @@
+digraph environments {
+  rankdir=LR
+  node [shape=box]
+  env [label="Mix.env()\nMIX_ENV=..." class=hl]
+  prod [label=":prod\nwhat you run in production"]
+  test [label=":test\nmix test"]
+  dev [label=":dev\nthe default"]
+  perm [label="start_permanent: true\nthe VM crashes if the\nsupervision tree shuts down"]
+  deps [label="dependencies always\nrun in :prod" class=dim]
+  env -> prod
+  env -> test
+  env -> dev
+  prod -> perm [label=" start_permanent:\l Mix.env() == :prod\l"]
+  prod -> deps [style=dotted class=dim]
+}

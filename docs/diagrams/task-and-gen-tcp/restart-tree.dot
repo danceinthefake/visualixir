@@ -1,0 +1,16 @@
+digraph restart_tree {
+  node [shape=box]
+  sup [label="KV supervisor" class=hl]
+  reg [label="Registry"]
+  ds [label="DynamicSupervisor\nKV.BucketSupervisor"]
+  bk [label="KV.Bucket processes\nrestart: :permanent (default)"]
+  ts [label="Task.Supervisor\nKV.ServerSupervisor"]
+  conn [label="one task per connection\nrestart: :temporary"]
+  acc [label="Task: the acceptor\nrestart: :permanent\n(Supervisor.child_spec override)" class=hl]
+  sup -> reg [label=" 1"]
+  sup -> ds [label=" 2"]
+  sup -> ts [label=" 3"]
+  sup -> acc [label=" 4, last"]
+  ds -> bk
+  ts -> conn
+}

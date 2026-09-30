@@ -1,0 +1,8 @@
+digraph config_files {
+  node [shape=box]
+  a [label="config/config.exs\nread at build time, before compiling\nand before dependencies load:\ncontrols how code is compiled"]
+  b [label="compile the application\nand its dependencies"]
+  c [label="config/runtime.exs\nread after compilation, at boot:\nSystem.get_env, external config" class=hl]
+  d [label="the application runs\nApplication.fetch_env!(:kv, :port)"]
+  a -> b -> c -> d
+}

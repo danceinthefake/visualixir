@@ -1,0 +1,10 @@
+digraph app_files {
+  node [shape=box]
+  app [label="application :kv\n_build/dev/lib/kv" class=hl]
+  ebin [label="ebin/\nElixir.KV.beam, Elixir.KV.Bucket.beam, kv.app"]
+  priv [label="priv/\nany other asset"]
+  appfile [label="kv.app\napplications: kernel, stdlib, elixir, logger\nmodules: KV, KV.Bucket\nmod: {KV, []}   vsn: \"0.1.0\""]
+  app -> ebin
+  app -> priv
+  ebin -> appfile
+}

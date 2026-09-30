@@ -1,0 +1,10 @@
+digraph flawed {
+  rankdir=LR
+  node [shape=box]
+  acc [label="acceptor process"]
+  t1 [label="serve task 1"]
+  t2 [label="serve task 2"]
+  acc -> t1 [label=" Task.start_link"]
+  acc -> t2 [label=" Task.start_link"]
+  t1 -> acc [label=" crashes: linked, so the\l acceptor receives an exit signal\l" class=bad style=dashed]
+}

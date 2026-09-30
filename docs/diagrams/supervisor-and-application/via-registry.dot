@@ -1,0 +1,12 @@
+digraph via_registry {
+  rankdir=LR
+  node [shape=box]
+  input2 [label="bucket name from a client:\n\"shopping\""]
+  atom [label="String.to_atom(\"shopping\")\natoms are never garbage collected:\nnever do this with user input"]
+  input2 -> atom [class=bad style=dashed]
+  call [label="KV.Bucket.put(name, \"milk\", 1)\nname = {:via, Registry, {KV, \"shopping\"}}"]
+  reg [label="Registry KV\n\"shopping\"  ->  #PID<0.43.0>" class=hl]
+  bucket [label="bucket process (an Agent)"]
+  call -> reg [label=" look up the name"]
+  reg -> bucket [label=" the pid"]
+}

@@ -1,0 +1,15 @@
+digraph request_path {
+  node [shape=box]
+  cl [label="telnet client\nPUT shopping milk 1"]
+  srv [label="KV.Server.serve\n:gen_tcp.recv"]
+  parse [label="KV.Command.parse/1"]
+  run [label="KV.Command.run/2" class=hl]
+  look [label="KV.lookup_bucket(\"shopping\")\nRegistry -> pid"]
+  bucket [label="KV.Bucket.put(pid, \"milk\", \"1\")\nthe Agent"]
+  cl -> srv [label=" a line"]
+  srv -> parse
+  parse -> run [label=" {:put, …}"]
+  run -> look
+  look -> bucket [label=" pid"]
+  run -> cl [label=" :gen_tcp.send(\"OK\\r\\n\")" style=dashed]
+}

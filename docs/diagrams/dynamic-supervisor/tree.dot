@@ -1,0 +1,14 @@
+digraph tree {
+  node [shape=box]
+  sup [label="KV supervisor\nstrategy: :one_for_one" class=hl]
+  reg [label="Registry\nname: KV, keys: :unique"]
+  ds [label="DynamicSupervisor\nname: KV.BucketSupervisor"]
+  b1 [label="KV.Bucket \"shopping\""]
+  b2 [label="KV.Bucket \"milk\""]
+  more [label="…more buckets, added at runtime\nwith KV.create_bucket/1" class=dim]
+  sup -> reg
+  sup -> ds
+  ds -> b1
+  ds -> b2
+  ds -> more [style=dotted class=dim]
+}

@@ -1,0 +1,21 @@
+digraph layout {
+  rankdir=LR
+  node [shape=box]
+  kv [label="kv/  (mix new kv --module KV)" class=hl]
+  mix [label="mix.exs\nproject/0, application/0, deps/0"]
+  lib [label="lib/"]
+  libkv [label="kv.ex\nmodule KV"]
+  test [label="test/"]
+  th [label="test_helper.exs\nExUnit.start()"]
+  kt [label="kv_test.exs\nuse ExUnit.Case"]
+  fmt [label=".formatter.exs"]
+  build [label="_build/\ncreated by mix compile" class=dim]
+  kv -> build [style=dotted class=dim]
+  kv -> fmt
+  kv -> test
+  test -> kt
+  test -> th
+  kv -> lib
+  lib -> libkv
+  kv -> mix
+}

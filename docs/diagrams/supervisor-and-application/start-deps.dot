@@ -1,0 +1,13 @@
+digraph start_deps {
+  rankdir=LR
+  node [shape=box]
+  kv [label=":kv" class=hl]
+  logger [label=":logger"]
+  elixir [label=":elixir"]
+  stdlib [label=":stdlib"]
+  kernel [label=":kernel"]
+  kv -> logger [label=" must be running first,\l else {:error, {:not_started, :logger}}\l" class=bad style=dashed]
+  kv -> elixir
+  kv -> stdlib
+  kv -> kernel
+}

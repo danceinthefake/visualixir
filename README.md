@@ -17,6 +17,7 @@ pnpm run build
 ```
 docs/                          VitePress root
   getting-started/*.md         one page per official chapter
+  mix-and-otp/*.md             the Mix & OTP guide
   diagrams/<page>/<name>.dot   Graphviz source; make renders the .svg beside it
   .vitepress/theme/            Diagram.vue inlines SVG, diagram.css repaints it from --bless-* tokens
 Makefile                       .dot -> .svg, shared defaults live in DOT_FLAGS
@@ -39,6 +40,7 @@ Mirrors the official sections, in official order. Chapter sources: `https://elix
   alias/require/import/use, Module attributes, Structs, Recursion, Enumerables and Streams, Comprehensions, Protocols,
   Sigils, try/catch/rescue, Processes, IO and the file system, Writing documentation, Optional syntax, Erlang libraries, Debugging
 - [ ] Cheatsheets (Enum, set-theoretic types)
-- [ ] Mix & OTP
+- [x] Mix & OTP (all 9 chapters, 30 diagrams): Introduction to Mix, Agents, Registries and supervision trees, Supervising dynamic children,
+  Task and gen_tcp, Doctests/patterns/with, Configuration and distribution, Client-server with GenServer, Releases
 - [ ] Meta-programming
 - [ ] References (anti-patterns, patterns and guards, typespecs, compatibility, naming conventions)

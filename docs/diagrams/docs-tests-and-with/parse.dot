@@ -1,0 +1,11 @@
+digraph parse {
+  node [shape=box]
+  line [label="\"PUT shopping milk 1\\r\\n\""]
+  split [label="String.split/1\nsplits on whitespace"]
+  list [label="[\"PUT\", \"shopping\", \"milk\", \"1\"]"]
+  ok [label="{:ok, {:put, \"shopping\", \"milk\", \"1\"}}" class=hl]
+  err [label="{:error, :unknown_command}"]
+  line -> split -> list
+  list -> ok [label=" matches [\"PUT\", bucket, key, value]"]
+  list -> err [label=" no clause matches:\l unknown name or wrong arity\l" class=bad style=dashed]
+}

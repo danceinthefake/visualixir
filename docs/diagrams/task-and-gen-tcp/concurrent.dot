@@ -1,0 +1,11 @@
+digraph concurrent {
+  rankdir=LR
+  node [shape=box]
+  acc [label="acceptor\nTask, restart: :permanent"]
+  sup [label="Task.Supervisor\nKV.ServerSupervisor" class=hl]
+  s1 [label="serve(client 1)\nrestart: :temporary"]
+  s2 [label="serve(client 2)\nrestart: :temporary"]
+  acc -> sup [label=" start_child(fn -> serve(client) end)\l then :gen_tcp.controlling_process\l"]
+  sup -> s1
+  sup -> s2
+}

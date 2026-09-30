@@ -1,0 +1,12 @@
+digraph restart {
+  rankdir=LR
+  node [shape=box]
+  sup [label="Supervisor\nstrategy: :one_for_one" class=hl]
+  p1 [label="bucket #PID<0.48.0>\nname :shopping" class=dim]
+  kill [label="Process.exit(pid, :kill)"]
+  p2 [label="bucket #PID<0.50.0>\nname :shopping"]
+  sup -> p1 [label=" 1. starts"]
+  kill -> p1 [class=bad style=dashed label=" 2. dies"]
+  p1 -> sup [style=dashed class=dim label=" 3. exit signal"]
+  sup -> p2 [label=" 4. starts a replacement"]
+}

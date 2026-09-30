@@ -1,0 +1,17 @@
+digraph registry_vs_global {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_global {
+    label=":global via {:global, name}: one name table across connected nodes"
+    gcall [label="foo: KV.lookup_bucket(\"shopping\")"]
+    gtab [label="global names\n\"shopping\" -> #PID<21821.179.0>\n(the bucket lives on bar)" class=hl]
+    gcall -> gtab [label=" found: the pid"]
+  }
+  subgraph cluster_local {
+    label="Registry: local to one node"
+    lcall [label="foo: KV.lookup_bucket(\"shopping\")"]
+    lfoo [label="foo's Registry\n(no \"shopping\")"]
+    lbar [label="bar's Registry\n\"shopping\" -> pid" class=dim]
+    lcall -> lfoo [label=" nil" class=bad style=dashed]
+  }
+}

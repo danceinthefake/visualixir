@@ -1,0 +1,16 @@
+digraph port_choice {
+  node [shape=box]
+  q1 [label="PORT environment variable set?"]
+  a [label="use it" class=hl]
+  q2 [label="config_env() == :test?"]
+  t [label="4040" class=hl]
+  d [label="4050" class=hl]
+  store [label="config :kv, :port, port\nread later with Application.fetch_env!(:kv, :port)"]
+  q1 -> a [label=" yes"]
+  q1 -> q2 [label=" no"]
+  q2 -> t [label=" yes"]
+  q2 -> d [label=" no"]
+  a -> store
+  t -> store
+  d -> store
+}

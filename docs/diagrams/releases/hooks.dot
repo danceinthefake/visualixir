@@ -1,0 +1,15 @@
+digraph hooks {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_boot {
+    label="every boot or command"
+    rt [label="config/runtime.exs\nPORT, NODES, …" class=hl]
+    vm [label="rel/vm.args.eex\nstatic VM flags"]
+    env [label="rel/env.sh.eex, env.bat.eex\nOS env vars, RELEASE_NODE,\nRELEASE_DISTRIBUTION"]
+  }
+  subgraph cluster_build {
+    label="build time"
+    c [label="config/config.exs\n(imports dev.exs / prod.exs)"]
+  }
+  c -> env [label=" mix release" style=dotted]
+}

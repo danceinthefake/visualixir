@@ -1,0 +1,16 @@
+digraph client_server {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_server {
+    label="server: the agent process"
+    fn [label="fn map -> Map.pop(map, key) end\nruns here" class=hl]
+    state [label="state\n%{\"milk\" => 3}"]
+    fn -> state [dir=both style=dotted]
+  }
+  subgraph cluster_client {
+    label="client: your process"
+    call [label="KV.Bucket.delete(bucket, key)\neverything outside the function"]
+  }
+  call -> fn [label=" message: run this function"]
+  fn -> call [label=" reply: the return value" style=dashed]
+}

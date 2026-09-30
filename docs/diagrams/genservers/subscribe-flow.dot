@@ -1,0 +1,12 @@
+digraph subscribe_flow {
+  rankdir=LR
+  node [shape=box]
+  a [label="subscriber A\nKV.Bucket.subscribe(bucket)"]
+  b [label="client B\nKV.Bucket.put(bucket, \"milk\", 3)"]
+  bucket [label="bucket (a GenServer)\nstate: %{bucket: %{…}, subscribers: MapSet}" class=hl]
+  a -> bucket [label=" cast {:subscribe, pid}\l the bucket monitors A\l"]
+  b -> bucket [label=" call {:put, key, value}"]
+  bucket -> b [label=" reply :ok" style=dashed]
+  bucket -> a [label=" send {:put, \"milk\", 3}\l to every subscriber\l"]
+  a -> bucket [label=" A dies: {:DOWN, …},\l removed from subscribers\l" class=bad style=dashed]
+}

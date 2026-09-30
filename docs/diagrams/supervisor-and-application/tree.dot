@@ -1,0 +1,8 @@
+digraph tree {
+  node [shape=box]
+  cb [label="KV  (use Application)\nstart(_type, _args)"]
+  sup [label="Supervisor\nstrategy: :one_for_one" class=hl]
+  reg [label="Registry\nchild spec: {Registry, name: KV, keys: :unique}"]
+  cb -> sup [label=" Supervisor.start_link(children, opts)"]
+  sup -> reg [label=" starts children in order,\l stops them in reverse\l"]
+}

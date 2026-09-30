@@ -1,0 +1,11 @@
+digraph workflow {
+  rankdir=LR
+  node [shape=box]
+  new [label="mix new kv\n--module KV"]
+  compile [label="mix compile\nartifacts go to _build/"]
+  iex [label="iex -S mix\nproject loaded in the shell"]
+  test [label="mix test\nExUnit, then test_helper.exs"]
+  new -> compile
+  compile -> iex [label=" recompile()\l after edits\l"]
+  compile -> test
+}

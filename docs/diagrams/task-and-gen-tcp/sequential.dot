@@ -1,0 +1,12 @@
+digraph sequential {
+  rankdir=LR
+  node [shape=box]
+  l [label=":gen_tcp.listen(4040)"]
+  a [label="loop_acceptor\naccept client 1"]
+  s [label="serve(client 1)\nloops forever" class=hl]
+  c2 [label="client 2 connects" class=dim]
+  l -> a
+  a -> s [label=" called inline"]
+  s -> a [label=" never reached" class=bad style=dashed]
+  c2 -> a [label=" waits, gets no echo" class=dim style=dotted]
+}

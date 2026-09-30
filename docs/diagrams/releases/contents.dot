@@ -1,0 +1,15 @@
+digraph contents {
+  rankdir=LR
+  node [shape=box]
+  cmd [label="MIX_ENV=prod mix release"]
+  subgraph cluster_rel {
+    label="_build/prod/rel/kv: self-contained"
+    bin [label="bin/kv\nstart · start_iex · stop · restart\nremote · rpc · eval · daemon" class=hl]
+    vm [label="the Erlang VM and runtime\n(stdlib stripped to what you use)"]
+    deps [label="dependencies"]
+    code [label="your application code"]
+  }
+  target [label="target machine\nsame OS distribution and version\nno Erlang or Elixir installed"]
+  cmd -> code [label=" assembles"]
+  bin -> target [label=" copy the directory"]
+}

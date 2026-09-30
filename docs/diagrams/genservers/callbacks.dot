@@ -1,0 +1,22 @@
+digraph callbacks {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_server {
+    label="server: the GenServer process"
+    s3 [label="handle_info(msg, state)\n{:noreply, new_state}"]
+    s2 [label="handle_cast(request, state)\n{:noreply, new_state}"]
+    s1 [label="handle_call(request, from, state)\n{:reply, reply, new_state}" class=hl]
+    s0 [label="init(arg)\n{:ok, state}"]
+  }
+  subgraph cluster_client {
+    label="client: any process"
+    c3 [label="send(pid, msg)\nor a monitored process dies"]
+    c2 [label="GenServer.cast(bucket, {:subscribe, self()})"]
+    c1 [label="GenServer.call(bucket, {:put, key, value})" class=hl]
+    c0 [label="GenServer.start_link(KV.Bucket, %{}, opts)"]
+  }
+  c0 -> s0 [label=" starts the server"]
+  c1 -> s1 [label=" waits for the reply"]
+  c2 -> s2 [label=" doesn't wait"]
+  c3 -> s3 [label=" {:DOWN, …}"]
+}

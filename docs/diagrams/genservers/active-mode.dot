@@ -1,0 +1,15 @@
+digraph active_mode {
+  rankdir=LR
+  node [shape=box]
+  bucket [label="the bucket\n{:put, key, value}\n{:delete, key}"]
+  sock [label="TCP socket, active: true\n{:tcp, socket, data}\n{:tcp_closed, socket}"]
+  mb [label="the connection process's mailbox" class=hl]
+  loop [label="receive_messages(socket)"]
+  out [label="writes \"milk SET TO 3\" to the socket"]
+  stop [label="stops. The bucket's monitor\nremoves the subscription."]
+  bucket -> mb
+  sock -> mb
+  mb -> loop
+  loop -> out [label=" put / delete"]
+  loop -> stop [label=" {:tcp_closed, ^socket}"]
+}

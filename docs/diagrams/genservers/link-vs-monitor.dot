@@ -1,0 +1,16 @@
+digraph link_vs_monitor {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_mon {
+    label="monitor: one-way, just a message"
+    w [label="watcher\nProcess.monitor(pid)" class=hl]
+    t2 [label="watched process\nterminates, for any reason"]
+    t2 -> w [label=" {:DOWN, ref, :process, pid, reason}"]
+  }
+  subgraph cluster_link {
+    label="link: exit signals both ways"
+    a [label="process A"]
+    b [label="process B"]
+    b -> a [label=" B crashes: exit signal kills A too\l(unless A traps exits, as supervisors do)\l" class=bad style=dashed]
+  }
+}

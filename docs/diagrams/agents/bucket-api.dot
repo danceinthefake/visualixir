@@ -1,0 +1,16 @@
+digraph bucket_api {
+  rankdir=LR
+  node [shape=box]
+  ag [label="Agent process\nstate: a map" class=hl]
+  subgraph cluster_bucket {
+    label="KV.Bucket: the only module that knows it's an Agent"
+    sl [label="start_link(opts)"]
+    get [label="get(bucket, key)"]
+    put [label="put(bucket, key, value)"]
+    del [label="delete(bucket, key)"]
+  }
+  sl -> ag [label=" Agent.start_link(fn -> %{} end, opts)"]
+  get -> ag [label=" Agent.get(&Map.get(&1, key))"]
+  put -> ag [label=" Agent.update(&Map.put(&1, key, value))"]
+  del -> ag [label=" Agent.get_and_update(&Map.pop(&1, key))"]
+}

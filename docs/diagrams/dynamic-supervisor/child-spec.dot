@@ -1,0 +1,10 @@
+digraph child_spec {
+  node [shape=box]
+  t [label="{Registry, name: KV, keys: :unique}"]
+  f [label="Registry.child_spec(name: KV, keys: :unique)" class=hl]
+  m [label="%{id: KV,\l  start: {Registry, :start_link, [[name: KV, keys: :unique]]},\l  type: :supervisor}\l"]
+  sup [label="the supervisor runs\nRegistry.start_link(name: KV, keys: :unique)"]
+  t -> f [label=" a module or {module, options}\l calls child_spec/1\l"]
+  f -> m [label=" returns"]
+  m -> sup [label=" start: {module, function, args}"]
+}

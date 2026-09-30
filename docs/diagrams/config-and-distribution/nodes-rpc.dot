@@ -1,0 +1,15 @@
+digraph nodes_rpc {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_foo {
+    label="node foo@computer-name\nHello.world/0 is defined here"
+    fp [label="new process\nruns Hello.world()" class=hl]
+  }
+  subgraph cluster_bar {
+    label="node bar@computer-name\nHello is not available here"
+    bp [label="iex process\nNode.spawn_link(:\"foo@computer-name\",\n  fn -> Hello.world() end)"]
+    out [label="prints \"hello world\"\non bar's console"]
+  }
+  bp -> fp [label=" spawns, returns #PID<9014.59.0>\l(the 9014 says: another node)\l"]
+  fp -> out [label=" output goes back to the\l node that spawned it\l" style=dashed]
+}
