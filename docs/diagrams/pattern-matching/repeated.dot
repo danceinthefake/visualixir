@@ -1,0 +1,18 @@
+digraph repeated {
+  rankdir=LR
+  node [shape=record]
+  subgraph cluster_bad {
+    label="{x, x} = {1, 2}: x can't be both"
+    pb [label="<a>x|<b>x" class=hl]
+    vb [label="<a>1|<b>2"]
+    pb:a -> vb:a
+    pb:b -> vb:b [label=" conflicts with 1" class=bad style=dashed]
+  }
+  subgraph cluster_ok {
+    label="{x, x} = {1, 1}: every x gets the same value"
+    po [label="<a>x|<b>x" class=hl]
+    vo [label="<a>1|<b>1"]
+    po:a -> vo:a
+    po:b -> vo:b
+  }
+}
