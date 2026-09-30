@@ -1,0 +1,16 @@
+digraph set_ops {
+  rankdir=LR
+  node [shape=box]
+  n2 [label="not atom()" class=hl]
+  n2r [label="every value except atoms"]
+  d2 [label="number() and not integer()" class=hl]
+  d2r [label="float()"]
+  i2 [label="number() and integer()" class=hl]
+  i2r [label="integer()"]
+  u2 [label="integer() or binary()" class=hl]
+  u2r [label="any integer, and any binary"]
+  u2 -> u2r [label=" union"]
+  i2 -> i2r [label=" intersection"]
+  d2 -> d2r [label=" difference"]
+  n2 -> n2r [label=" negation"]
+}

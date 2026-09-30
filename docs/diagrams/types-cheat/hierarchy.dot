@@ -1,0 +1,35 @@
+digraph hierarchy {
+  rankdir=LR
+  node [shape=box]
+  term [label="term()\nany value" class=hl]
+  atom [label="atom()"]
+  bool [label="boolean()\ntrue or false"]
+  ind [label=":ok   :error   SomeModule\nindividual atoms"]
+  bits [label="bitstring()"]
+  bin [label="binary()"]
+  num [label="number()\ninteger() or float()"]
+  int [label="integer()"]
+  fl [label="float()"]
+  list [label="list()\nempty_list() or non_empty_list(…)"]
+  tup [label="tuple()"]
+  map [label="map()"]
+  fun [label="function()"]
+  pid [label="pid()"]
+  port [label="port()"]
+  ref [label="reference()"]
+  term -> atom
+  atom -> bool
+  atom -> ind
+  term -> bits
+  bits -> bin [label=" subtype"]
+  term -> num
+  num -> int
+  num -> fl
+  term -> list
+  term -> tup
+  term -> map
+  term -> fun
+  term -> pid
+  term -> port
+  term -> ref
+}

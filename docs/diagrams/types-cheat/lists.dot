@@ -1,0 +1,20 @@
+digraph lists {
+  rankdir=LR
+  node [shape=record]
+  subgraph cluster_improper {
+    label="non_empty_list(integer(), atom()): improper,\nthe tail is not a list"
+    q1 [label="{<hd>1|<tl>·}"]
+    q2 [label="{<hd>2|<tl>·}"]
+    tail [label=":done" shape=box class=hl]
+    q1:tl -> q2:hd
+    q2:tl -> tail
+  }
+  subgraph cluster_proper {
+    label="non_empty_list(integer()): proper,\nit ends in the empty list"
+    p1 [label="{<hd>1|<tl>·}"]
+    p2 [label="{<hd>2|<tl>·}"]
+    nil [label="[]" shape=box class=hl]
+    p1:tl -> p2:hd
+    p2:tl -> nil
+  }
+}

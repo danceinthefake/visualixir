@@ -1,0 +1,11 @@
+digraph fn_clauses {
+  rankdir=LR
+  node [shape=box]
+  f [label="(integer() -> binary()) and (binary() -> atom())\none function, two clauses" class=hl]
+  b [label="given a binary()"]
+  i [label="given an integer()"]
+  r2 [label="returns an atom()"]
+  r1 [label="returns a binary()"]
+  f -> i -> r1
+  f -> b -> r2
+}

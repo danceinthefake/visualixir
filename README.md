@@ -43,7 +43,7 @@ Mirrors the official sections, in official order. Chapter sources: `https://elix
   alias/require/import/use, Module attributes, Structs, Recursion, Enumerables and Streams, Comprehensions, Protocols,
   Sigils, try/catch/rescue, Processes, IO and the file system, Writing documentation, Optional syntax, Erlang libraries, Debugging
 - [x] Cheatsheet: Enum (every function, 10 diagrams)
-- [ ] Cheatsheet: set-theoretic types
+- [x] Cheatsheet: set-theoretic types (5 diagrams)
 - [x] Mix & OTP (all 9 chapters, 30 diagrams): Introduction to Mix, Agents, Registries and supervision trees, Supervising dynamic children,
   Task and gen_tcp, Doctests/patterns/with, Configuration and distribution, Client-server with GenServer, Releases
 - [x] Meta-programming (Quote and unquote, Macros, Domain-Specific Languages; 13 diagrams)

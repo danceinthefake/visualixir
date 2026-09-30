@@ -1,0 +1,19 @@
+digraph map_keys {
+  rankdir=LR
+  node [shape=box]
+  e4 [label="%{name: \"Ana\", admin: true}"]
+  e3 [label="%{name: \"Ana\", age: 30, admin: true}"]
+  e2 [label="%{name: \"Ana\"}"]
+  e1 [label="%{name: \"Ana\", age: 30}"]
+  t1 [label="%{name: binary(), age: integer()}\nonly these keys" class=hl]
+  t2 [label="%{name: binary(), age: if_set(integer())}\nage is optional" class=hl]
+  t3 [label="%{..., name: binary(), age: integer()}\nopen: other keys allowed" class=hl]
+  t4 [label="%{..., name: binary(), age: not_set()}\nopen, and age must be absent" class=hl]
+  e1 -> t1
+  e1 -> t2
+  e1 -> t3
+  e2 -> t2
+  e2 -> t4
+  e3 -> t3
+  e4 -> t4
+}

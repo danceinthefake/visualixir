@@ -59,7 +59,10 @@ export default defineConfig({
       "/cheatsheets/": [
         {
           text: "Cheatsheets",
-          items: [{ text: "Enum cheatsheet", link: "/cheatsheets/enum-cheat" }],
+          items: [
+            { text: "Enum cheatsheet", link: "/cheatsheets/enum-cheat" },
+            { text: "Set-theoretic types cheatsheet", link: "/cheatsheets/types-cheat" },
+          ],
         },
       ],
       "/anti-patterns/": [
