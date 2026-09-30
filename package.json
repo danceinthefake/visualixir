@@ -2,6 +2,7 @@
   "name": "visualixir",
   "private": true,
   "license": "(MIT AND Apache-2.0)",
+  "packageManager": "pnpm@12.4.2",
   "type": "module",
   "scripts": {
     "diagrams": "make",

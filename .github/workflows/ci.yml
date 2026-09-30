@@ -1,0 +1,55 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # the .svg files are committed, so CI needs no Graphviz. A dead link fails the build.
+      - run: pnpm run build:site
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+      - name: check the output
+        run: |
+          for f in index.html 404.html favicon.svg og.png _headers; do test -f docs/.vitepress/dist/$f || { echo "missing $f"; exit 1; }; done
+          if [ -n "${{ vars.SITE_URL }}" ]; then test -f docs/.vitepress/dist/sitemap.xml; fi
+          echo "pages: $(find docs/.vitepress/dist -name '*.html' | wc -l)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: docs/.vitepress/dist
+          retention-days: 1
+
+  # what passed the build goes live; pull requests never deploy
+  deploy:
+    name: deploy · cloudflare pages
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    concurrency: deploy
+    steps:
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+          path: dist
+      - run: npx --yes wrangler@4 pages deploy dist --project-name visualixir --branch main --commit-hash ${{ github.sha }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
