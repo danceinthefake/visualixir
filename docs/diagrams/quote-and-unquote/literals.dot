@@ -1,0 +1,9 @@
+digraph literals {
+  rankdir=LR
+  node [shape=box]
+  q [label="quote do: …"]
+  self [label="five literals return themselves:\n:sum   1.0   [1, 2]   \"strings\"   {key, value}" class=hl]
+  tup [label="everything else becomes a\nthree-element tuple:\ncalls, operators, variables, maps"]
+  q -> self
+  q -> tup
+}

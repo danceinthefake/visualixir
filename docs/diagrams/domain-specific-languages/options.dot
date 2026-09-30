@@ -1,0 +1,8 @@
+digraph options {
+  node [shape=box]
+  d [label="data structures\nvalidate user, name: [length: 1..100]\nmost flexible, easiest to compose" class=hl]
+  f [label="functions\nuser |> validate_length(:name, 1..100)\nfits complex APIs, reads well with |>"]
+  m [label="macros + modules\nuse Validator; validate_length :name, 1..100\nmost code, hardest to test, most limiting"]
+  d -> f [label=" data > functions"]
+  f -> m [label=" functions > macros"]
+}

@@ -1,0 +1,9 @@
+digraph thin_macro {
+  rankdir=LR
+  node [shape=box]
+  call [label="my_macro(a, b, c)"]
+  mac [label="the macro: one small quote\nMyModule.do_this_that_and_that(\n  unquote(a), unquote(b), unquote(c))" class=hl]
+  fn [label="def do_this_that_and_that(a, b, c)\nthe real work: a plain function\nyou can call and test directly"]
+  call -> mac [label=" compile time"]
+  mac -> fn [label=" becomes a call"]
+}

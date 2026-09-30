@@ -1,0 +1,19 @@
+digraph hygiene {
+  node [shape=box]
+  subgraph cluster_hyg {
+    label="quote do: a = 1   (hygienic)"
+    m [label="a in the macro\n{:a, [], Hygiene}"]
+    c [label="a in go/0\n{:a, [line: 3], nil}"]
+    r [label="go/0 returns 13" class=hl]
+    m -> c [label=" different context:\l two different variables\l" dir=none style=dotted]
+    c -> r
+  }
+  subgraph cluster_var {
+    label="quote do: var!(a) = 1   (hygiene bypassed)"
+    m2 [label="var!(a) = 1\nthe caller's own a" class=hl]
+    c2 [label="a in go/0: 13, then 1"]
+    r2 [label="go/0 returns 1"]
+    m2 -> c2 [label=" same variable"]
+    c2 -> r2
+  }
+}

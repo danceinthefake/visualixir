@@ -1,0 +1,10 @@
+digraph splicing {
+  rankdir=LR
+  node [shape=box]
+  u [label="quote do: [1, 2, unquote(inner), 6]\ninner = [3, 4, 5]"]
+  r1 [label="[1, 2, [3, 4, 5], 6]\nthe list is one element"]
+  s [label="quote do: [1, 2, unquote_splicing(inner), 6]\ninner = [3, 4, 5]" class=hl]
+  r2 [label="[1, 2, 3, 4, 5, 6]\nthe elements are spread in"]
+  u -> r1
+  s -> r2
+}

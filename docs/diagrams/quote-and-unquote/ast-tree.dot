@@ -1,0 +1,16 @@
+digraph ast_tree {
+  node [shape=box]
+  src [label="quote do: sum(1, 2 + 3, 4)" class=dim]
+  sum [label="{:sum, [], …}" class=hl]
+  one [label="1"]
+  plus [label="{:+, [context: Elixir, import: Kernel], …}"]
+  four [label="4"]
+  two [label="2"]
+  three [label="3"]
+  src -> sum [style=dotted class=dim]
+  sum -> one [label=" arg 1"]
+  sum -> plus [label=" arg 2"]
+  sum -> four [label=" arg 3"]
+  plus -> two
+  plus -> three
+}

@@ -1,0 +1,10 @@
+digraph expansion {
+  node [shape=box]
+  src [label="Unless.macro_unless(true, do: IO.puts(\"never\"))\nyour code, at compile time"]
+  rec [label="the macro receives quoted expressions:\nmacro_unless(true, [do: {{:., [], [{:__aliases__, [], [:IO]}, :puts]}, …}])"]
+  ret [label="the macro returns a quoted expression:\n{:if, [], [{:!, [], [true]}, [do: …]]}" class=hl]
+  comp [label="the compiler carries on with the result\nMacro.to_string: if(!true) do IO.puts(\"never\") end"]
+  src -> rec [label=" expansion"]
+  rec -> ret [label=" quote and unquote"]
+  ret -> comp
+}

@@ -1,0 +1,8 @@
+digraph test_macro {
+  node [shape=box]
+  in [label="test \"hello\" do\l  \"hello\" = \"world\"\lend\l"]
+  mac [label="defmacro test(description, do: block)\nfunction_name = :\"test hello\""]
+  out [label="returns quoted code, injected into MyTest:\l@tests [:\"test hello\" | @tests]\ldef \"test hello\"(), do: \"hello\" = \"world\"\l" class=hl]
+  in -> mac [label=" description and block\l arrive quoted\l"]
+  mac -> out [label=" quote + unquote"]
+}

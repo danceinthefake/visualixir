@@ -1,0 +1,10 @@
+digraph escape {
+  node [shape=box]
+  v [label="a value you want inside quoted code"]
+  same [label="integers, atoms, strings, lists…\nthe quoted expression is the value itself"]
+  esc [label="maps and other structures\nMacro.escape(%{hello: :world})\n{:%{}, [], [hello: :world]}" class=hl]
+  no [label="functions, references, pids:\ncannot be quoted at all"]
+  v -> same [label=" nothing to do"]
+  v -> esc [label=" escape first"]
+  v -> no [class=bad style=dashed]
+}

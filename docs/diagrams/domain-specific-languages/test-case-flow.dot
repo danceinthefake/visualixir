@@ -1,0 +1,10 @@
+digraph test_case_flow {
+  node [shape=box]
+  use [label="use TestCase"]
+  usg [label="TestCase.__using__/1 returns code that adds:\limport TestCase\l@tests []\l@before_compile TestCase\l"]
+  t1 [label="test \"arithmetic operations\" do … end\nappends its name to @tests, defines a function"]
+  t2 [label="test \"list operations\" do … end\nsame again"]
+  bc [label="the module definition ends:\nTestCase.__before_compile__/1 injects def run"]
+  run [label="MyTest.run()\nruns every name in @tests" class=hl]
+  use -> usg -> t1 -> t2 -> bc -> run
+}

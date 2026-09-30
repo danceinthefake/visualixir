@@ -1,0 +1,12 @@
+digraph triple {
+  node [shape=record]
+  src [label="quote do: sum(1, 2, 3)" shape=box]
+  t [label="<ta>:sum|<tm>[]|<tr>[1, 2, 3]" class=hl]
+  na [label="the function name\n(an atom, or another tuple)" shape=plaintext style=solid]
+  nm [label="metadata\n(a keyword list)" shape=plaintext style=solid]
+  nr [label="the arguments\n(a list; an atom here means a variable)" shape=plaintext style=solid]
+  src -> t
+  t:ta -> na [dir=none style=dotted]
+  t:tm -> nm [dir=none style=dotted]
+  t:tr -> nr [dir=none style=dotted]
+}

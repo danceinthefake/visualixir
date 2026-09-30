@@ -1,0 +1,19 @@
+digraph unquote {
+  node [shape=box]
+  subgraph cluster_no {
+    label="quote do: 11 + number   ->   \"11 + number\""
+    p1 [label="{:+, …}"]
+    a1 [label="11"]
+    v1 [label="{:number, [], Elixir}\nthe variable itself, quoted"]
+    p1 -> a1
+    p1 -> v1
+  }
+  subgraph cluster_yes {
+    label="quote do: 11 + unquote(number)   ->   \"11 + 13\""
+    p2 [label="{:+, …}"]
+    a2 [label="11"]
+    v2 [label="13\nthe value of number is injected" class=hl]
+    p2 -> a2
+    p2 -> v2
+  }
+}

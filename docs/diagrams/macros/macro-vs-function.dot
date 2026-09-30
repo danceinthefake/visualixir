@@ -1,0 +1,17 @@
+digraph macro_vs_function {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_mac {
+    label="macro_unless(true, do: IO.puts(\"never\"))"
+    m1 [label="1. arguments arrive as quoted\nexpressions, not evaluated"]
+    m2 [label="2. the macro returns\nif(!true, do: IO.puts(\"never\"))" class=hl]
+    m3 [label="3. the compiler runs that code:\nnothing is printed"]
+    m1 -> m2 -> m3
+  }
+  subgraph cluster_fun {
+    label="fun_unless(true, do: IO.puts(\"never\"))"
+    f1 [label="1. arguments are evaluated first:\nIO.puts runs and prints"]
+    f2 [label="2. fun_unless is called\nwith the results"]
+    f1 -> f2
+  }
+}

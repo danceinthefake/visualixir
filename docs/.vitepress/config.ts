@@ -20,6 +20,7 @@ export default defineConfig({
     nav: [
       { text: "Getting started", link: "/getting-started/introduction" },
       { text: "Mix & OTP", link: "/mix-and-otp/introduction-to-mix" },
+      { text: "Meta-programming", link: "/meta-programming/quote-and-unquote" },
     ],
     sidebar: {
       "/getting-started/": [
@@ -50,6 +51,16 @@ export default defineConfig({
             { text: "Optional syntax sheet", link: "/getting-started/optional-syntax" },
             { text: "Erlang libraries", link: "/getting-started/erlang-libraries" },
             { text: "Debugging", link: "/getting-started/debugging" },
+          ],
+        },
+      ],
+      "/meta-programming/": [
+        {
+          text: "Meta-programming",
+          items: [
+            { text: "Quote and unquote", link: "/meta-programming/quote-and-unquote" },
+            { text: "Macros", link: "/meta-programming/macros" },
+            { text: "Domain-Specific Languages", link: "/meta-programming/domain-specific-languages" },
           ],
         },
       ],
