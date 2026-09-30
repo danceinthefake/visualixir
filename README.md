@@ -34,6 +34,8 @@ Makefile                       .dot -> .svg, shared defaults live in DOT_FLAGS
 | `DOCS_BASE` | `/` | URL prefix, when the site is served from a sub-path |
 | `SITE_URL` | unset | Origin such as `https://visualixir.example.com`. When set, pages get `og:url`, a canonical link, `og:image` / `twitter:image` (absolute URLs, required by social crawlers) and a `sitemap.xml`. Without it those tags are left out. |
 
+Production is at https://visualixir.blessing.id (Cloudflare Pages, deployed by `.github/workflows/ci.yml`; set the repo variable `SITE_URL` to that origin). `docs/public/robots.txt` names the sitemap at that domain, so update it if the domain changes.
+
 Icons and the social image are in `docs/public/` (`favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `og.png`). The mark is a small tree diagram in Blessing UI's colours. `og.png` has the page and diagram counts baked in.
 
 ## Accessibility

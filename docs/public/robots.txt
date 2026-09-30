@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://visualixir.blessing.id/sitemap.xml
