@@ -36,6 +36,15 @@ Makefile                       .dot -> .svg, shared defaults live in DOT_FLAGS
 
 Icons and the social image are in `docs/public/` (`favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `og.png`). The mark is a small tree diagram in Blessing UI's colours. `og.png` has the page and diagram counts baked in.
 
+## Accessibility
+
+Checked with axe-core on every page at 1200px and 390px, in light and dark: no violations. Also checked by hand: keyboard tab order and skip link, focus outlines, landmarks, and reflow at 320px.
+
+- Each diagram is one image (`role="img"`) named by its caption. Its labels, in drawing order, are its description (`aria-describedby`). Graphviz's per-node `<title>` elements, XML prolog and DOCTYPE are stripped from the inline SVG.
+- On phones a wide diagram scrolls sideways and becomes keyboard-focusable only while it overflows.
+- Code uses the GitHub high-contrast Shiki themes, and `docs/.vitepress/theme/custom.css` fixes the remaining default-theme contrast misses.
+- The home page gets a `main` landmark set at runtime, since the home layout has none.
+
 ## Adding a diagram
 
 1. Write `docs/diagrams/<page>/<name>.dot` (a full `digraph`). Put `class=hl` on what the reader should look at.

@@ -1,0 +1,22 @@
+/* Accessibility fixes on top of the VitePress default theme. */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Brand button: white on #5672cd is 4.48:1, just under the 4.5:1 minimum. */
+:root { --vp-button-brand-bg: #4a63bd; --vp-button-brand-hover-bg: #3f57ac; }
+
+/* The small language label on code blocks. */
+.vp-doc [class*="language-"] > span.lang { color: var(--vp-c-text-2); }
+
+/* Keyboard focus on a scrollable diagram. */
+.diagram > div:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 2px; }

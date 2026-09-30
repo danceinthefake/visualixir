@@ -70,6 +70,8 @@ export default defineConfig({
       `try{var a=localStorage.getItem("vitepress-theme-appearance");if(a==="dark"||a==="light")document.documentElement.dataset.theme=a}catch(e){}`,
     ],
   ],
+  // Higher-contrast code themes: the default github themes miss 4.5:1 on comments and keywords.
+  markdown: { theme: { light: "github-light-high-contrast", dark: "github-dark-high-contrast" } },
   vite: { ssr: { noExternal: ["blessing-ui"] } },
   themeConfig: {
     nav: [
