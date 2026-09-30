@@ -122,6 +122,11 @@ export default defineConfig({
         },
       ],
     },
+    footer: {
+      message:
+        "Site code: MIT. Pages and diagrams are derived from the Elixir documentation (Apache-2.0). Not affiliated with the Elixir Team.",
+      copyright: "Copyright © 2026 DanceInTheFake",
+    },
     search: { provider: "local" },
     outline: [2, 3],
   },

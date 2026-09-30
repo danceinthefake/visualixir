@@ -50,3 +50,14 @@ Mirrors the official sections, in official order. Chapter sources: `https://elix
 - [x] Meta-programming (Quote and unquote, Macros, Domain-Specific Languages; 13 diagrams)
 - [x] Anti-patterns (intro + code, design, process, meta-programming: 25 patterns, 21 diagrams)
 - [x] References (all 10: compatibility, gradual types, library guidelines, naming conventions, operators, patterns and guards, syntax, SBoM, typespecs, Unicode syntax; 31 diagrams)
+
+## License
+
+Two licences, by path (details in [NOTICE](NOTICE) and [REUSE.toml](REUSE.toml)):
+
+| What | License |
+|---|---|
+| Site code: Makefile, tool config, `docs/.vitepress`, `docs/index.md`, this README | [MIT](LICENSE) |
+| Pages and diagrams (`docs/*/` and `docs/diagrams`), derived from the Elixir documentation | [Apache-2.0](LICENSES/Apache-2.0.txt) |
+
+The content is derived from the Elixir documentation, © Plataformatec and The Elixir Team, licensed under Apache-2.0. It is condensed, restructured and illustrated with diagrams, so the original is authoritative. Every page links to the chapter it comes from. This project is not affiliated with the Elixir Team.

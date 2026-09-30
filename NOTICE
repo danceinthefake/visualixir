@@ -1,0 +1,42 @@
+Visualixir
+Copyright (c) 2026 DanceInTheFake
+
+Visualixir contains two kinds of material under two licences.
+
+1. SITE CODE, licensed under the MIT License (see LICENSE)
+   The Makefile, package.json, pnpm-workspace.yaml, mise.toml, README.md, CLAUDE.md,
+   docs/index.md and everything under docs/.vitepress.
+
+2. CONTENT, licensed under the Apache License 2.0 (see LICENSES/Apache-2.0.txt)
+   The documentation pages under docs/getting-started, docs/mix-and-otp,
+   docs/meta-programming, docs/anti-patterns, docs/cheatsheets and docs/references,
+   and the diagrams under docs/diagrams (the .dot sources and the generated .svg files).
+
+   This content is derived from the Elixir documentation:
+
+     Copyright 2012 Plataformatec
+     Copyright 2021 The Elixir Team
+     Copyright 2025 The Elixir Team (Set-theoretic types cheatsheet)
+
+   licensed under the Apache License, Version 2.0, and available at
+   https://github.com/elixir-lang/elixir and https://elixir.hexdocs.pm/.
+   Each page links to the chapter it is derived from.
+
+   The 2012 Plataformatec notice applies to the pages derived from these chapters:
+   Compatibility and deprecations, Naming conventions, Operators reference, Patterns and
+   guards, Syntax reference, Typespecs reference, Unicode syntax and Writing documentation.
+
+CHANGES MADE TO THE ELIXIR DOCUMENTATION (Apache License 2.0, section 4b)
+   - Condensed, restructured and paraphrased the prose; some sections were merged or reordered.
+   - Rewrote many code examples in a shorter form, and reformatted output as tables.
+   - Added Graphviz diagrams and their captions, and a "Source" link on every page.
+   - Shortened the deprecations table on the Compatibility and deprecations page to
+     v1.17 and later, linking to the full table.
+   - Left out the standard library module API documentation.
+   These are modifications. The original text is authoritative, so consult it for
+   anything that matters.
+
+This project is not affiliated with, or endorsed by, the Elixir Team or Plataformatec.
+
+The Apache License 2.0 text is in LICENSES/Apache-2.0.txt. The per-path licensing is
+declared in REUSE.toml.

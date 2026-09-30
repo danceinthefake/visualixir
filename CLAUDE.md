@@ -8,3 +8,4 @@ VitePress site of Graphviz diagrams explaining the official Elixir docs. See REA
 - Scratch scripts and screenshots go in `/home/hafidz/danceinthefake/tmp/visualixir/`.
 - English only. Link back to the official chapter on every page.
 - Mark roadmap items done in README.md when finished.
+- Licensing is split by path (see NOTICE, REUSE.toml, LICENSE, LICENSES/): site code is MIT; pages and diagrams derived from the Elixir docs are Apache-2.0. A new content section under `docs/<section>/` must be added to the content globs in REUSE.toml. A page derived from a chapter whose source header names Plataformatec (or 2025) goes in the matching annotation.

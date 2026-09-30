@@ -1,0 +1,55 @@
+version = 1
+SPDX-PackageName = "visualixir"
+
+# Default: site code.
+[[annotations]]
+path = "**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 DanceInTheFake"
+SPDX-License-Identifier = "MIT"
+
+# Content derived from the Elixir documentation.
+[[annotations]]
+path = [
+  "docs/getting-started/**",
+  "docs/mix-and-otp/**",
+  "docs/meta-programming/**",
+  "docs/anti-patterns/**",
+  "docs/cheatsheets/**",
+  "docs/references/**",
+  "docs/diagrams/**",
+]
+precedence = "override"
+SPDX-FileCopyrightText = ["2021 The Elixir Team", "2026 DanceInTheFake"]
+SPDX-License-Identifier = "Apache-2.0"
+
+# Chapters that also carry the 2012 Plataformatec notice.
+[[annotations]]
+path = [
+  "docs/references/compatibility-and-deprecations.md",
+  "docs/references/naming-conventions.md",
+  "docs/references/operators.md",
+  "docs/references/patterns-and-guards.md",
+  "docs/references/syntax-reference.md",
+  "docs/references/typespecs.md",
+  "docs/references/unicode-syntax.md",
+  "docs/getting-started/writing-documentation.md",
+  "docs/diagrams/compatibility-and-deprecations/**",
+  "docs/diagrams/naming-conventions/**",
+  "docs/diagrams/operators/**",
+  "docs/diagrams/patterns-and-guards/**",
+  "docs/diagrams/syntax-reference/**",
+  "docs/diagrams/typespecs/**",
+  "docs/diagrams/unicode-syntax/**",
+  "docs/diagrams/writing-documentation/**",
+]
+precedence = "override"
+SPDX-FileCopyrightText = ["2012 Plataformatec", "2021 The Elixir Team", "2026 DanceInTheFake"]
+SPDX-License-Identifier = "Apache-2.0"
+
+# The 2025 set-theoretic types cheatsheet.
+[[annotations]]
+path = ["docs/cheatsheets/types-cheat.md", "docs/diagrams/types-cheat/**"]
+precedence = "override"
+SPDX-FileCopyrightText = ["2025 The Elixir Team", "2026 DanceInTheFake"]
+SPDX-License-Identifier = "Apache-2.0"
