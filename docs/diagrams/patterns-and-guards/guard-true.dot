@@ -1,0 +1,10 @@
+digraph guard_true {
+  node [shape=box]
+  expr [label="the guard expression is evaluated"]
+  q [label="is the result exactly true?"]
+  run [label="the clause runs" class=hl]
+  skip [label="the clause is skipped\nany other value, even a truthy one\nlike \"some_value\", counts as failing"]
+  expr -> q
+  q -> run [label=" yes"]
+  q -> skip [label=" no" class=bad style=dashed]
+}

@@ -1,0 +1,16 @@
+digraph map_subset {
+  rankdir=LR
+  node [shape=box]
+  p3 [label="%{}" class=hl]
+  p2 [label="%{name: name, age: age}" class=hl]
+  p1 [label="%{name: name}" class=hl]
+  v3 [label="%{age: 23}"]
+  v2 [label="%{name: \"meg\", age: 23}"]
+  v1 [label="%{name: \"meg\"}"]
+  p1 -> v1
+  p1 -> v2
+  p2 -> v2
+  p3 -> v1
+  p3 -> v2
+  p3 -> v3 [label=" the empty map\l matches every map\l"]
+}

@@ -1,0 +1,18 @@
+digraph dynamic_range {
+  node [shape=box]
+  subgraph cluster_dyn {
+    label="dynamic(atom() or integer())   =   dynamic() and (atom() or integer())"
+    d1 [label="var"]
+    d2 [label="Integer.to_string(var)\nworks for at least one member: integer()"]
+    d3 [label="no warning" class=hl]
+    d1 -> d2 -> d3
+  }
+  subgraph cluster_static {
+    label="atom() or integer()   (static)"
+    s1 [label="var"]
+    s2 [label="Integer.to_string(var)\nrejects atom()"]
+    s3 [label="warning: not every member is accepted" class=dim]
+    s1 -> s2
+    s2 -> s3 [class=bad style=dashed]
+  }
+}

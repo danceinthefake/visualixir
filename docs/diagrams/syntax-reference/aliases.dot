@@ -1,0 +1,13 @@
+digraph aliases {
+  rankdir=LR
+  node [shape=box]
+  a1 [label="String"]
+  b1 [label=":\"Elixir.String\"" class=hl]
+  a2 [label="MyApp.String"]
+  b2 [label=":\"Elixir.MyApp.String\"" class=hl]
+  a3 [label="alias MyApp.Example, as: Example\nthen Example.String"]
+  b3 [label=":\"Elixir.MyApp.Example.String\"" class=hl]
+  a1 -> b1 [label=" expands at compile time"]
+  a2 -> b2
+  a3 -> b3
+}

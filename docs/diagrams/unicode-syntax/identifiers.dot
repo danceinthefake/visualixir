@@ -1,0 +1,13 @@
+digraph identifiers {
+  rankdir=LR
+  node [shape=box]
+  root [label="<Identifier> := <Start> <Continue>* <Ending>?\nUnicode letters and marks of writing systems in use;\nno emoji, alternate numerals or musical notes" class=hl]
+  var [label="variables and calls\nstart: _ or a lowercase, modifier or other letter\nnever uppercase or titlecase"]
+  atom [label="atoms\nstart: also _\ncontinue: also @"]
+  alias [label="aliases\nASCII only, start uppercase,\nno punctuation"]
+  end [label="ending: only ? or !"]
+  root -> var
+  root -> atom
+  root -> alias
+  root -> end [style=dotted]
+}

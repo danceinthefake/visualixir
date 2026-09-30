@@ -1,0 +1,39 @@
+digraph associativity {
+  node [shape=box]
+  subgraph cluster_right {
+    label="a = b = c: right associative\na = (b = c)"
+    r1 [label="="]
+    ra [label="a"]
+    r2 [label="="]
+    rb [label="b"]
+    rc [label="c"]
+    r1 -> ra
+    r1 -> r2
+    r2 -> rb
+    r2 -> rc
+  }
+  subgraph cluster_left {
+    label="1 - 2 - 3: left associative\n(1 - 2) - 3"
+    l1 [label="-"]
+    l2 [label="-"]
+    lo [label="1"]
+    lt [label="2"]
+    lh [label="3"]
+    l1 -> l2
+    l1 -> lh
+    l2 -> lo
+    l2 -> lt
+  }
+  subgraph cluster_prec {
+    label="1 + 2 * 3: * binds tighter\n1 + (2 * 3)"
+    p1 [label="+"]
+    p2 [label="*"]
+    po [label="1"]
+    pt [label="2"]
+    ph [label="3"]
+    p1 -> po
+    p1 -> p2
+    p2 -> pt
+    p2 -> ph
+  }
+}

@@ -1,0 +1,14 @@
+digraph lockfile {
+  node [shape=box]
+  subgraph cluster_host {
+    label="a project that depends on your library"
+    h1 [label="mix deps.get"]
+    h2 [label="ignores your mix.lock:\nresolves the newest versions your\ndeps requirements allow"]
+    h1 -> h2
+  }
+  subgraph cluster_ci {
+    label="your CI: two workflows"
+    c2 [label="workflow 2: mix deps.unlock --all\nnewest dependencies, maybe nightly" class=hl]
+    c1 [label="workflow 1: uses the checked-in mix.lock\ndeterministic builds for contributors" class=hl]
+  }
+}

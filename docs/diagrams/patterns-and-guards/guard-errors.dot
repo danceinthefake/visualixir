@@ -1,0 +1,15 @@
+digraph guard_errors {
+  node [shape=box]
+  subgraph cluster_multi {
+    label="separate when clauses: each guard is tried in turn"
+    m1 [label="when map_size(val) == 0\nraises for a tuple: this guard fails"]
+    m2 [label="when tuple_size(val) == 0\nthe next guard is tried: true" class=hl]
+    m1 -> m2 [label=" next guard"]
+  }
+  subgraph cluster_or {
+    label="one guard joined with or"
+    o1 [label="map_size(val) == 0 or tuple_size(val) == 0\nmap_size({}) raises"]
+    o2 [label="the whole guard fails:\nempty?({}) returns false, not true"]
+    o1 -> o2 [class=bad style=dashed]
+  }
+}

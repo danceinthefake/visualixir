@@ -1,0 +1,37 @@
+digraph ast_map {
+  rankdir=LR
+  node [shape=box]
+  s11 [label="<<1, 2, 3>>   a binary"]
+  a11 [label="{:<<>>, [], [1, 2, 3]}" class=hl]
+  s11 -> a11
+  s10 [label="%{1 => 2}   a map"]
+  a10 [label="{:%{}, [], [{1, 2}]}" class=hl]
+  s10 -> a10
+  s9 [label="2 -> 3   a clause"]
+  a9 [label="{:->, [], [[2], 3]}\nalways inside a list" class=hl]
+  s9 -> a9
+  s8 [label="1; 2; 3   a block"]
+  a8 [label="{:__block__, [], [1, 2, 3]}" class=hl]
+  s8 -> a8
+  s7 [label="{1, 2, 3}   a three-element tuple"]
+  a7 [label="{:{}, [], [1, 2, 3]}\ntwo-element tuples are their own AST" class=hl]
+  s7 -> a7
+  s6 [label="Foo.Bar.Baz   an alias"]
+  a6 [label="{:__aliases__, [], [:Foo, :Bar, :Baz]}" class=hl]
+  s6 -> a6
+  s5 [label="foo.(1)   calling an anonymous function"]
+  a5 [label="{{:., [], [{:foo, [], Elixir}]}, [], [1]}\nthe name is \"missing\" after the dot" class=hl]
+  s5 -> a5
+  s4 [label="foo.bar(1)   a remote call"]
+  a4 [label="{{:., [], [{:foo, [], Elixir}, :bar]}, [], [1]}" class=hl]
+  s4 -> a4
+  s3 [label="1 + 2   an operator"]
+  a3 [label="{:+, [], [1, 2]}\noperators are calls" class=hl]
+  s3 -> a3
+  s2 [label="sum   a variable"]
+  a2 [label="{:sum, meta, Elixir}\nthe third slot is an atom: the context" class=hl]
+  s2 -> a2
+  s1 [label="sum(1, 2, 3)   a call"]
+  a1 [label="{:sum, meta, [1, 2, 3]}" class=hl]
+  s1 -> a1
+}

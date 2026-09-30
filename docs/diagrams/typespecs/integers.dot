@@ -1,0 +1,12 @@
+digraph integers {
+  node [shape=box]
+  integer [label="integer()" class=hl]
+  neg [label="neg_integer()\n…, -3, -2, -1"]
+  nn [label="non_neg_integer()\n0, 1, 2, 3, …"]
+  zero [label="0"]
+  pos [label="pos_integer()\n1, 2, 3, …"]
+  integer -> neg
+  integer -> nn
+  nn -> zero
+  nn -> pos
+}

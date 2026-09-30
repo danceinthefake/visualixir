@@ -1,0 +1,9 @@
+digraph deprecation_steps {
+  node [shape=box]
+  s1 [label="1. soft-deprecated\nlisted in the CHANGELOG and docs, no warning\n(this step is optional)"]
+  s2 [label="2. hard-deprecated\nwarns on use\nthe replacement must exist for at least three minor versions" class=hl]
+  s3 [label="3. removed\nonly in a major release\n(v1.x deprecations go in v2.x)"]
+  ex [label="example: Enum.uniq/2\nsoft-deprecated for Enum.uniq_by/2 in v1.1,\nso a warning is allowed from v1.4" class=dim]
+  s1 -> s2 -> s3
+  s2 -> ex [style=dotted class=dim]
+}

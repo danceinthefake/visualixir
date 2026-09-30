@@ -1,0 +1,30 @@
+digraph precedence {
+  node [shape=plaintext]
+  t [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD><B>higher</B></TD><TD><B>operators</B></TD><TD><B>associativity</B></TD></TR>
+      <TR><TD>1</TD><TD>@</TD><TD>unary</TD></TR>
+      <TR><TD>2</TD><TD>.</TD><TD>left</TD></TR>
+      <TR><TD>3</TD><TD>+  -  !  ^  not</TD><TD>unary</TD></TR>
+      <TR><TD>4</TD><TD>**</TD><TD>left</TD></TR>
+      <TR><TD>5</TD><TD>*  /</TD><TD>left</TD></TR>
+      <TR><TD>6</TD><TD>+  -</TD><TD>left</TD></TR>
+      <TR><TD>7</TD><TD>++  --  +++  ---  ..  &lt;&gt;</TD><TD>right</TD></TR>
+      <TR><TD>8</TD><TD>//  (only inside ..//)</TD><TD>right</TD></TR>
+      <TR><TD>9</TD><TD>in  not in</TD><TD>left</TD></TR>
+      <TR><TD>10</TD><TD>|&gt;  &lt;&lt;&lt;  &gt;&gt;&gt;  &lt;&lt;~  ~&gt;&gt;  &lt;~  ~&gt;  &lt;~&gt;</TD><TD>left</TD></TR>
+      <TR><TD>11</TD><TD>&lt;  &gt;  &lt;=  &gt;=</TD><TD>left</TD></TR>
+      <TR><TD>12</TD><TD>==  !=  =~  ===  !==</TD><TD>left</TD></TR>
+      <TR><TD>13</TD><TD>&amp;&amp;  &amp;&amp;&amp;  and</TD><TD>left</TD></TR>
+      <TR><TD>14</TD><TD>||  |||  or</TD><TD>left</TD></TR>
+      <TR><TD>15</TD><TD>=</TD><TD>right</TD></TR>
+      <TR><TD>16</TD><TD>&amp;  ...</TD><TD>unary</TD></TR>
+      <TR><TD>17</TD><TD>|</TD><TD>right</TD></TR>
+      <TR><TD>18</TD><TD>::</TD><TD>right</TD></TR>
+      <TR><TD>19</TD><TD>when</TD><TD>right</TD></TR>
+      <TR><TD>20</TD><TD>&lt;-  &#92;&#92;</TD><TD>left</TD></TR>
+      <TR><TD>21</TD><TD>=&gt;  (only inside %{})</TD><TD>none</TD></TR>
+      <TR><TD><B>lower</B></TD><TD></TD><TD></TD></TR>
+    </TABLE>
+  >]
+}

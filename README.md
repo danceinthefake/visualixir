@@ -21,6 +21,7 @@ docs/                          VitePress root
   meta-programming/*.md        the Meta-programming guide
   anti-patterns/*.md           the Anti-patterns guide
   cheatsheets/*.md             cheatsheets
+  references/*.md              reference pages
   diagrams/<page>/<name>.dot   Graphviz source; make renders the .svg beside it
   .vitepress/theme/            Diagram.vue inlines SVG, diagram.css repaints it from --bless-* tokens
 Makefile                       .dot -> .svg, shared defaults live in DOT_FLAGS
@@ -48,4 +49,4 @@ Mirrors the official sections, in official order. Chapter sources: `https://elix
   Task and gen_tcp, Doctests/patterns/with, Configuration and distribution, Client-server with GenServer, Releases
 - [x] Meta-programming (Quote and unquote, Macros, Domain-Specific Languages; 13 diagrams)
 - [x] Anti-patterns (intro + code, design, process, meta-programming: 25 patterns, 21 diagrams)
-- [ ] References (patterns and guards, typespecs, compatibility, naming conventions, and more)
+- [x] References (all 10: compatibility, gradual types, library guidelines, naming conventions, operators, patterns and guards, syntax, SBoM, typespecs, Unicode syntax; 31 diagrams)

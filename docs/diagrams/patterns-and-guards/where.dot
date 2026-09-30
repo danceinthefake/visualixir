@@ -1,0 +1,23 @@
+digraph where {
+  rankdir=LR
+  node [shape=box]
+  hub [label="patterns and guards\nare allowed in" class=hl]
+  a [label="match?/2"]
+  b [label="function clauses (def, defp)"]
+  c [label="case clauses"]
+  d [label="anonymous functions (fn)"]
+  e [label="for and with, left of <-"]
+  f [label="try: catch and else"]
+  g [label="receive"]
+  h [label="defguard / defguardp\n(custom guards, built from existing guards)"]
+  eq [label="the match operator =\nsupports patterns, not guards" class=dim]
+  hub -> a
+  hub -> b
+  hub -> c
+  hub -> d
+  hub -> e
+  hub -> f
+  hub -> g
+  hub -> h
+  hub -> eq [style=dotted class=dim]
+}

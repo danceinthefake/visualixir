@@ -1,0 +1,16 @@
+digraph list_equivalences {
+  rankdir=LR
+  node [shape=box]
+  a [label="list(integer())"]
+  a2 [label="empty_list() or non_empty_list(integer())"]
+  b [label="non_empty_list(integer())"]
+  b2 [label="non_empty_list(integer(), empty_list())"]
+  c [label="[1, 2 | 3]"]
+  c2 [label="non_empty_list(integer(), integer())\nimproper: the tail is not a list"]
+  d [label="non_empty_list(integer(), list(binary()))"]
+  d2 [label="non_empty_list(integer() or binary(), empty_list())\na list tail merges into the element type"]
+  a -> a2 [dir=both label=" same type"]
+  b -> b2 [dir=both label=" same type"]
+  c -> c2 [label=" has type"]
+  d -> d2 [dir=both label=" same type"]
+}

@@ -1,0 +1,14 @@
+digraph sets {
+  node [shape=box]
+  shirt [label="a shirt with green and yellow stripes" class=hl]
+  g [label="the set of shirts with green"]
+  y [label="the set of shirts with yellow"]
+  u [label="green or yellow\ntrue for this shirt, but says less"]
+  i [label="green and yellow\nprecise: captures both" class=hl]
+  shirt -> g [label=" belongs to"]
+  shirt -> y [label=" belongs to"]
+  g -> u
+  y -> u
+  g -> i
+  y -> i
+}

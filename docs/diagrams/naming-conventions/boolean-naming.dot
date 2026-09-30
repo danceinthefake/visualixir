@@ -1,0 +1,12 @@
+digraph boolean_naming {
+  node [shape=box]
+  q [label="Does the function return a boolean?"]
+  g [label="Is it allowed in a guard?"]
+  is [label="is_foo\nis_list/1, Integer.is_even/1" class=hl]
+  qm [label="foo?\nKeyword.keyword?/1, String.contains?/2" class=hl]
+  other [label="not a boolean check:\nno special prefix or suffix"]
+  q -> g [label=" yes"]
+  q -> other [label=" no"]
+  g -> is [label=" yes"]
+  g -> qm [label=" no"]
+}

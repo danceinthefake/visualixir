@@ -1,0 +1,14 @@
+digraph behaviour {
+  rankdir=LR
+  node [shape=box]
+  beh [label="Parser, a behaviour\n@callback parse(String.t) :: {:ok, term} | {:error, atom}\n@callback extensions() :: [String.t]" class=hl]
+  j [label="JSONParser\n@behaviour Parser\n@impl Parser: parse/1, extensions/0"]
+  c [label="CSVParser\n@behaviour Parser\n@impl Parser: parse/1, extensions/0"]
+  bad [label="BADParser\n@impl Parser: def parse (arity 0)"]
+  caller [label="parse_path(filename, parsers)\nfinds a parser by extension,\nthen parser.parse(contents)"]
+  beh -> j [label=" callbacks to implement"]
+  beh -> c
+  beh -> bad [label=" compile-time warning:\l implements parse/0, not parse/1\l" class=bad style=dashed]
+  caller -> j [label=" calls back" style=dashed]
+  caller -> c [style=dashed]
+}

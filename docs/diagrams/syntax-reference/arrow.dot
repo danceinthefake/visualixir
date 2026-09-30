@@ -1,0 +1,13 @@
+digraph arrow {
+  rankdir=LR
+  node [shape=box]
+  hub [label="the arrow ->\nleft: zero or more arguments\nright: zero or more expressions" class=hl]
+  a [label="do … end\ncase 1 do 2 -> 3; 4 -> 5 end\ncond do true -> false end"]
+  b [label="fn … end\nfn x, y -> x + y end"]
+  c [label="( … ) in typespecs\n(integer(), boolean() -> integer())"]
+  note [label="between the terminators, only\nother clauses are allowed:\nclauses and plain expressions can't mix" class=dim]
+  hub -> a
+  hub -> b
+  hub -> c
+  hub -> note [style=dotted class=dim]
+}

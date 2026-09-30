@@ -1,0 +1,17 @@
+digraph inference {
+  rankdir=LR
+  node [shape=box]
+  hub [label="inferring function signatures" class=hl]
+  benefit [label="+ code is type checked with no annotations" class=hl]
+  sp [label="speed\nmore work than checking"]
+  ex [label="expressiveness\nless than what can be checked"]
+  inc [label="incremental compilation\nA needs B needs C: a change to C ripples up"]
+  cas [label="cascading errors\nless clear messages"]
+  plan [label="Elixir's approach: best effort, across dependencies\ncalls inside your own project are assumed dynamic()"]
+  hub -> benefit
+  hub -> sp [label=" costs"]
+  hub -> ex
+  hub -> inc
+  hub -> cas
+  hub -> plan [style=dotted]
+}

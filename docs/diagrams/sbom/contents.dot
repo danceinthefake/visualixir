@@ -1,0 +1,15 @@
+digraph contents {
+  rankdir=LR
+  node [shape=box]
+  bom [label="an SBoM lists" class=hl]
+  a [label="dependencies\nevery library and package"]
+  b [label="versions\nthe exact one of each"]
+  c [label="source locations\nHex, GitHub, …"]
+  d [label="checksums\nto verify integrity"]
+  e [label="licenses\nas each package declares them"]
+  bom -> a
+  bom -> b
+  bom -> c
+  bom -> d
+  bom -> e
+}

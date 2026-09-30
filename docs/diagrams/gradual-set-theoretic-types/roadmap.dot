@@ -1,0 +1,8 @@
+digraph roadmap {
+  node [shape=box]
+  m1 [label="1. Infer types from existing programs\ncheck them, with no changes to your code\n(where Elixir is now)" class=hl]
+  m2 [label="2. Typed structs\npropagate field types through the program"]
+  m3 [label="3. Set-theoretic type signatures for functions\nErlang typespecs are phased out"]
+  m1 -> m2 [label=" if performance and error messages\l are satisfactory\l"]
+  m2 -> m3
+}

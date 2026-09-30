@@ -1,0 +1,8 @@
+digraph publishing {
+  node [shape=box]
+  code [label="mix new my_library" class=hl]
+  steps [label="before publishing\nchoose a version schema (MAJOR.MINOR.PATCH)\nchoose a license (MIT, Apache 2.0)\nrun mix format\nwrite tests (ExUnit, doctests)\nwrite documentation\nfollow best practices, see the anti-patterns"]
+  hex [label="publish to Hex\n(public, or private for organizations)"]
+  docs [label="HexDocs\npublished automatically if ExDoc is configured"]
+  code -> steps -> hex -> docs
+}

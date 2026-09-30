@@ -1,0 +1,14 @@
+digraph mixed_script {
+  rankdir=LR
+  node [shape=box]
+  e4 [label=":T_シャツ  (an underscore between Latin and Japanese)"]
+  e3 [label="幻한  (Han mixes with Korean and Japanese)"]
+  e2 [label="http_сервер  (Latin and Cyrillic, split by _)"]
+  e1 [label="аdmin  (Cyrillic а, then Latin dmin)"]
+  ok [label="allowed" class=hl]
+  bad [label="SyntaxError: invalid mixed-script identifier"]
+  e2 -> ok
+  e3 -> ok
+  e4 -> ok
+  e1 -> bad [class=bad style=dashed]
+}

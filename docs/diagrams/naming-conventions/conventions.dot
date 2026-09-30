@@ -1,0 +1,21 @@
+digraph conventions {
+  rankdir=LR
+  node [shape=box]
+  hub [label="Naming conventions" class=hl]
+  casing [label="snake_case: variables, functions, attributes\nCamelCase: aliases (module names)\nMyApp lives in my_app.ex"]
+  under [label="_foo: a value you don't use; never imported\n__foo__: compile-time metadata\n(__info__/1, __MODULE__)"]
+  bang [label="foo!: failure raises\nFile.read!/1"]
+  q [label="foo?: returns a boolean\nString.contains?/2"]
+  is [label="is_foo: a boolean check usable in guards\nis_list/1, Integer.is_even/1"]
+  size [label="size: constant time, map_size/1\nlength: linear time, length/1"]
+  get [label="get, fetch, fetch!\nfor key-value structures"]
+  cmp [label="compare/2 returns :lt, :eq or :gt\nwhat Enum.sort/2 expects"]
+  hub -> casing
+  hub -> under
+  hub -> bang
+  hub -> q
+  hub -> is
+  hub -> size
+  hub -> get
+  hub -> cmp
+}

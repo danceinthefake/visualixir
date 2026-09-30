@@ -1,0 +1,13 @@
+digraph negate_fn {
+  node [shape=box]
+  code [label="def negate(x) when is_integer(x), do: -x\ndef negate(x) when is_boolean(x), do: not x"]
+  inf [label="type checked as (dynamic() -> dynamic())\nx is refined per clause:\ndynamic() and integer(), then dynamic() and boolean()"]
+  c1 [label="(integer() -> integer())"]
+  c2 [label="(boolean() -> boolean())"]
+  both [label="(integer() -> integer()) and (boolean() -> boolean())\nthe function is in both sets: an intersection" class=hl]
+  code -> inf [style=dashed label=" inference"]
+  code -> c1
+  code -> c2
+  c1 -> both
+  c2 -> both
+}

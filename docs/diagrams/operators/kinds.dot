@@ -1,0 +1,13 @@
+digraph kinds {
+  rankdir=LR
+  node [shape=box]
+  root [label="operators Elixir can parse" class=hl]
+  gen [label="general, and overridable\n+ - * /   ++ --   and && or ||   not !\nin   @   ..   <>   |>   =~"]
+  sf [label="special forms: cannot be overridden\n^   .   =   &   ::"]
+  only [label="meaningful only inside a construct\n=> in %{}     when in guards\n<- in for and with     \\\\ in default arguments"]
+  unused [label="parsed but unused by default\n|||  &&&  <<<  >>>  <<~  ~>>  <~  ~>  <~>  +++  ---  ...\n(Bitwise uses &&&, <<<, >>> and |||)"]
+  root -> gen
+  root -> sf
+  root -> only
+  root -> unused
+}

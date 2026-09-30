@@ -23,6 +23,7 @@ export default defineConfig({
       { text: "Meta-programming", link: "/meta-programming/quote-and-unquote" },
       { text: "Anti-patterns", link: "/anti-patterns/what-anti-patterns" },
       { text: "Cheatsheets", link: "/cheatsheets/enum-cheat" },
+      { text: "References", link: "/references/compatibility-and-deprecations" },
     ],
     sidebar: {
       "/getting-started/": [
@@ -53,6 +54,23 @@ export default defineConfig({
             { text: "Optional syntax sheet", link: "/getting-started/optional-syntax" },
             { text: "Erlang libraries", link: "/getting-started/erlang-libraries" },
             { text: "Debugging", link: "/getting-started/debugging" },
+          ],
+        },
+      ],
+      "/references/": [
+        {
+          text: "References",
+          items: [
+            { text: "Compatibility and deprecations", link: "/references/compatibility-and-deprecations" },
+            { text: "Gradual set-theoretic types", link: "/references/gradual-set-theoretic-types" },
+            { text: "Library guidelines", link: "/references/library-guidelines" },
+            { text: "Naming conventions", link: "/references/naming-conventions" },
+            { text: "Operators reference", link: "/references/operators" },
+            { text: "Patterns and guards", link: "/references/patterns-and-guards" },
+            { text: "Syntax reference", link: "/references/syntax-reference" },
+            { text: "Software Bill of Materials", link: "/references/sbom" },
+            { text: "Typespecs reference", link: "/references/typespecs" },
+            { text: "Unicode syntax", link: "/references/unicode-syntax" },
           ],
         },
       ],

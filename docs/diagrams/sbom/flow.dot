@@ -1,0 +1,15 @@
+digraph flow {
+  node [shape=box]
+  proj [label="your Mix project\nmix.exs and mix.lock"]
+  tool [label="mix_sbom cyclonedx" class=hl]
+  bom [label="bom.cdx.json\nan inventory, not a certification" class=hl]
+  vuln [label="OWASP Dependency-Track\nwatches it against new CVEs"]
+  lic [label="license overview and review"]
+  reg [label="regulatory and customer requests"]
+  ort [label="OSS Review Toolkit (ORT)\nscans source files for file-level licenses" class=dim]
+  proj -> tool -> bom
+  bom -> vuln
+  bom -> lic
+  bom -> reg
+  proj -> ort [style=dotted class=dim label=" deeper analysis"]
+}

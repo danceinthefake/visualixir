@@ -1,0 +1,22 @@
+digraph attributes {
+  rankdir=LR
+  node [shape=box]
+  t [label="@type name :: type" class=hl]
+  tr [label="a public type"]
+  tp [label="@typep name :: type" class=hl]
+  tpr [label="a private type"]
+  o [label="@opaque name :: type" class=hl]
+  or [label="public, but its structure is hidden"]
+  s [label="@spec function(type) :: type" class=hl]
+  sr [label="a function's argument and return types"]
+  c [label="@callback / @macrocallback" class=hl]
+  cr [label="a function or macro a behaviour requires"]
+  d [label="@typedoc \"…\"" class=hl]
+  dr [label="documentation for a @type"]
+  t -> tr
+  tp -> tpr
+  o -> or
+  s -> sr
+  c -> cr
+  d -> dr
+}

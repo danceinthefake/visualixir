@@ -1,0 +1,11 @@
+digraph normalization {
+  node [shape=box]
+  nfc [label="j o s é\none code point for é (NFC)"]
+  nfd [label="j o s e + ́ \nthe accent as its own character (NFD)"]
+  norm [label=":josé and josé variables:\nrewritten to NFC" class=hl]
+  quoted [label=":\"josé\" and strings:\nkept exactly as written" class=dim]
+  nfc -> norm
+  nfd -> norm
+  nfc -> quoted [style=dotted class=dim]
+  nfd -> quoted [style=dotted class=dim]
+}

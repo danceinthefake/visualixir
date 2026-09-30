@@ -1,0 +1,19 @@
+digraph get_fetch {
+  rankdir=LR
+  node [shape=box]
+  fb [label="fetch!(map, key)" class=hl]
+  fbp [label="the value"]
+  fbm [label="raises"]
+  f [label="fetch(map, key)" class=hl]
+  fp [label="{:ok, value}"]
+  fm [label=":error"]
+  g [label="get(map, key)" class=hl]
+  gp [label="the value"]
+  gm [label="a default\n(nil unless you give one)"]
+  g -> gp [label=" key present"]
+  g -> gm [label=" key missing"]
+  f -> fp [label=" key present"]
+  f -> fm [label=" key missing"]
+  fb -> fbp [label=" key present"]
+  fb -> fbm [label=" key missing"]
+}
