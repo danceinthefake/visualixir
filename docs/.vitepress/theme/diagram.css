@@ -22,3 +22,9 @@
 .diagram .bad text { fill: var(--bless-color-danger-text); }
 .diagram .dim { opacity: 0.45; }
 .diagram .cluster polygon { fill: none; stroke: var(--bless-color-border); }
+
+/* Phones: don't shrink wide diagrams until the text is unreadable; let them scroll sideways instead. */
+@media (max-width: 640px) {
+  .diagram > div { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .diagram svg { max-width: none; zoom: 0.7; }
+}
