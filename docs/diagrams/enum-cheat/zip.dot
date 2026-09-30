@@ -1,0 +1,17 @@
+digraph zip {
+  node [shape=box]
+  fruits [label="[\"apple\", \"banana\", \"orange\"]"]
+  counts [label="[3, 1, 6]"]
+  zip [label="Enum.zip" class=hl]
+  pairs [label="[{\"apple\", 3}, {\"banana\", 1}, {\"orange\", 6}]"]
+  unzip [label="Enum.unzip"]
+  back [label="{[\"apple\", \"banana\", \"orange\"], [3, 1, 6]}"]
+  zw [label="Enum.zip_with(fn fruit, count -> %{…} end)"]
+  zr [label="Enum.zip_reduce(0, fn fruit, count, acc -> … end)"]
+  fruits -> zip
+  counts -> zip
+  zip -> pairs
+  pairs -> unzip -> back
+  zip -> zw [style=dotted label=" same idea,\l with a function\l"]
+  zip -> zr [style=dotted]
+}

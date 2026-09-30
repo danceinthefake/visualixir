@@ -1,0 +1,11 @@
+digraph filter_reject {
+  rankdir=LR
+  node [shape=box]
+  cart [label="[apple, banana, orange]"]
+  f [label="Enum.filter(cart, &(&1.fruit =~ \"o\"))\nkeep where the function is truthy" class=hl]
+  fr [label="[orange]"]
+  r [label="Enum.reject(cart, &(&1.fruit =~ \"o\"))\ndrop where the function is truthy" class=hl]
+  rr [label="[apple, banana]"]
+  cart -> f -> fr
+  cart -> r -> rr
+}

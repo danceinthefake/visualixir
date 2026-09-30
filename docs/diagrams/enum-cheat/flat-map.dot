@@ -1,0 +1,12 @@
+digraph flat_map {
+  rankdir=LR
+  node [shape=box]
+  cart [label="apple 3 · banana 1 · orange 6"]
+  m [label="map: List.duplicate(fruit, count)"]
+  nested [label="[[apple ×3], [banana ×1], [orange ×6]]\na list of lists"]
+  f [label="flat_map: the same function,\nthen flatten one level" class=hl]
+  flat [label="[apple, apple, apple, banana, orange ×6]"]
+  cart -> m -> nested
+  cart -> f -> flat
+  nested -> flat [label=" flatten" style=dotted]
+}

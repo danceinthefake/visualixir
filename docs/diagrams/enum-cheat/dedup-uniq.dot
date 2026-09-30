@@ -1,0 +1,11 @@
+digraph dedup_uniq {
+  rankdir=LR
+  node [shape=box]
+  in [label="[1, 2, 2, 3, 3, 3, 1, 2, 3]"]
+  d [label="Enum.dedup\nonly repeats that touch" class=hl]
+  dr [label="[1, 2, 3, 1, 2, 3]"]
+  u [label="Enum.uniq\nrepeats anywhere" class=hl]
+  ur [label="[1, 2, 3]"]
+  in -> u -> ur
+  in -> d -> dr
+}

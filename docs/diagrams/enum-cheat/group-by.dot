@@ -1,0 +1,10 @@
+digraph group_by {
+  node [shape=box]
+  cart [label="apple · banana · orange"]
+  key [label="Enum.group_by(cart, &String.last(&1.fruit))\nthe key function picks the group" class=hl]
+  a [label="\"a\"  =>  [banana]"]
+  e [label="\"e\"  =>  [apple, orange]"]
+  cart -> key
+  key -> a
+  key -> e
+}

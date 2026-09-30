@@ -22,6 +22,7 @@ export default defineConfig({
       { text: "Mix & OTP", link: "/mix-and-otp/introduction-to-mix" },
       { text: "Meta-programming", link: "/meta-programming/quote-and-unquote" },
       { text: "Anti-patterns", link: "/anti-patterns/what-anti-patterns" },
+      { text: "Cheatsheets", link: "/cheatsheets/enum-cheat" },
     ],
     sidebar: {
       "/getting-started/": [
@@ -53,6 +54,12 @@ export default defineConfig({
             { text: "Erlang libraries", link: "/getting-started/erlang-libraries" },
             { text: "Debugging", link: "/getting-started/debugging" },
           ],
+        },
+      ],
+      "/cheatsheets/": [
+        {
+          text: "Cheatsheets",
+          items: [{ text: "Enum cheatsheet", link: "/cheatsheets/enum-cheat" }],
         },
       ],
       "/anti-patterns/": [

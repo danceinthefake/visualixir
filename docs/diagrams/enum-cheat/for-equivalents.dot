@@ -1,0 +1,23 @@
+digraph for_equivalents {
+  rankdir=LR
+  node [shape=box]
+  f [label="for" class=hl]
+  a [label="for item <- cart, do: item.fruit"]
+  ar [label="Enum.map"]
+  b [label="for item <- cart, item.fruit =~ \"e\", do: …\nor a pattern in the generator"]
+  br [label="Enum.filter"]
+  c [label="for item <- cart, reduce: 0 do acc -> … end"]
+  cr [label="Enum.reduce"]
+  d [label="for item <- cart, into: %{}, do: {…}"]
+  dr [label="Enum.into"]
+  e [label="for item <- cart, fruit <- List.duplicate(…)"]
+  er [label="Enum.flat_map"]
+  g [label="for …, uniq: true"]
+  gr [label="Enum.uniq"]
+  f -> a -> ar
+  f -> b -> br
+  f -> c -> cr
+  f -> d -> dr
+  f -> e -> er
+  f -> g -> gr
+}

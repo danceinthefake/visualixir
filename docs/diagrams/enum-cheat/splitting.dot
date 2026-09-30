@@ -1,0 +1,14 @@
+digraph splitting {
+  rankdir=LR
+  node [shape=box]
+  cart [label="[apple, banana, orange]\nfunction: fruit =~ \"e\"\napple: true   banana: false   orange: true" class=hl]
+  a [label="split(1)   or   take(1) and drop(1)\nat an index"]
+  ar [label="{[apple], [banana, orange]}"]
+  b [label="split_while\nstops at the first false"]
+  br [label="{[apple], [banana, orange]}"]
+  c [label="split_with\nchecks every element"]
+  cr [label="{[apple, orange], [banana]}" class=hl]
+  cart -> c -> cr
+  cart -> b -> br
+  cart -> a -> ar
+}

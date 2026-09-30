@@ -1,0 +1,29 @@
+digraph decision {
+  rankdir=LR
+  node [shape=box]
+  q [label="What do you want\nfrom a collection?" class=hl]
+  a1 [label="A yes or no?\l  any?  all?  member?  empty?\l"]
+  a2 [label="Keep some elements?\l  filter  reject  flat_map  for + a filter\l"]
+  a3 [label="Change every element?\l  map  map_every  for\l"]
+  a4 [label="Only side effects?\l  each\l"]
+  a5 [label="One value, or running values?\l  reduce  reduce_while  map_reduce  scan\l  count  sum_by  product_by  min  max\l"]
+  a6 [label="Put in order?\l  sort  sort_by  min_by  max_by  reverse\l"]
+  a7 [label="Find one element?\l  find  find_index  find_value  at  fetch\l"]
+  a8 [label="Group or tally?\l  group_by  frequencies  frequencies_by\l"]
+  a9 [label="Cut into pieces?\l  slice  split  take  drop  chunk_every  chunk_by\l"]
+  a10 [label="Combine?\l  concat  flat_map  zip  zip_with  join  intersperse\l"]
+  a11 [label="Remove repeats?\l  dedup  uniq  uniq_by\l"]
+  a12 [label="Convert or randomize?\l  into  to_list  random  take_random  shuffle\l"]
+  q -> a1
+  q -> a2
+  q -> a3
+  q -> a4
+  q -> a5
+  q -> a6
+  q -> a7
+  q -> a8
+  q -> a9
+  q -> a10
+  q -> a11
+  q -> a12
+}

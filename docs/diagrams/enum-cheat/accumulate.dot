@@ -1,0 +1,17 @@
+digraph accumulate {
+  rankdir=LR
+  node [shape=box]
+  in [label="counts 3, 1, 6\n(apple, banana, orange)\nstart with acc = 0" class=hl]
+  a1 [label="reduce\nacc + count"]
+  r1 [label="10"]
+  a2 [label="scan\nkeep every step"]
+  r2 [label="[3, 4, 10]"]
+  a3 [label="map_reduce\nmap and reduce together"]
+  r3 [label="{[\"apple\", \"banana\", \"orange\"], 10}"]
+  a4 [label="reduce_while\n{:halt, acc} at orange"]
+  r4 [label="4"]
+  in -> a4 -> r4
+  in -> a3 -> r3
+  in -> a2 -> r2
+  in -> a1 -> r1
+}

@@ -1,0 +1,14 @@
+digraph chunk {
+  rankdir=LR
+  node [shape=box]
+  cart [label="[apple, banana, orange]" class=hl]
+  a [label="chunk_every(2)"]
+  ar [label="[[apple, banana], [orange]]"]
+  b [label="chunk_every(2, 1, :discard)\na sliding window"]
+  br [label="[[apple, banana], [banana, orange]]"]
+  c [label="chunk_by(&String.length(&1.fruit))\nnew chunk when the result changes"]
+  cr [label="[[apple], [banana, orange]]"]
+  cart -> c -> cr
+  cart -> b -> br
+  cart -> a -> ar
+}
