@@ -1,0 +1,16 @@
+digraph boolean {
+  node [shape=box]
+  subgraph cluster_role {
+    label="one atom: exactly the states that exist"
+    r3 [label=":admin"]
+    r2 [label=":editor"]
+    r1 [label=":default" class=hl]
+  }
+  subgraph cluster_bool {
+    label="two booleans: four combinations"
+    c4 [label="admin: true, editor: true\neditor is silently ignored" class=dim]
+    c3 [label="admin: true"]
+    c2 [label="editor: true"]
+    c1 [label="admin: false, editor: false"]
+  }
+}

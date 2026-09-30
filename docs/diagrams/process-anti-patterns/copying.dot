@@ -1,0 +1,18 @@
+digraph copying {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_good {
+    label="ip = conn.remote_ip\nspawn(fn -> log_request_ip(ip) end)"
+    cg [label="conn"]
+    ip [label="the ip address" class=hl]
+    pg [label="new process\nholds only the ip"]
+    cg -> ip [label=" read it here"]
+    ip -> pg [label=" copied"]
+  }
+  subgraph cluster_bad {
+    label="spawn(fn -> log_request_ip(conn.remote_ip) end)"
+    cb [label="conn\nbody, params, headers, …"]
+    pb [label="new process\nholds a full copy of conn"]
+    cb -> pb [label=" the closure captures conn,\l so all of it is copied\l" class=bad style=dashed]
+  }
+}

@@ -1,0 +1,18 @@
+digraph compile_deps {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_after {
+    label="Macro.expand_literals in plug/1"
+    a2 [label="MyApp"]
+    au2 [label="MyApp.Authentication"]
+    a2 -> au2 [label=" runtime dependency:\l changing Authentication\l does not recompile MyApp\l" style=dashed]
+  }
+  subgraph cluster_before {
+    label="plug MyApp.Authentication (a macro argument in the module body)"
+    a [label="MyApp"]
+    au [label="MyApp.Authentication"]
+    deps [label="…and everything it depends on" class=dim]
+    a -> au [label=" compile-time dependency" class=bad]
+    au -> deps [style=dotted class=dim]
+  }
+}

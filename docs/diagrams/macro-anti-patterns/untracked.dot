@@ -1,0 +1,21 @@
+digraph untracked {
+  node [shape=box]
+  subgraph cluster_bad {
+    label="Module.concat(OtherModule, part): untracked"
+    m [label="MyModule"]
+    other [label="OtherModule"]
+    foo [label="OtherModule.Foo" class=dim]
+    bar [label="OtherModule.Bar" class=dim]
+    m -> other [label=" the only dependency\l the compiler sees\l"]
+    m -> foo [style=dotted class=dim label=" unseen"]
+    m -> bar [style=dotted class=dim]
+  }
+  subgraph cluster_ok {
+    label="literal aliases: tracked"
+    m2 [label="MyModule"]
+    foo2 [label="OtherModule.Foo"]
+    bar2 [label="OtherModule.Bar"]
+    m2 -> foo2 [label=" compile-time"]
+    m2 -> bar2
+  }
+}

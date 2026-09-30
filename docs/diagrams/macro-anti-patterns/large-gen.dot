@@ -1,0 +1,18 @@
+digraph large_gen {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_thin {
+    label="thin macro: one call per route"
+    t2 [label="get \"/b\", B"]
+    t1 [label="get \"/a\", A"]
+    f [label="Routes.__define__/3\nthe checks live here, compiled once" class=hl]
+    t1 -> f
+    t2 -> f
+  }
+  subgraph cluster_fat {
+    label="fat macro: the whole quote per route"
+    g3 [label="…hundreds of routes,\nhundreds of copies" class=dim]
+    g2 [label="get \"/b\", B\nthe same checks expanded again"]
+    g1 [label="get \"/a\", A\nchecks, raises, attribute: expanded"]
+  }
+}

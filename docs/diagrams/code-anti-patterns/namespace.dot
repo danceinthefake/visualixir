@@ -1,0 +1,19 @@
+digraph namespace {
+  node [shape=box]
+  subgraph cluster_good {
+    label="your own namespace"
+    plug2 [label="plug\nPlug.*"]
+    auth2 [label="plug_auth\nPlugAuth.*" class=hl]
+    ok2 [label="no clash, ever"]
+    plug2 -> ok2
+    auth2 -> ok2
+  }
+  subgraph cluster_bad {
+    label="namespace trespassing"
+    plug [label="plug\nmay add Plug.Auth someday"]
+    auth [label="plug_auth\ndefines Plug.Auth"]
+    vm [label="the VM loads one Plug.Auth at a time:\nthe two packages are incompatible"]
+    plug -> vm [class=bad style=dashed]
+    auth -> vm [class=bad style=dashed]
+  }
+}

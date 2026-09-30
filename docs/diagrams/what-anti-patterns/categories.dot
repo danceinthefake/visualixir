@@ -1,0 +1,13 @@
+digraph categories {
+  rankdir=LR
+  node [shape=box]
+  root [label="Anti-patterns\ncode smells: hints, not rules" class=hl]
+  code [label="Code-related\n10 patterns"]
+  design [label="Design-related\n6 patterns"]
+  proc [label="Process-related\n4 patterns"]
+  meta [label="Meta-programming\n5 patterns"]
+  root -> code
+  root -> design
+  root -> proc
+  root -> meta
+}

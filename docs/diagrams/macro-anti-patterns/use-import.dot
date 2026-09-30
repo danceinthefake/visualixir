@@ -1,0 +1,19 @@
+digraph use_import {
+  node [shape=box]
+  subgraph cluster_import {
+    label="import Library: explicit"
+    c2 [label="ClientApp\nimport Library"]
+    l2 [label="Library.from_lib/0" class=hl]
+    c2 -> l2
+  }
+  subgraph cluster_use {
+    label="use Library: implicit"
+    c [label="ClientApp\nuse Library" class=hl]
+    inj [label="Library.__using__/1 injects\nimport Library\nimport ModuleA   (propagated)"]
+    ma [label="ModuleA.foo/0"]
+    cf [label="ClientApp.foo/0 (local)"]
+    c -> inj
+    inj -> ma
+    ma -> cf [label=" conflict:\l imported ModuleA.foo/0\l conflicts with a local function\l" class=bad style=dashed]
+  }
+}

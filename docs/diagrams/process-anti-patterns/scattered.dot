@@ -1,0 +1,30 @@
+digraph scattered {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_good {
+    label="one module owns the process"
+    bucket [label="Foo.Bucket\nonly accepts a map" class=hl]
+    ag2 [label="Agent"]
+    ga [label="A"]
+    gb [label="B"]
+    gc [label="C"]
+    gd [label="D"]
+    ga -> bucket
+    gb -> bucket
+    gc -> bucket
+    gd -> bucket
+    bucket -> ag2
+  }
+  subgraph cluster_bad {
+    label="every module talks to the agent"
+    ag [label="Agent\nholds a list, a map, an integer…"]
+    a [label="A: update(fn _ -> 123 end)"]
+    b [label="B: update(fn c -> %{a: c} end)"]
+    c [label="C: update(fn c -> [:atom | c] end)"]
+    d [label="D: get(fn c -> c end)"]
+    a -> ag
+    b -> ag
+    c -> ag
+    d -> ag
+  }
+}

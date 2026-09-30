@@ -21,6 +21,7 @@ export default defineConfig({
       { text: "Getting started", link: "/getting-started/introduction" },
       { text: "Mix & OTP", link: "/mix-and-otp/introduction-to-mix" },
       { text: "Meta-programming", link: "/meta-programming/quote-and-unquote" },
+      { text: "Anti-patterns", link: "/anti-patterns/what-anti-patterns" },
     ],
     sidebar: {
       "/getting-started/": [
@@ -51,6 +52,18 @@ export default defineConfig({
             { text: "Optional syntax sheet", link: "/getting-started/optional-syntax" },
             { text: "Erlang libraries", link: "/getting-started/erlang-libraries" },
             { text: "Debugging", link: "/getting-started/debugging" },
+          ],
+        },
+      ],
+      "/anti-patterns/": [
+        {
+          text: "Anti-patterns",
+          items: [
+            { text: "What are anti-patterns?", link: "/anti-patterns/what-anti-patterns" },
+            { text: "Code-related", link: "/anti-patterns/code-anti-patterns" },
+            { text: "Design-related", link: "/anti-patterns/design-anti-patterns" },
+            { text: "Process-related", link: "/anti-patterns/process-anti-patterns" },
+            { text: "Meta-programming", link: "/anti-patterns/macro-anti-patterns" },
           ],
         },
       ],

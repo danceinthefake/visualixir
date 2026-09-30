@@ -1,0 +1,16 @@
+digraph struct_32 {
+  node [shape=box]
+  subgraph cluster_hash {
+    label="32 or more fields: hash map"
+    h1 [label="%Big{…}\nkeys and values in a hash structure"]
+    h2 [label="%Big{…}\nkeys stored again: no sharing"]
+  }
+  subgraph cluster_flat {
+    label="fewer than 32 fields: flat map"
+    k [label="one tuple of keys\nshared at compile time" class=hl]
+    v1 [label="%User{…}\nvalues only"]
+    v2 [label="%User{…}\nvalues only"]
+    v1 -> k [label=" shares"]
+    v2 -> k [label=" shares"]
+  }
+}

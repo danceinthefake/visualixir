@@ -1,0 +1,11 @@
+digraph entry {
+  rankdir=LR
+  node [shape=box]
+  name [label="Name\na shared word for talking about it" class=hl]
+  problem [label="Problem\nhow it hurts quality"]
+  example [label="Example\ncode that shows it"]
+  refactor [label="Refactoring\nbetter code"]
+  remarks [label="Additional remarks\nwhen it does not apply" class=dim]
+  name -> problem -> example -> refactor
+  refactor -> remarks [style=dotted class=dim]
+}

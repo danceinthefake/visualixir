@@ -1,0 +1,16 @@
+digraph atoms {
+  rankdir=LR
+  node [shape=box]
+  input [label="strings from outside\n\"ok\", \"error\", …, \"x1\", \"x2\", …"]
+  bad [label="String.to_atom/1"]
+  table [label="atom table\nnever garbage collected\nlimit 1_048_576: then the VM stops"]
+  good1 [label="explicit clauses\nconvert_status(\"ok\"), do: :ok"]
+  good2 [label="String.to_existing_atom/1\nraises for an unknown string"]
+  known [label="a fixed set of known atoms" class=hl]
+  input -> bad [class=bad style=dashed]
+  bad -> table [label=" one new atom per\l new string\l" class=bad style=dashed]
+  input -> good1
+  input -> good2
+  good1 -> known
+  good2 -> known [label=" only if the atom already exists,\l defined inside a function of the same module\l"]
+}

@@ -1,0 +1,19 @@
+digraph with_else {
+  node [shape=box]
+  subgraph cluster_good {
+    label="normalize the error where it happens"
+    g2 [label="base_decode64(encoded)\n{:error, :badencoding}"]
+    g1 [label="file_read(path)\n{:error, :badfile}"]
+    gw [label="with: success, or return the\nalready-normalized error" class=hl]
+    g1 -> gw
+    g2 -> gw
+  }
+  subgraph cluster_bad {
+    label="one else block for every step"
+    b2 [label="Base.decode64(encoded)\n:error"]
+    b1 [label="File.read(path)\n{:error, reason}"]
+    be [label="else\n  {:error, _} -> {:error, :badfile}\n  :error -> {:error, :badencoding}\nwhich step produced which?"]
+    b1 -> be
+    b2 -> be
+  }
+}

@@ -1,0 +1,23 @@
+digraph primitive {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_good {
+    label="parse once into a struct"
+    s2 [label="\"12 Main St, Springfield, 12345, US\""]
+    p [label="parse/1"]
+    a [label="%Address{street, city, state,\npostal_code, country}" class=hl]
+    g1 [label="extract_postal_code(%Address{})"]
+    g2 [label="fill_in_country(%Address{})"]
+    s2 -> p -> a
+    a -> g1
+    a -> g2
+  }
+  subgraph cluster_bad {
+    label="a string passed around"
+    s [label="\"12 Main St, Springfield, 12345, US\""]
+    f1 [label="extract_postal_code(string)\nparses it"]
+    f2 [label="fill_in_country(string)\nparses it again"]
+    s -> f1
+    s -> f2
+  }
+}

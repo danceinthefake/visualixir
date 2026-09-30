@@ -1,0 +1,20 @@
+digraph app_config {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_opts {
+    label="options on each call"
+    lib2 [label="DashSplitter.split(string, opts)" class=hl]
+    a2 [label="app A\nsplit(s, parts: 5)"]
+    b2 [label="app B\nsplit(s)   (default: 2)"]
+    a2 -> lib2
+    b2 -> lib2
+  }
+  subgraph cluster_glob {
+    label="global application environment"
+    env [label="config :app_config, parts: 3\none value for every dependent"]
+    a [label="app A wants 5 parts"]
+    b [label="app B wants 2 parts"]
+    a -> env [class=bad style=dashed]
+    b -> env [class=bad style=dashed]
+  }
+}

@@ -19,6 +19,7 @@ docs/                          VitePress root
   getting-started/*.md         one page per official chapter
   mix-and-otp/*.md             the Mix & OTP guide
   meta-programming/*.md        the Meta-programming guide
+  anti-patterns/*.md           the Anti-patterns guide
   diagrams/<page>/<name>.dot   Graphviz source; make renders the .svg beside it
   .vitepress/theme/            Diagram.vue inlines SVG, diagram.css repaints it from --bless-* tokens
 Makefile                       .dot -> .svg, shared defaults live in DOT_FLAGS
@@ -44,4 +45,5 @@ Mirrors the official sections, in official order. Chapter sources: `https://elix
 - [x] Mix & OTP (all 9 chapters, 30 diagrams): Introduction to Mix, Agents, Registries and supervision trees, Supervising dynamic children,
   Task and gen_tcp, Doctests/patterns/with, Configuration and distribution, Client-server with GenServer, Releases
 - [x] Meta-programming (Quote and unquote, Macros, Domain-Specific Languages; 13 diagrams)
-- [ ] References (anti-patterns, patterns and guards, typespecs, compatibility, naming conventions)
+- [x] Anti-patterns (intro + code, design, process, meta-programming: 25 patterns, 21 diagrams)
+- [ ] References (patterns and guards, typespecs, compatibility, naming conventions, and more)

@@ -1,0 +1,19 @@
+digraph multi_clause {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_bad {
+    label="one function, unrelated clauses"
+    u [label="update/1"]
+    c1 [label="clause for %Product{}"]
+    c2 [label="clause for %Animal{}"]
+    d [label="@doc full of conditionals" class=dim]
+    u -> c1
+    u -> c2
+    u -> d [style=dotted class=dim]
+  }
+  subgraph cluster_good {
+    label="named for what they do"
+    up [label="update_product(%Product{})" class=hl]
+    ua [label="update_animal(%Animal{})" class=hl]
+  }
+}

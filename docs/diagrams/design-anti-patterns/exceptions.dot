@@ -1,0 +1,11 @@
+digraph exceptions {
+  rankdir=LR
+  node [shape=box]
+  caller2 [label="try do File.read!(path)\nrescue …\ncontrol flow by exception" class=dim]
+  caller1 [label="case File.read(path) do …\nthe caller decides" ]
+  bang [label="File.read!(path)\nbinary, or raises File.Error"]
+  read [label="File.read(path)\n{:ok, binary} | {:error, reason}" class=hl]
+  caller1 -> read
+  caller2 -> bang [style=dashed class=dim]
+  bang -> read [label=" the bang version is\l built on the plain one\l"]
+}

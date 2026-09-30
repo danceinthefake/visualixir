@@ -1,0 +1,20 @@
+digraph calculator {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_good {
+    label="plain functions"
+    d1 [label="caller 1\nCalculator.add runs here"]
+    d2 [label="caller 2\nCalculator.add runs here"]
+    d3 [label="caller 3\nCalculator.add runs here"]
+  }
+  subgraph cluster_bad {
+    label="a GenServer for arithmetic"
+    c1 [label="caller 1"]
+    c2 [label="caller 2"]
+    c3 [label="caller 3"]
+    gs [label="Calculator process\none mailbox, one at a time:\na bottleneck" class=hl]
+    c1 -> gs
+    c2 -> gs
+    c3 -> gs
+  }
+}

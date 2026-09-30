@@ -1,0 +1,23 @@
+digraph alt_return {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_good {
+    label="one function per return type"
+    b [label="parse_discard_rest(string)"]
+    br [label="integer | :error"]
+    a [label="parse(string)"]
+    ar [label="{integer, rest} | :error"]
+    a -> ar
+    b -> br
+  }
+  subgraph cluster_bad {
+    label="options change the return type"
+    p [label="parse(string, discard_rest: …)"]
+    r3 [label=":error"]
+    r2 [label="{integer, rest}"]
+    r1 [label="integer"]
+    p -> r1
+    p -> r2
+    p -> r3
+  }
+}

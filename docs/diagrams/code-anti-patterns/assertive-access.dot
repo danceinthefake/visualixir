@@ -1,0 +1,17 @@
+digraph assertive_access {
+  node [shape=box]
+  pt [label="point = %{y: 10}   (no :x)"]
+  subgraph cluster_stat {
+    label="point.x: static, assertive"
+    s1 [label="KeyError right here:\nkey :x not found" class=hl]
+  }
+  subgraph cluster_dyn {
+    label="point[:x]: dynamic, for optional keys"
+    d1 [label="nil"]
+    d2 [label="nil travels through the code"]
+    d3 [label="ArithmeticError,\nfar from the real cause"]
+    d1 -> d2 -> d3 [style=dashed]
+  }
+  pt -> d1
+  pt -> s1
+}
