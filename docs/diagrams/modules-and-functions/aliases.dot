@@ -1,0 +1,13 @@
+digraph aliases {
+  rankdir=LR
+  node [shape=box]
+  s [label="String"]
+  a1 [label=":\"Elixir.String\"" class=hl]
+  f [label="Foo.Bar"]
+  a2 [label=":\"Elixir.Foo.Bar\"" class=hl]
+  l [label=":lists" class=hl]
+  note [label="Erlang modules are bare atoms.\nThe Elixir. prefix keeps Elixir\nmodules from clashing with them." class=dim]
+  s -> a1 [label=" expands to"]
+  f -> a2 [label=" expands to"]
+  l -> note [style=dotted class=dim]
+}

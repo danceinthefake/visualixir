@@ -1,0 +1,16 @@
+digraph truthy {
+  node [shape=box]
+  subgraph cluster_falsy {
+    label="falsy: only these two"
+    f1 [label="false" class=hl]
+    f2 [label="nil" class=hl]
+  }
+  subgraph cluster_truthy {
+    label="truthy: everything else"
+    t1 [label="true"]
+    t2 [label="0"]
+    t3 [label="\"\""]
+    t4 [label=":ok"]
+    t5 [label="[]"]
+  }
+}

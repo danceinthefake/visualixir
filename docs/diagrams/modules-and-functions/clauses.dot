@@ -1,0 +1,15 @@
+digraph clauses {
+  rankdir=LR
+  node [shape=box]
+  call [label="Math.zero?(arg)"]
+  c1 [label="zero?(0)"]
+  c2 [label="zero?(x)\nwhen is_integer(x)"]
+  r1 [label="true" class=hl]
+  r2 [label="false" class=hl]
+  err [label="FunctionClauseError"]
+  call -> c1 [label=" try in order"]
+  c1 -> r1 [label=" arg is 0"]
+  c1 -> c2 [label=" no"]
+  c2 -> r2 [label=" an integer"]
+  c2 -> err [label=" 0.0, [1, 2, 3]…" class=bad style=dashed]
+}

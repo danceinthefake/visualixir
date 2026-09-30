@@ -1,0 +1,119 @@
+# try, catch, and rescue
+
+Source: [Elixir guide, try, catch, and rescue](https://elixir.hexdocs.pm/try-catch-and-rescue.html).
+
+Elixir has three error mechanisms: errors, throws and exits.
+
+<Diagram name="try-catch-and-rescue/mechanisms" caption="Three mechanisms, all uncommon in everyday code." />
+
+## Errors
+
+Errors (exceptions) are for exceptional things. Raise with `raise/1` or `raise/2`; define your own with `defexception`:
+
+```elixir
+raise "oops"                                  #=> ** (RuntimeError) oops
+raise ArgumentError, message: "invalid argument foo"
+
+defmodule MyError do
+  defexception message: "default message"
+end
+raise MyError   #=> ** (MyError) default message
+```
+
+Rescue with `try/rescue`:
+
+```elixir
+try do
+  raise "oops"
+rescue
+  e in RuntimeError -> e       # or just `RuntimeError -> "Error!"`
+end
+#=> %RuntimeError{message: "oops"}
+```
+
+### Rarely rescued: use tuples
+
+Most functions return tagged tuples and let you choose, with `case`:
+
+```elixir
+case File.read("hello") do
+  {:ok, body} -> IO.puts("Success: #{body}")
+  {:error, reason} -> IO.puts("Error: #{reason}")
+end
+```
+
+By convention, `foo` returns `{:ok, result}` or `{:error, reason}`, and `foo!` returns the bare result or **raises**.
+When a missing file really is an error, use `File.read!/1`.
+
+<Diagram name="try-catch-and-rescue/ok-vs-bang" caption="The trailing ! means: raise instead of returning an error tuple." />
+
+### Fail fast / let it crash
+
+For *unexpected* failures, don't rescue: let the process die. Processes share nothing, so a crash can't corrupt another process, and a
+supervisor starts a fresh one. For *expected* failures, like a user typing a wrong filename, use `File.read/1` and report it.
+
+<Diagram name="try-catch-and-rescue/let-it-crash" caption="A crash is contained. The supervisor restarts from a known state." />
+
+### Reraise
+
+Rescue to log, then `reraise e, __STACKTRACE__` so the exception keeps its value and origin. Errors are never for flow control.
+For that, there are throws.
+
+## Throws
+
+`throw` a value and `catch` it. It's only for when a value can't be retrieved any other way, such as bailing out of `Enum.each/2`. In practice
+`Enum.find/2` does it:
+
+```elixir
+Enum.find(-50..50, &(rem(&1, 13) == 0))   #=> -39
+```
+
+## Exits
+
+When a process dies, it sends an `exit` signal, which supervisors listen for. `exit/1` sends one explicitly, and `catch :exit, _` can
+catch it, though that's even rarer than `try/catch`.
+
+```elixir
+def matched_catch do
+  exit(:timeout)
+catch
+  :exit, :timeout -> {:error, :timeout}
+end
+```
+
+## after, else, and the order
+
+`try/after` cleans up whether or not the block raised. It's a soft guarantee: if a linked process exits, `after` doesn't run.
+Files, ETS tables and sockets are linked to the process and are closed anyway when it crashes. `else` matches the result of the `do` block
+when nothing was raised, and errors inside `else` aren't caught.
+
+<Diagram name="try-catch-and-rescue/order" caption="after always runs and never changes the returned value." />
+
+```elixir
+try do
+  1 / 2
+rescue
+  ArithmeticError -> :infinity
+else
+  y when y < 1 and y > -1 -> :small
+  _ -> :large
+end
+#=> :small
+```
+
+## Variable scope
+
+Like `case` and `if`, nothing bound inside `try`, `rescue`, `catch`, `else` or `after` leaks out. Return the value of the `try` instead:
+
+```elixir
+what_happened =
+  try do
+    raise "fail"
+    :did_not_raise
+  rescue
+    _ -> :rescued
+  end
+#=> :rescued
+```
+
+Variables bound in the `try` body aren't visible in `rescue`, `after` or `else` either: the body may have failed before they were bound.

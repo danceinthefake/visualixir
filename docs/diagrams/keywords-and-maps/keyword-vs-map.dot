@@ -1,0 +1,17 @@
+digraph kw_vs_map {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_kw {
+    label="keyword list [a: 1, b: 2, a: 3]\nordered · atom keys · keys may repeat"
+    k1 [label="{:a, 1}"]
+    k2 [label="{:b, 2}"]
+    k3 [label="{:a, 3}"]
+    k1 -> k2 -> k3
+  }
+  subgraph cluster_map {
+    label="map %{:a => 1, 2 => :b}\nany key type · keys unique · no promised order"
+    node [shape=record]
+    m1 [label="{:a|1}"]
+    m2 [label="{2|:b}"]
+  }
+}

@@ -1,0 +1,12 @@
+digraph walkthrough {
+  node [shape=box]
+  f0 [label="if variable? do\l  Call.this()\lelse\l  Call.that()\lend\l"]
+  f1 [label="if variable?, do: Call.this(), else: Call.that()"]
+  f2 [label="if variable?, [do: Call.this(), else: Call.that()]"]
+  f3 [label="if variable?, [{:do, Call.this()}, {:else, Call.that()}]"]
+  f4 [label="if(variable?, [{:do, Call.this()}, {:else, Call.that()}])" class=hl]
+  f0 -> f1 [label=" 1. do-end blocks are keywords"]
+  f1 -> f2 [label=" 2. brackets are optional on a last keyword list"]
+  f2 -> f3 [label=" 3. a keyword list is a list of two-element tuples"]
+  f3 -> f4 [label=" 4. parentheses are optional on calls"]
+}

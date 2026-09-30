@@ -1,0 +1,18 @@
+digraph pin {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_pin {
+    label="^x = 2   (pin: compares)"
+    px   [label="^x  (still 1)"]
+    two2 [label="2"]
+    px -> two2 [label="  ≠" class=bad style=dashed]
+  }
+  subgraph cluster_rebind {
+    label="x = 2   (no pin: rebinds)"
+    old  [label="1" class=dim]
+    x    [label="x" class=hl]
+    two  [label="2"]
+    x -> old [label="  was" style=dotted class=dim]
+    x -> two
+  }
+}

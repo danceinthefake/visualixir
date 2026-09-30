@@ -1,0 +1,8 @@
+digraph mismatch {
+  node [shape=record]
+  value   [label="<k>:error|<v>:oops"]
+  pattern [label="<k>:ok|<v>result"]
+  value:k -> pattern:k [label="  no match" class=bad style=dashed]
+  {rank=same; l1 [label="right: value" shape=plaintext style=solid]; value}
+  {rank=same; l2 [label="left: pattern" shape=plaintext style=solid]; pattern}
+}

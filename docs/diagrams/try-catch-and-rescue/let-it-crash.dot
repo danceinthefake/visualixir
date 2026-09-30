@@ -1,0 +1,11 @@
+digraph let_it_crash {
+  rankdir=LR
+  node [shape=box]
+  sup [label="supervisor" class=hl]
+  a1 [label="process A"]
+  a2 [label="process A\n(fresh start)"]
+  b [label="process B\nunaffected: processes share nothing" class=dim]
+  a1 -> sup [label=" unexpected error:\l exit signal\l" class=bad style=dashed]
+  sup -> a2 [label=" starts a replacement"]
+  sup -> b [dir=none style=dotted class=dim]
+}

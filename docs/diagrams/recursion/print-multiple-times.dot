@@ -1,0 +1,16 @@
+digraph print_multiple_times {
+  rankdir=LR
+  node [shape=box]
+  n3 [label="n = 3"]
+  n2 [label="n = 2"]
+  n1 [label="n = 1"]
+  n0 [label="n = 0"]
+  ok [label=":ok" class=hl]
+  neg [label="n = -1"]
+  err [label="FunctionClauseError"]
+  n3 -> n2 [label=" clause 1: n > 0\l puts, then n - 1\l"]
+  n2 -> n1
+  n1 -> n0
+  n0 -> ok [label=" clause 2:\l termination\l"]
+  neg -> err [label=" matches no clause" class=bad style=dashed]
+}

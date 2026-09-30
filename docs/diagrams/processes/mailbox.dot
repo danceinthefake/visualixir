@@ -1,0 +1,14 @@
+digraph mailbox {
+  rankdir=LR
+  node [shape=box]
+  a [label="process A\nsend(pid_b, {:hello, \"world\"})"]
+  subgraph cluster_b {
+    label="process B"
+    mb [label="mailbox\n{:world, 1}\n{:hello, \"world\"}"]
+    rc [label="receive do\n  {:hello, msg} -> msg\nend" class=hl]
+    mb -> rc [label=" first message that matches\l a pattern; the rest stay\l"]
+  }
+  res [label="\"world\""]
+  a -> mb [label=" send/2 never blocks:\l it drops the message in\l"]
+  rc -> res
+}

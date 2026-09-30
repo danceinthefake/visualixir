@@ -1,0 +1,17 @@
+digraph lexical {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_math {
+    label="defmodule Math"
+    subgraph cluster_minus {
+      label="def minus(a, b)"
+      inm [label="List means Elixir.List"]
+    }
+    subgraph cluster_plus {
+      label="def plus(a, b)"
+      al [label="alias Math.List" class=hl]
+      inp [label="List means Math.List"]
+      al -> inp
+    }
+  }
+}

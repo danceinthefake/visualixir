@@ -1,0 +1,21 @@
+digraph utf8 {
+  node [shape=record]
+  chars [label="<c0>h|<c1>e|<c2>ł|<c3>ł|<c4>o" class=hl]
+  cps   [label="<p0>104|<p1>101|<p2>322|<p3>322|<p4>111"]
+  bytes [label="<b0>68|<b1>65|<b2>C5|<b3>82|<b4>C5|<b5>82|<b6>6F"]
+  chars:c0 -> cps:p0
+  chars:c1 -> cps:p1
+  chars:c2 -> cps:p2
+  chars:c3 -> cps:p3
+  chars:c4 -> cps:p4
+  cps:p0 -> bytes:b0
+  cps:p1 -> bytes:b1
+  cps:p2 -> bytes:b2
+  cps:p2 -> bytes:b3
+  cps:p3 -> bytes:b4
+  cps:p3 -> bytes:b5
+  cps:p4 -> bytes:b6
+  {rank=same; l1 [label="characters" shape=plaintext style=solid]; chars}
+  {rank=same; l2 [label="code points (Unicode)" shape=plaintext style=solid]; cps}
+  {rank=same; l3 [label="bytes (UTF-8, 1 to 4 per code point)" shape=plaintext style=solid]; bytes}
+}

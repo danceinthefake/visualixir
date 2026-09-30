@@ -1,0 +1,13 @@
+digraph sum_list {
+  rankdir=LR
+  node [shape=box]
+  a [label="sum_list([1, 2, 3], 0)"]
+  b [label="sum_list([2, 3], 1)"]
+  c [label="sum_list([3], 3)"]
+  d [label="sum_list([], 6)"]
+  r [label="6" class=hl]
+  a -> b [label=" head + acc,\l recurse on tail\l"]
+  b -> c
+  c -> d
+  d -> r [label=" [] clause:\l return acc\l"]
+}

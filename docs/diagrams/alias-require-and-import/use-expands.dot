@@ -1,0 +1,14 @@
+digraph use_expands {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_ex {
+    label="defmodule Example"
+    use [label="use Feature, option: :value" class=hl]
+  }
+  req [label="require Feature"]
+  call [label="Feature.__using__(option: :value)"]
+  inject [label="code injected into Example\n(imports, functions, module state…)"]
+  use -> req [label=" expands to"]
+  req -> call
+  call -> inject [label=" returns code"]
+}

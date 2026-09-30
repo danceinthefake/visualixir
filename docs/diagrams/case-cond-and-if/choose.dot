@@ -1,0 +1,12 @@
+digraph choose {
+  node [shape=box]
+  q1 [label="Can a pattern (and guard)\nexpress the test?"]
+  case [label="case / function clauses" class=hl]
+  q2 [label="Several conditions\nto check in turn?"]
+  cond [label="cond" class=hl]
+  if [label="if" class=hl]
+  q1 -> case [label=" yes: preferred"]
+  q1 -> q2 [label=" no"]
+  q2 -> cond [label=" yes"]
+  q2 -> if [label=" no, one"]
+}

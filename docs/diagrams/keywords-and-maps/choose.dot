@@ -1,0 +1,10 @@
+digraph choose {
+  node [shape=box]
+  q [label="What is the data for?"]
+  kw [label="keyword list" class=hl]
+  map [label="map" class=hl]
+  fixed [label="map with atom keys\n(or a struct)" class=hl]
+  q -> kw [label=" optional arguments\l to a function\l"]
+  q -> map [label=" general key-value\l data\l"]
+  q -> fixed [label=" a predefined\l set of keys\l"]
+}

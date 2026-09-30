@@ -1,0 +1,23 @@
+digraph cartesian {
+  rankdir=LR
+  node [shape=box]
+  f [label="for i <- [:a, :b, :c],\n    j <- [1, 2],\n    do: {i, j}" class=hl]
+  a [label="i = :a"]
+  b [label="i = :b"]
+  c [label="i = :c"]
+  f -> a
+  f -> b
+  f -> c
+  a -> a1 [label=" j = 1"]
+  a -> a2 [label=" j = 2"]
+  b -> b1 [label=" j = 1"]
+  b -> b2 [label=" j = 2"]
+  c -> c1 [label=" j = 1"]
+  c -> c2 [label=" j = 2"]
+  a1 [label="{:a, 1}"]
+  a2 [label="{:a, 2}"]
+  b1 [label="{:b, 1}"]
+  b2 [label="{:b, 2}"]
+  c1 [label="{:c, 1}"]
+  c2 [label="{:c, 2}"]
+}

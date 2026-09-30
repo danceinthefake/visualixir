@@ -1,0 +1,14 @@
+digraph fallback {
+  node [shape=box]
+  start [label="Size.size(value)"]
+  q1 [label="Is there an implementation\nfor the value's type?"]
+  use [label="use it" class=hl]
+  q2 [label="@derive [Size] on the struct,\nor @fallback_to_any true?"]
+  any [label="use the implementation for Any" class=hl]
+  err [label="Protocol.UndefinedError"]
+  start -> q1
+  q1 -> use [label=" yes"]
+  q1 -> q2 [label=" no"]
+  q2 -> any [label=" yes"]
+  q2 -> err [label=" no" class=bad style=dashed]
+}

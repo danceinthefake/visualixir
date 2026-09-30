@@ -1,0 +1,21 @@
+digraph shared {
+  node [shape=record]
+  old [label="<p0>|<p1>|<p2>|<p3>"]
+  new [label="<p0>|<p1>|<p2>|<p3>" class=hl]
+  a [label=":a" shape=box]
+  b [label=":b" shape=box]
+  c [label=":c" shape=box]
+  e [label=":e" shape=box class=hl]
+  d [label=":d" shape=box]
+  old:p0 -> a
+  old:p1 -> b
+  old:p2 -> c
+  old:p3 -> d
+  a -> new:p0 [dir=back]
+  b -> new:p1 [dir=back]
+  e -> new:p2 [dir=back]
+  d -> new:p3 [dir=back]
+  {rank=same; a -> b -> c -> e -> d [style=invis]}
+  {rank=same; lo [label="tuple" shape=plaintext style=solid]; old}
+  {rank=same; ln [label="put_elem(tuple, 2, :e)" shape=plaintext style=solid]; new}
+}

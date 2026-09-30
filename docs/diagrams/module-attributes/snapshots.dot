@@ -1,0 +1,22 @@
+digraph snapshots {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_one {
+    label="better: one function reads it once"
+    a2 [label="@example" class=hl]
+    ex [label="defp example, do: @example"]
+    g1 [label="some_function"]
+    g2 [label="another_function"]
+    a2 -> ex [label=" 1 snapshot"]
+    ex -> g1 [dir=back]
+    ex -> g2 [dir=back]
+  }
+  subgraph cluster_many {
+    label="every read is a snapshot to compile"
+    a1 [label="@example" class=hl]
+    f1 [label="some_function"]
+    f2 [label="another_function"]
+    a1 -> f1 [label=" snapshot"]
+    a1 -> f2 [label=" snapshot"]
+  }
+}

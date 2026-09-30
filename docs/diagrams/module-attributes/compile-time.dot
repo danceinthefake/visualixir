@@ -1,0 +1,11 @@
+digraph compile_time {
+  rankdir=LR
+  node [shape=box]
+  attr [label="@service URI.parse(\"https://example.com\")"]
+  val  [label="%URI{host: \"example.com\", port: 443, …}" class=hl]
+  fun  [label="def status(email) do\l  SomeHttpClient.get(%URI{…})\lend\l"]
+  gone [label="the attribute itself is discarded" class=dim]
+  attr -> val [label=" evaluated once,\l at compile time\l"]
+  val -> fun [label=" the value is pasted in,\l not the call\l"]
+  attr -> gone [style=dotted class=dim label=" after compilation"]
+}

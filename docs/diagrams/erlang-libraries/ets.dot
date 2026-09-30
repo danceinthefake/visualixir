@@ -1,0 +1,10 @@
+digraph ets {
+  rankdir=LR
+  node [shape=box]
+  owner [label="owner process" class=hl]
+  tab [label="ETS table (protected)\n{\"China\", 1_374_000_000}\n{\"India\", 1_284_000_000}\n{\"USA\", 322_000_000}"]
+  other [label="any other process"]
+  owner -> tab [label=" read and write"]
+  other -> tab [label=" read"]
+  other -> tab [label=" write" class=bad style=dashed]
+}

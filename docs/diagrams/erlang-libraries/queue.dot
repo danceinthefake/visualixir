@@ -1,0 +1,14 @@
+digraph queue {
+  rankdir=LR
+  node [shape=box]
+  s0 [label="empty"]
+  s1 [label="A"]
+  s2 [label="A, B"]
+  s3 [label="B"]
+  s4 [label="empty"]
+  s0 -> s1 [label=" :queue.in(\"A\", q)"]
+  s1 -> s2 [label=" :queue.in(\"B\", q)"]
+  s2 -> s3 [label=" :queue.out(q)\l {:value, \"A\"}\l"]
+  s3 -> s4 [label=" :queue.out(q)\l {:value, \"B\"}\l"]
+  s4 -> s4 [label=" :queue.out(q)\l :empty\l"]
+}

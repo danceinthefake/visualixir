@@ -1,0 +1,14 @@
+digraph utf8_match {
+  node [shape=record]
+  p1 [label="<px>x|<pr>rest::binary"]
+  bytes [label="<b0>C3|<b1>BC|<b2>62|<b3>65|<b4>72" class=hl]
+  p2 [label="<px>x::utf8|<pr>rest::binary"]
+  p1:px -> bytes:b0 [label=" one byte only:\l x == ?ü is false" class=bad style=dashed]
+  p1:pr -> bytes:b2 [style=dotted class=dim]
+  bytes:b0 -> p2:px [dir=back]
+  bytes:b1 -> p2:px [dir=back]
+  bytes:b2 -> p2:pr [style=dotted class=dim dir=back]
+  {rank=same; l0 [label="\"über\" is five bytes" shape=plaintext style=solid]; bytes}
+  {rank=same; l1 [label="<<x, rest::binary>> = \"über\"" shape=plaintext style=solid]; p1}
+  {rank=same; l2 [label="<<x::utf8, rest::binary>> = \"über\"\l x takes both bytes of ü" shape=plaintext style=solid]; p2}
+}

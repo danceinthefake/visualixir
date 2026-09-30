@@ -1,0 +1,25 @@
+digraph erlang_map {
+  rankdir=LR
+  node [shape=box]
+  hub [label="Erlang standard library\ncall by atom: :binary.first(\"hello\")" class=hl]
+  binary [label=":binary\nraw bytes, not necessarily UTF-8"]
+  io [label=":io / :io_lib\nprintf-style formatting"]
+  crypto [label=":crypto\nhashes, signatures, encryption"]
+  mix [label="not in :kernel or :stdlib, so add\nextra_applications: [:crypto] to mix.exs" class=dim]
+  dg [label=":digraph\ndirected graphs"]
+  ets [label=":ets / :dets\ntables in memory / on disk"]
+  math [label=":math\ntrigonometry, exp, log"]
+  queue [label=":queue\nFIFO queues"]
+  rand [label=":rand\nrandom values, seeds"]
+  zip [label=":zip / :zlib\nZIP files, compression"]
+  hub -> binary
+  hub -> io
+  hub -> crypto
+  crypto -> mix [style=dotted class=dim]
+  hub -> dg
+  hub -> ets
+  hub -> math
+  hub -> queue
+  hub -> rand
+  hub -> zip
+}

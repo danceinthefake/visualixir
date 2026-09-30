@@ -1,0 +1,14 @@
+digraph kv_loop {
+  node [shape=box]
+  loop [label="loop(map)\nthe process's state is the argument" class=hl]
+  recv [label="receive"]
+  put [label="{:put, key, value}"]
+  get [label="{:get, key, caller}"]
+  reply [label="send(caller, Map.get(map, key))"]
+  loop -> recv
+  recv -> put
+  recv -> get
+  put -> loop [label=" loop(Map.put(map, key, value))"]
+  get -> reply
+  reply -> loop [label=" loop(map)"]
+}

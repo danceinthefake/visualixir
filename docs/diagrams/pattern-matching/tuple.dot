@@ -1,0 +1,10 @@
+digraph tuple {
+  node [shape=record]
+  value   [label="<a>:hello|<b>\"world\"|<c>42"]
+  pattern [label="<a>a|<b>b|<c>c" class=hl]
+  value:a -> pattern:a
+  value:b -> pattern:b
+  value:c -> pattern:c
+  {rank=same; l1 [label="right: value" shape=plaintext style=solid]; value}
+  {rank=same; l2 [label="left: pattern" shape=plaintext style=solid]; pattern}
+}

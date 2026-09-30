@@ -1,0 +1,13 @@
+digraph io_process {
+  rankdir=LR
+  node [shape=box]
+  w [label="IO.write(pid, \"hello\")" class=hl]
+  msg [label="{:io_request, from, ref,\n {:put_chars, :unicode, \"hello\"}}"]
+  dev [label="the IO device is a process\n(a file, or :stdio)"]
+  w -> msg [label=" sends"]
+  msg -> dev
+  dev -> w [label=" replies with a result\l(the caller waits for it)\l" style=dashed]
+  closed [label="File.close(file)\nthen IO.write(file, …)"]
+  err [label="ErlangError: :terminated\n(the process is gone)"]
+  closed -> err [class=bad style=dashed]
+}

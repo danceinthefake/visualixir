@@ -1,0 +1,9 @@
+digraph short_path {
+  rankdir=LR
+  node [shape=box]
+  v0 [label="v0\n{0.0, 0.0}" class=hl]
+  v1 [label="v1\n{1.0, 0.0}" class=hl]
+  v2 [label="v2\n{1.0, 1.0}" class=hl]
+  v0 -> v1 [label=" add_edge(v0, v1)"]
+  v1 -> v2 [label=" add_edge(v1, v2)"]
+}

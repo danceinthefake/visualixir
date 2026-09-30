@@ -1,0 +1,15 @@
+digraph order {
+  node [shape=box]
+  t [label="try do … end"]
+  q [label="Did it raise, throw or exit?"]
+  rc [label="rescue / catch\nmatches the error"]
+  el [label="else\nmatches the result of the do block"]
+  af [label="after\nalways runs, never changes the return value" class=hl]
+  ret [label="value of the try"]
+  t -> q
+  q -> rc [label=" yes"]
+  q -> el [label=" no"]
+  rc -> af
+  el -> af
+  af -> ret
+}

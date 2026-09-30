@@ -1,0 +1,22 @@
+digraph eager_vs_lazy {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_lazy {
+    label="Stream: lazy, nothing runs until Enum asks"
+    s0 [label="1..100_000"]
+    s1 [label="Stream.map\n(a recorded step)"]
+    s2 [label="Stream.filter\n(a recorded step)"]
+    s3 [label="Enum.sum()\nruns every step, one element at a time" class=hl]
+    s0 -> s1 -> s2 -> s3
+  }
+  subgraph cluster_eager {
+    label="Enum: eager, a list between every step"
+    e0 [label="1..100_000"]
+    e1 [label="Enum.map"]
+    l1 [label="list of 100_000" class=hl]
+    e2 [label="Enum.filter"]
+    l2 [label="list of 50_000" class=hl]
+    e3 [label="Enum.sum()"]
+    e0 -> e1 -> l1 -> e2 -> l2 -> e3
+  }
+}

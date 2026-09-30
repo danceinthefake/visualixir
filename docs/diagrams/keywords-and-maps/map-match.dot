@@ -1,0 +1,9 @@
+digraph map_match {
+  node [shape=record]
+  value [label="<ka>:a =\> 1|<k2>2 =\> :b"]
+  p1 [label="<ka>:a =\> a" class=hl]
+  p2 [label="<kc>:c =\> c"]
+  p1:ka -> value:ka [label=" match: a = 1"]
+  p2:kc -> value [label=" key :c is missing:\l MatchError" class=bad style=dashed]
+  {rank=same; l0 [label="value" shape=plaintext style=solid]; value}
+}

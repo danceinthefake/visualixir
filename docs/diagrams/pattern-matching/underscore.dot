@@ -1,0 +1,15 @@
+digraph underscore {
+  rankdir=LR
+  node [shape=record]
+  c1 [label="{<hd>1|<tl>·}"]
+  c2 [label="{<hd>2|<tl>·}"]
+  c3 [label="{<hd>3|<tl>·}"]
+  nil [label="[]" shape=plaintext style=solid]
+  c1:tl -> c2:hd
+  c2:tl -> c3:hd
+  c3:tl -> nil
+  head [shape=plaintext style=solid label="head" class=hl]
+  ign  [shape=plaintext style=solid label="_  (ignored)"]
+  head -> c1:hd [style=dashed]
+  ign  -> c2:hd [style=dashed class=dim]
+}

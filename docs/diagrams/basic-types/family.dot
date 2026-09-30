@@ -1,0 +1,21 @@
+digraph family {
+  rankdir=LR
+  node [shape=box]
+  root    [label="value" class=hl]
+  number  [label="number"]
+  integer [label="integer\n1   0x1F"]
+  float   [label="float\n1.0   1.0e-10"]
+  atom    [label=<atom<br/>:ok   :error>]
+  bool    [label="boolean\ntrue   false"]
+  nilv    [label="nil"]
+  string  [label="string\n\"elixir\"\n(a binary)"]
+  later   [label="list, tuple\n(next chapter)" class=dim]
+  root -> number
+  root -> atom
+  root -> string
+  root -> later [class=dim style=dashed]
+  number -> integer
+  number -> float
+  atom -> bool
+  atom -> nilv
+}

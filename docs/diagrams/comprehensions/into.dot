@@ -1,0 +1,15 @@
+digraph into {
+  rankdir=LR
+  node [shape=box]
+  f [label="for … do … end" class=hl]
+  coll [label="Collectable protocol"]
+  l [label="default: a list\n[…]"]
+  m [label="into: %{}\n%{\"a\" => 1, \"b\" => 4}"]
+  s [label="into: \"\"\n\"helloworld\""]
+  io [label="into: IO.stream(…)\nprinted line by line"]
+  f -> coll [label=" results"]
+  coll -> l
+  coll -> m
+  coll -> s
+  coll -> io
+}

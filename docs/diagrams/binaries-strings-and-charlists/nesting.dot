@@ -1,0 +1,23 @@
+digraph nesting {
+  node [shape=box]
+  subgraph cluster_bit {
+    label="bitstring: any number of bits"
+    b1 [label="<<3::4>>"]
+    subgraph cluster_bin {
+      label="binary: bit count divisible by 8"
+      b2 [label="<<0, 255, 42>>"]
+      subgraph cluster_str {
+        label="string: a binary that is valid UTF-8"
+        b3 [label="\"hello\"" class=hl]
+      }
+    }
+  }
+  subgraph cluster_list {
+    label="list"
+    l1 [label="[1, true]"]
+    subgraph cluster_cl {
+      label="charlist: a list of code points"
+      l2 [label="~c\"hello\"" class=hl]
+    }
+  }
+}

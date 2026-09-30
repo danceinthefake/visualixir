@@ -1,0 +1,13 @@
+digraph visibility {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_math {
+    label="defmodule Math"
+    sum [label="def sum/2" class=hl]
+    dosum [label="defp do_sum/2"]
+    sum -> dosum [label=" local call"]
+  }
+  outside [label="another module"]
+  outside -> sum [label=" ok"]
+  outside -> dosum [label=" UndefinedFunctionError" class=bad style=dashed]
+}

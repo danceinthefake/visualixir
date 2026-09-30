@@ -1,0 +1,13 @@
+digraph tools {
+  rankdir=LR
+  node [shape=box]
+  iex [label="iex\ninteractive shell"]
+  elixir [label="elixir simple.exs\nrun a script"]
+  elixirc [label="elixirc math.ex\ncompile to bytecode"]
+  beam [label="Elixir.Math.beam"]
+  vm [label="Erlang VM (BEAM)" class=hl]
+  iex -> vm [label=" evaluates each line"]
+  elixir -> vm [label=" runs the file"]
+  elixirc -> beam
+  beam -> vm [label=" loaded and run"]
+}

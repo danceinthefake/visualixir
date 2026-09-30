@@ -1,0 +1,16 @@
+digraph link {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_linked {
+    label="spawn_link/1: linked"
+    p2 [label="parent\nexits too (a supervisor restarts it)"]
+    c2 [label="child raises"]
+    c2 -> p2 [label=" exit signal" class=bad style=dashed]
+  }
+  subgraph cluster_spawn {
+    label="spawn/1: isolated"
+    p1 [label="parent keeps running" class=hl]
+    c1 [label="child raises"]
+    c1 -> p1 [label=" only an error log" class=dim style=dotted]
+  }
+}

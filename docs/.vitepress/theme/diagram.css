@@ -1,0 +1,24 @@
+/* Graphviz emits fixed colours; repaint them from Blessing tokens so diagrams follow light/dark. */
+.diagram { margin: 1.5rem 0; text-align: center; }
+.diagram svg { max-width: 100%; height: auto; }
+.diagram figcaption { font-size: 0.875rem; color: var(--bless-color-text-muted); }
+
+.diagram .node polygon,
+.diagram .node ellipse { fill: var(--bless-color-surface-2); stroke: var(--bless-color-border); }
+.diagram .node polyline { stroke: var(--bless-color-border); }
+.diagram .edge path,
+.diagram .edge polyline { stroke: var(--bless-color-text-muted); }
+.diagram .edge polygon { fill: var(--bless-color-text-muted); stroke: var(--bless-color-text-muted); }
+.diagram text { fill: var(--bless-color-text); }
+
+/* class=hl in the .dot: the one thing the reader should look at (bound names) */
+.diagram .hl polygon { fill: var(--bless-color-accent-soft); stroke: var(--bless-color-accent); }
+.diagram .hl text { fill: var(--bless-color-accent-text); }
+.diagram .hl:has(polygon) text { fill: var(--bless-color-on-light); }
+
+/* class=bad: a failed match; class=dim: a value that is ignored or superseded */
+.diagram .bad path { stroke: var(--bless-color-danger); }
+.diagram .bad polygon { fill: var(--bless-color-danger); stroke: var(--bless-color-danger); }
+.diagram .bad text { fill: var(--bless-color-danger-text); }
+.diagram .dim { opacity: 0.45; }
+.diagram .cluster polygon { fill: none; stroke: var(--bless-color-border); }

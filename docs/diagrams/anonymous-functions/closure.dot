@@ -1,0 +1,13 @@
+digraph closure {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_env {
+    label="scope where the functions are defined"
+    add [label="add = fn a, b -> a + b end"]
+    x   [label="x = 42"]
+    double [label="double = fn a -> add.(a, a) end" class=hl]
+    setx [label="fn -> x = 0 end" class=hl]
+    double -> add [label=" closes over"]
+    setx -> x [label=" own x only;\n outer stays 42" class=bad style=dashed]
+  }
+}

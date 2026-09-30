@@ -1,0 +1,15 @@
+digraph case_order {
+  rankdir=LR
+  node [shape=box]
+  value [label="case {1, 2, 3}"]
+  c1 [label="{4, 5, 6}"]
+  c2 [label="{1, x, 3}" class=hl]
+  more [label="more clauses…" class=dim]
+  body [label="\"…bind x to 2\""]
+  err [label="CaseClauseError"]
+  value -> c1 [label=" try in order"]
+  c1 -> c2 [label=" no"]
+  c2 -> body [label=" yes: x = 2"]
+  c2 -> more [label=" skipped" class=dim style=dotted]
+  more -> err [label=" none matched" class=bad style=dashed]
+}

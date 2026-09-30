@@ -1,0 +1,21 @@
+digraph double_each {
+  rankdir=LR
+  node [shape=box]
+  c1 [label="double_each([1, 2, 3])"]
+  c2 [label="double_each([2, 3])"]
+  c3 [label="double_each([3])"]
+  c4 [label="double_each([])"]
+  r1 [label="[2, 4, 6]" class=hl]
+  r2 [label="[4, 6]"]
+  r3 [label="[6]"]
+  r4 [label="[]"]
+  c1 -> c2 -> c3 -> c4 [label=" tail"]
+  c4 -> r4 [label=" base"]
+  r4 -> r3 [label=" 6 | …"]
+  r3 -> r2 [label=" 4 | …"]
+  r2 -> r1 [label=" 2 | …"]
+  {rank=same; c1; r1}
+  {rank=same; c2; r2}
+  {rank=same; c3; r3}
+  {rank=same; c4; r4}
+}

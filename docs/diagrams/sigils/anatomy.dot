@@ -1,0 +1,16 @@
+digraph anatomy {
+  node [shape=record]
+  s [label="<pt>~|<pl>r|<pd>/|<pc>foo|<pd2>/|<pm>i" class=hl]
+  n1 [label="starts every sigil" shape=plaintext style=solid]
+  n2 [label="which sigil: one lowercase letter,\lor uppercase letters\l" shape=plaintext style=solid]
+  n3 [label="delimiters: / | \" ' ( ) [ ] \{ \} \< \>" shape=plaintext style=solid]
+  n4 [label="content" shape=plaintext style=solid]
+  n5 [label="modifiers" shape=plaintext style=solid]
+  call [label="sigil_r(\"foo\", [?i])" shape=box]
+  s:pt -> n1 [dir=none style=dotted]
+  s:pl -> n2 [dir=none style=dotted]
+  s:pd -> n3 [dir=none style=dotted]
+  s:pc -> n4 [dir=none style=dotted]
+  s:pm -> n5 [dir=none style=dotted]
+  n5 -> call [label=" is the same as calling" style=dashed]
+}

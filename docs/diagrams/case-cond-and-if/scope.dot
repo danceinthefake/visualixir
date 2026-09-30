@@ -1,0 +1,14 @@
+digraph scope {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_outer {
+    label="outer scope"
+    x [label="x = 1"]
+    subgraph cluster_if {
+      label="if true do … end"
+      inner [label="x = x + 1\n(a new inner x, 2)" class=hl]
+    }
+  }
+  x -> inner [label=" reads 1"]
+  inner -> x [label=" does not leak" class=bad style=dashed]
+}

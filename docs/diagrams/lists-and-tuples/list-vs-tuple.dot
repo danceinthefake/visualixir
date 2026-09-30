@@ -1,0 +1,20 @@
+digraph list_vs_tuple {
+  rankdir=LR
+  node [shape=record]
+  subgraph cluster_list {
+    label="list [1, 2, 3]: linked cells, each points to the next"
+    c1 [label="{<hd>1|<tl>·}"]
+    c2 [label="{<hd>2|<tl>·}"]
+    c3 [label="{<hd>3|<tl>·}"]
+    nil [label="[]" shape=plaintext style=solid]
+    c1:tl -> c2:hd
+    c2:tl -> c3:hd
+    c3:tl -> nil
+  }
+  subgraph cluster_tuple {
+    label="tuple {:a, :b, :c, :d}: one contiguous block"
+    t [label="{<t0>:a|<t1>:b|<t2>:c|<t3>:d}"]
+    idx [label="elem(tuple, 2)" shape=plaintext style=solid class=hl]
+    idx -> t:t2 [style=dashed]
+  }
+}

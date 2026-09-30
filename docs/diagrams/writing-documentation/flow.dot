@@ -1,0 +1,13 @@
+digraph flow {
+  rankdir=LR
+  node [shape=box]
+  src [label="@moduledoc \"…\"\n@doc \"…\"\n(Markdown)"]
+  beam [label="Elixir.Math.beam\ndocs chunk in the bytecode" class=hl]
+  iex [label="IEx\nh Math.sum"]
+  ex [label="ExDoc\nHTML and EPUB"]
+  dt [label="ExUnit doctests\nrun the iex> examples"]
+  src -> beam [label=" compile"]
+  beam -> iex [label=" Code.fetch_docs/1"]
+  beam -> ex
+  beam -> dt
+}

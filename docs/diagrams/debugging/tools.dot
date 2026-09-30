@@ -1,0 +1,13 @@
+digraph tools {
+  rankdir=LR
+  node [shape=box]
+  a [label="IO.inspect/2\nsee a value anywhere,\nreturns it unchanged"]
+  b [label="dbg/2\nvalue + code + location,\nevery step of a pipeline"]
+  c [label="iex --dbg pry\nstop at a dbg call\nand explore in IEx"]
+  d [label="IEx.break!/2\nbreakpoints without\nchanging the code"]
+  e [label=":observer.start()\nthe whole VM: processes,\napplications, tracing" class=hl]
+  a -> b [label=" more"]
+  b -> c
+  c -> d
+  d -> e
+}

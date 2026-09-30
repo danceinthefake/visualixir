@@ -1,0 +1,14 @@
+digraph ok_vs_bang {
+  rankdir=LR
+  node [shape=box]
+  b [label="File.read!(path)" class=hl]
+  body [label="body"]
+  ex [label="raises File.Error"]
+  b -> body [label=" file exists"]
+  b -> ex [label=" missing: let it crash" class=bad style=dashed]
+  r [label="File.read(path)" class=hl]
+  ok [label="{:ok, body}"]
+  er [label="{:error, :enoent}"]
+  r -> ok [label=" file exists"]
+  r -> er [label=" missing: you decide with case"]
+}

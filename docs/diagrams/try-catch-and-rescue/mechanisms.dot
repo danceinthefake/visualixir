@@ -1,0 +1,13 @@
+digraph mechanisms {
+  rankdir=LR
+  node [shape=box]
+  x2 [label="A signal to linked processes.\nSupervisors listen and restart."]
+  ext [label="exit" class=hl]
+  ext -> x2 [label=" catch :exit"]
+  t2 [label="Rare: escaping a callback when\nno proper API exists (use Enum.find/2)."]
+  thr [label="throw" class=hl]
+  thr -> t2 [label=" catch"]
+  e2 [label="Unexpected or exceptional things.\nRarely rescued: prefer {:ok, _} / {:error, _}\ntuples, or let it crash."]
+  err [label="raise\n(an error)" class=hl]
+  err -> e2 [label=" rescue"]
+}

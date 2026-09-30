@@ -1,0 +1,11 @@
+digraph pipe {
+  rankdir=LR
+  node [shape=box]
+  a [label="1..100_000"]
+  b [label="Enum.map(&(&1 * 3))"]
+  c [label="Enum.filter(odd?)"]
+  d [label="Enum.sum()"]
+  a -> b [label=" becomes the\l first argument\l"]
+  b -> c
+  c -> d
+}

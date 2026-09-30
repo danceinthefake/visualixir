@@ -1,0 +1,28 @@
+digraph prepend_append {
+  rankdir=LR
+  node [shape=record]
+  subgraph cluster_app {
+    label="list ++ [4]: slow, every cell of list is copied"
+    b1 [label="{<hd>1|<tl>·}" class=hl]
+    b2 [label="{<hd>2|<tl>·}" class=hl]
+    b3 [label="{<hd>3|<tl>·}" class=hl]
+    b4 [label="{<hd>4|<tl>·}"]
+    nil2 [label="[]" shape=plaintext style=solid]
+    b1:tl -> b2:hd
+    b2:tl -> b3:hd
+    b3:tl -> b4:hd
+    b4:tl -> nil2
+  }
+  subgraph cluster_pre {
+    label="[0] ++ list: fast, only [0] is copied; list is shared"
+    n0 [label="{<hd>0|<tl>·}" class=hl]
+    a1 [label="{<hd>1|<tl>·}"]
+    a2 [label="{<hd>2|<tl>·}"]
+    a3 [label="{<hd>3|<tl>·}"]
+    nil1 [label="[]" shape=plaintext style=solid]
+    n0:tl -> a1:hd
+    a1:tl -> a2:hd
+    a2:tl -> a3:hd
+    a3:tl -> nil1
+  }
+}

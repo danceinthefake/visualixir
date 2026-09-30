@@ -1,0 +1,17 @@
+digraph pattern_generator {
+  rankdir=LR
+  node [shape=box]
+  e1 [label="good: 1"]
+  e2 [label="good: 2"]
+  e3 [label="bad: 3" class=dim]
+  e4 [label="good: 4"]
+  pat [label="{:good, n} <- values" class=hl]
+  body [label="do: n * n"]
+  res [label="[1, 4, 16]"]
+  e1 -> pat
+  e2 -> pat
+  e3 -> pat [label=" no match:\l skipped\l" class=dim style=dotted]
+  e4 -> pat
+  pat -> body [label=" n = 1, 2, 4"]
+  body -> res
+}

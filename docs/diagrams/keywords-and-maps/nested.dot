@@ -1,0 +1,15 @@
+digraph nested {
+  rankdir=LR
+  node [shape=box]
+  users [label="users\n(keyword list)"]
+  john [label=":john  ->  map" class=hl]
+  mary [label=":mary  ->  map" class=dim]
+  name [label="name: \"John\"" class=dim]
+  age  [label="age: 27" class=hl]
+  langs [label="languages: [...]" class=dim]
+  users -> john [label=" [:john]"]
+  users -> mary [class=dim style=dotted]
+  john -> name [class=dim style=dotted]
+  john -> age [label=" .age"]
+  john -> langs [class=dim style=dotted]
+}

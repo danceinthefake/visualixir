@@ -1,0 +1,15 @@
+digraph size {
+  rankdir=LR
+  node [shape=box]
+  proto [label="Size.size(data)" class=hl]
+  bs [label="BitString  →  byte_size/1"]
+  mp [label="Map  →  map_size/1"]
+  tp [label="Tuple  →  tuple_size/1"]
+  ms [label="MapSet (a struct)  →  MapSet.size/1"]
+  ls [label="List: no defimpl\nlength must be computed"]
+  proto -> bs
+  proto -> mp
+  proto -> tp
+  proto -> ms [label=" own defimpl: structs\l don't reuse Map's\l"]
+  proto -> ls [label=" Protocol.UndefinedError" class=bad style=dashed]
+}

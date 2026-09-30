@@ -1,0 +1,19 @@
+{
+  "name": "visualixir",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "diagrams": "make",
+    "dev": "make && vitepress dev docs",
+    "build": "make && vitepress build docs",
+    "preview": "vitepress preview docs"
+  },
+  "engines": { "node": ">=24" },
+  "dependencies": {
+    "blessing-ui": "^0.1.0",
+    "vue": "^3.5.0"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  }
+}

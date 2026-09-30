@@ -1,0 +1,8 @@
+digraph iodata_chardata {
+  node [shape=box]
+  q [label="How was the IO device opened?"]
+  a [label="no encoding (File.open default)\nexpects iodata: integers are bytes\nuse IO.binwrite / IO.binread" class=hl]
+  b [label=":stdio, or File.open with :utf8\nexpects chardata: integers are code points\nuse IO.puts / IO.write" class=hl]
+  q -> a
+  q -> b
+}

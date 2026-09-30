@@ -1,0 +1,11 @@
+digraph pipeline {
+  rankdir=LR
+  node [shape=box]
+  gen  [label="generator\nn <- 0..5"]
+  filt [label="filter\nrem(n, 3) == 0" class=hl]
+  blk  [label="block\ndo: n * n"]
+  res  [label="collectable\n[0, 9]" class=hl]
+  gen -> filt [label=" 0 1 2 3 4 5"]
+  filt -> blk [label=" 0 3\l(false or nil are dropped)\l"]
+  blk -> res [label=" 0 9"]
+}

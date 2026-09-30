@@ -1,0 +1,16 @@
+digraph inspect_pipeline {
+  rankdir=LR
+  node [shape=box]
+  r [label="1..10"]
+  i1 [label="IO.inspect()" class=hl]
+  m [label="Enum.map(&(&1 * 2))"]
+  i2 [label="IO.inspect()" class=hl]
+  s [label="Enum.sum()"]
+  i3 [label="IO.inspect()" class=hl]
+  out [label="110"]
+  con [label="console" shape=plaintext style=solid]
+  r -> i1 -> m -> i2 -> s -> i3 -> out
+  i1 -> con [style=dashed label=" 1..10"]
+  i2 -> con [style=dashed label=" [2, 4, …, 20]"]
+  i3 -> con [style=dashed label=" 110"]
+}

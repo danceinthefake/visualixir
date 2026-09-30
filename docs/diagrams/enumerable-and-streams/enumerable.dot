@@ -1,0 +1,15 @@
+digraph enumerable {
+  rankdir=LR
+  node [shape=box]
+  l [label="list  [1, 2, 3]"]
+  m [label="map  %{1 => 2}"]
+  r [label="range  1..3"]
+  s [label="stream"]
+  proto [label="Enumerable protocol" class=hl]
+  enum [label="Enum.map, filter, reduce, …"]
+  l -> proto
+  m -> proto
+  r -> proto
+  s -> proto
+  proto -> enum [label=" any type that\l implements it\l"]
+}

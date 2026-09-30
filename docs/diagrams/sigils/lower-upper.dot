@@ -1,0 +1,10 @@
+digraph lower_upper {
+  rankdir=LR
+  node [shape=box]
+  u  [label="~S(a\\tb #{1 + 1})\nUPPERCASE" class=hl]
+  ru [label="\"a\\\\tb \\#{1 + 1}\"\ntaken literally"]
+  u -> ru
+  s  [label="~s(a\\tb #{1 + 1})\nlowercase" class=hl]
+  rs [label="\"a<TAB>b 2\"\nescapes and interpolation run"]
+  s -> rs
+}

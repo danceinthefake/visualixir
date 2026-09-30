@@ -1,0 +1,13 @@
+digraph builtin {
+  rankdir=LR
+  node [shape=box]
+  e  [label="Enum.map, Enum.reduce, …"]
+  ep [label="Enumerable" class=hl]
+  t  [label="to_string/1\n\"age: #{25}\""]
+  tp [label="String.Chars" class=hl]
+  i  [label="inspect/1\nIEx results"]
+  ip [label="Inspect" class=hl]
+  e -> ep [label=" call"]
+  t -> tp [label=" call"]
+  i -> ip [label=" call"]
+}

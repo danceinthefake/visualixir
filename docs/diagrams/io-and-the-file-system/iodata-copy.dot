@@ -1,0 +1,24 @@
+digraph iodata_copy {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_list {
+    label="IO.puts([\"Hello \", name, \"!\"]): no copy, the list points at the originals"
+    lst [label="list" class=hl]
+    e1 [label="\"!\""]
+    n1 [label="name = \"Mary\""]
+    h1 [label="\"Hello \""]
+    lst -> h1
+    lst -> n1
+    lst -> e1
+  }
+  subgraph cluster_copy {
+    label="\"Hello \" <> name <> \"!\": every byte is copied into a new binary"
+    new [label="\"Hello Mary!\"\n(a new binary)" class=hl]
+    e2 [label="\"!\""]
+    n2 [label="name = \"Mary\""]
+    h2 [label="\"Hello \""]
+    h2 -> new
+    n2 -> new
+    e2 -> new
+  }
+}

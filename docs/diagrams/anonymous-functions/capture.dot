@@ -1,0 +1,15 @@
+digraph capture {
+  rankdir=LR
+  node [shape=box]
+  a [label="&is_atom/1"]
+  b [label="&String.length/1"]
+  c [label="&+/2"]
+  d [label="&(&1 + 1)"]
+  fun [label="a function value\ncalled with fun.(…)" class=hl]
+  eq [label="fn x -> x + 1 end"]
+  a -> fun
+  b -> fun
+  c -> fun
+  d -> fun
+  d -> eq [label=" same thing" dir=none style=dotted]
+}

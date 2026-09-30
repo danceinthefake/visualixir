@@ -1,0 +1,17 @@
+digraph dispatch {
+  rankdir=LR
+  node [shape=box]
+  c1 [label="Utility.type(\"foo\")"]
+  c2 [label="Utility.type(123)"]
+  c3 [label="Utility.type(:atom)"]
+  proto [label="defprotocol Utility\nlooks at the type of\nthe first argument" class=hl]
+  i1 [label="defimpl Utility, for: BitString\n\"string\""]
+  i2 [label="defimpl Utility, for: Integer\n\"integer\""]
+  err [label="Protocol.UndefinedError"]
+  c1 -> proto
+  c2 -> proto
+  c3 -> proto
+  proto -> i1
+  proto -> i2
+  proto -> err [label=" no defimpl for Atom" class=bad style=dashed]
+}

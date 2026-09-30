@@ -1,0 +1,8 @@
+digraph struct_underneath {
+  node [shape=record]
+  m [label="{map|name: \"John\"|age: 27}"]
+  s [label="{struct %User\{\}|<sk>__struct__: User|name: \"John\"|age: 27}"]
+  note [label="the one extra key" shape=plaintext style=solid class=hl]
+  note -> s:sk [style=dashed]
+  {rank=same; m; s}
+}

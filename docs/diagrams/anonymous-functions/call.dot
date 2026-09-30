@@ -1,0 +1,12 @@
+digraph call {
+  rankdir=LR
+  node [shape=box]
+  c1 [label="add.(1, 2)" class=hl]
+  v  [label="variable add"]
+  f  [label="fn a, b -> a + b end"]
+  c2 [label="is_atom(:foo)" class=hl]
+  n  [label="named function\nKernel.is_atom/1"]
+  c1 -> v [label=" the dot: call\n through the variable"]
+  v -> f
+  c2 -> n [label=" no dot: a named function"]
+}

@@ -1,0 +1,13 @@
+digraph bytes {
+  node [shape=record]
+  graphemes [label="<g0>h|<g1>e|<g2>l|<g3>l|<g4>ö" class=hl]
+  bytes     [label="<b0>68|<b1>65|<b2>6C|<b3>6C|<b4>C3|<b5>B6"]
+  graphemes:g0 -> bytes:b0
+  graphemes:g1 -> bytes:b1
+  graphemes:g2 -> bytes:b2
+  graphemes:g3 -> bytes:b3
+  graphemes:g4 -> bytes:b4
+  graphemes:g4 -> bytes:b5
+  {rank=same; l1 [label="5 graphemes  String.length/1" shape=plaintext style=solid]; graphemes}
+  {rank=same; l2 [label="6 bytes  byte_size/1" shape=plaintext style=solid]; bytes}
+}
