@@ -34,11 +34,13 @@ jobs:
           path: docs/.vitepress/dist
           retention-days: 1
 
-  # what passed the build goes live; pull requests never deploy
+  # What passed the build goes live; pull requests never deploy. Off until the repo variable
+  # DEPLOY_CLOUDFLARE is "true" and the CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secrets exist
+  # (until then, deploy by hand: see README).
   deploy:
     name: deploy · cloudflare pages
     needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.DEPLOY_CLOUDFLARE == 'true'
     runs-on: ubuntu-latest
     concurrency: deploy
     steps:

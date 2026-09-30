@@ -38,6 +38,17 @@ Production is at https://visualixir.blessing.id (Cloudflare Pages, deployed by `
 
 Icons and the social image are in `docs/public/` (`favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `og.png`). The mark is a small tree diagram in Blessing UI's colours. `og.png` has the page and diagram counts baked in.
 
+## Deploying
+
+CI (`.github/workflows/ci.yml`) builds on every push and pull request. Its `deploy` job is off by default. To deploy by hand:
+
+```sh
+pnpm run build:site     # add SITE_URL=https://visualixir.blessing.id for canonical links, social tags and the sitemap
+npx wrangler@4 pages deploy docs/.vitepress/dist --project-name visualixir --branch main
+```
+
+To let CI deploy on pushes to `main`, set the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets and the repo variable `DEPLOY_CLOUDFLARE=true`.
+
 ## Accessibility
 
 Checked with axe-core on every page at 1200px and 390px, in light and dark: no violations. Also checked by hand: keyboard tab order and skip link, focus outlines, landmarks, and reflow at 320px.
