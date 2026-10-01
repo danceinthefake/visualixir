@@ -19,6 +19,8 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # what the pages say must be backed by the official chapters in upstream/ (stdlib python, no deps)
+      - run: python3 scripts/audit.py
       # the .svg files are committed, so CI needs no Graphviz. A dead link fails the build.
       - run: pnpm run build:site
         env:
@@ -34,12 +36,45 @@ jobs:
           path: docs/.vitepress/dist
           retention-days: 1
 
-  # What passed the build goes live; pull requests never deploy. Off until the repo variable
+  # The built site, in a real browser: every page loads and is well formed, the layout holds on a phone,
+  # search finds things, and axe finds no accessibility violations (light and dark, desktop and phone).
+  e2e:
+    name: e2e · ${{ matrix.name }}
+    needs: build
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: site, layout, search
+            tasks: site layout search
+          - name: axe desktop
+            tasks: axe
+          - name: axe phone
+            tasks: axe-phone
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v8
+        with:
+          name: site-dist
+          path: docs/.vitepress/dist
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: node e2e/run.mjs ${{ matrix.tasks }}
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+
+  # What passed the build and the e2e checks goes live; pull requests never deploy. Off until the repo variable
   # DEPLOY_CLOUDFLARE is "true" and the CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secrets exist
   # (until then, deploy by hand: see README).
   deploy:
     name: deploy · cloudflare pages
-    needs: build
+    needs: e2e
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.DEPLOY_CLOUDFLARE == 'true'
     runs-on: ubuntu-24.04
     concurrency: deploy

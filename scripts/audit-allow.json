@@ -1,0 +1,18 @@
+{
+  "_why": "Findings of scripts/audit.py that were reviewed and are fine. Keep this short; add an entry only after checking it against the official chapter.",
+  "strings": [
+    "i am #{42} years old!",
+    "never raised",
+    "never seen"
+  ],
+  "diagram_refs": [
+    "Kernel.is_atom",
+    "TestCase.__using__",
+    "ClientApp.foo",
+    "Library.__using__",
+    "Library.from_lib",
+    "Elixir.KV.beam",
+    "Elixir.KV.Bucket.beam"
+  ],
+  "diagram_numbers": ["12345", "1_048_576"]
+}

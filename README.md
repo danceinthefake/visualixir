@@ -38,6 +38,18 @@ Production is at https://visualixir.blessing.id (Cloudflare Pages, deployed by `
 
 Icons and the social image are in `docs/public/` (`favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `og.png`). The mark is a small tree diagram in Blessing UI's colours. `og.png` has the page and diagram counts baked in.
 
+## Checks and tooling
+
+| Command | What it does |
+|---|---|
+| `pnpm e2e` | serves the built site and runs [the browser checks](e2e/README.md): every page, phone layout, search, axe (light/dark, desktop/phone) |
+| `pnpm e2e:live` | the same kind of checks against https://visualixir.blessing.id, plus redirects, headers and HTTPS |
+| `pnpm audit:pages` | checks every page and diagram against the official chapters in `upstream/`: function names, strings, results, numbers (`--dropped` also lists what a page left out) |
+| `pnpm upstream:check` | have the official docs changed since the snapshot? (see below) |
+| `pnpm assets` | re-render `og.png` and the icons from `favicon.svg` and `scripts/og.html` |
+
+CI runs the audit and the build on every push, then the e2e checks (three jobs in parallel), and deploys only if they pass. Set `CHROMIUM=/usr/bin/chromium` to use a system browser locally instead of Playwright's download.
+
 ## Keeping up with the official docs
 
 The pages mirror the official Elixir docs as of a **snapshot** (date and Elixir version in `upstream/SNAPSHOT.json`, shown under every page and in the footer). `upstream/` holds the official chapters as they were when each page was written.

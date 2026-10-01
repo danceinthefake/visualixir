@@ -10,9 +10,13 @@
     "build": "make && vitepress build docs",
     "build:site": "vitepress build docs",
     "preview": "vitepress preview docs",
+    "e2e": "node e2e/run.mjs",
+    "e2e:live": "BASE_URL=https://visualixir.blessing.id SITE_URL=https://visualixir.blessing.id node e2e/run.mjs site --live",
     "upstream:check": "node scripts/upstream.mjs",
     "upstream:diff": "node scripts/upstream.mjs --diff",
-    "upstream:update": "node scripts/upstream.mjs --update"
+    "upstream:update": "node scripts/upstream.mjs --update",
+    "audit:pages": "python3 scripts/audit.py",
+    "assets": "node scripts/og.mjs"
   },
   "engines": {
     "node": ">=24"
@@ -22,6 +26,8 @@
     "vue": "^3.5.0"
   },
   "devDependencies": {
+    "axe-core": "^4.13.0",
+    "playwright": "^1.63.0",
     "vitepress": "^1.6.4"
   }
 }
