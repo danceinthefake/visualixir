@@ -154,12 +154,13 @@ const report = {
 
 if (flag("--json")) console.log(JSON.stringify(report, null, 2));
 else if (flag("--markdown")) {
-  const L = [`The official Elixir docs changed since the snapshot of ${report.snapshot?.date ?? "?"} (Elixir ${report.snapshot?.elixir ?? "?"}).`, ""];
+  const snapText = `the snapshot of ${report.snapshot?.date ?? "?"} (Elixir ${report.snapshot?.elixir ?? "?"})`;
+  const L = [drift || errors.length ? `The official Elixir docs changed since ${snapText}.` : `In sync with the official Elixir docs: nothing changed since ${snapText}.`, ""];
   if (report.changed.length) { L.push(`### Changed chapters (${report.changed.length})`, "", ...report.changed.map((c) => `- [\`${c.slug}\`](${BASE}/${c.slug}.html) (${c.section}): ${c.lines} lines`), ""); }
   if (report.newChapters.length) L.push("### New chapters with no page here", "", ...report.newChapters.map((c) => `- \`${c.slug}\` in ${c.dir}`), "");
   if (report.removedChapters.length) L.push("### Pages whose chapter is gone upstream", "", ...report.removedChapters.map((c) => `- \`${c.dir}/${c.slug}\``), "");
   if (report.errors.length) L.push("### Could not fetch", "", ...report.errors.map((e) => `- \`${e.slug}\`: ${e.error}`), "");
-  L.push("Review with `pnpm upstream:diff <slug>`, update the page, then accept with `pnpm upstream:update`.");
+  if (drift || errors.length) L.push("Review with `pnpm upstream:diff <slug>`, update the page, then accept with `pnpm upstream:update`.");
   console.log(L.join("\n"));
 } else {
   console.log(`snapshot: ${report.snapshot ? `${report.snapshot.date}, Elixir ${report.snapshot.elixir}` : "none yet (run with --update)"}`);

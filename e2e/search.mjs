@@ -23,17 +23,22 @@ const box = page.locator(".VPLocalSearchBox input").first();
 await box.waitFor({ timeout: 5000 }).catch(() => failures.push("Ctrl+K does not open the search box"));
 if (!(await box.evaluate((e) => e === document.activeElement).catch(() => false))) failures.push("the search input is not focused on open");
 
-const top = async (q) => {
+// The index is fetched on first use, which is slow over a real network: wait for results to appear
+// (up to 8s) instead of guessing a delay. A query that should find nothing just gets a short pause.
+const results = () => page.locator(".VPLocalSearchBox li a").evaluateAll((a) => a.slice(0, 3).map((x) => x.getAttribute("href")));
+const top = async (q, { expectResults = true } = {}) => {
   await box.fill("");
   await box.fill(q);
-  await page.waitForTimeout(700);
-  return page.locator(".VPLocalSearchBox li a").evaluateAll((a) => a.slice(0, 3).map((x) => x.getAttribute("href")));
+  if (!expectResults) { await page.waitForTimeout(1500); return results(); }
+  await page.locator(".VPLocalSearchBox li a").first().waitFor({ timeout: 8000 }).catch(() => {});
+  await page.waitForTimeout(250); // let the ranking settle
+  return results();
 };
 for (const [q, want] of cases) {
   const hrefs = await top(q);
   if (!hrefs.some((h) => h && h.startsWith(want))) failures.push(`"${q}": wanted ${want} in the top 3, got ${JSON.stringify(hrefs)}`);
 }
-if ((await top("zzzzqq")).length) failures.push('"zzzzqq" should find nothing');
+if ((await top("zzzzqq", { expectResults: false })).length) failures.push('"zzzzqq" should find nothing');
 
 await top("GenServer");
 await page.keyboard.press("ArrowDown");
