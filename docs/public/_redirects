@@ -1,0 +1,13 @@
+# Section roots have no page of their own: send them to the first page of the section.
+/getting-started        /getting-started/introduction                       302
+/getting-started/       /getting-started/introduction                       302
+/mix-and-otp            /mix-and-otp/introduction-to-mix                    302
+/mix-and-otp/           /mix-and-otp/introduction-to-mix                    302
+/meta-programming       /meta-programming/quote-and-unquote                 302
+/meta-programming/      /meta-programming/quote-and-unquote                 302
+/anti-patterns          /anti-patterns/what-anti-patterns                   302
+/anti-patterns/         /anti-patterns/what-anti-patterns                   302
+/cheatsheets            /cheatsheets/enum-cheat                             302
+/cheatsheets/           /cheatsheets/enum-cheat                             302
+/references             /references/compatibility-and-deprecations          302
+/references/            /references/compatibility-and-deprecations          302
