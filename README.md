@@ -70,17 +70,17 @@ Checked with axe-core on every page at 1200px and 390px, in light and dark: no v
 Mirrors the official sections, in official order. Chapter sources: `https://elixir.hexdocs.pm/<slug>.md`, index at `llms.txt`.
 
 - [x] Scaffold (VitePress, Blessing UI, Graphviz pipeline, light/dark diagrams)
-- [x] Getting started (all 24 chapters, 68 diagrams): Introduction, Basic types, Lists and tuples, Pattern matching,
+- [x] Getting started (all 24 chapters): Introduction, Basic types, Lists and tuples, Pattern matching,
   case/cond/if, Anonymous functions, Binaries/strings/charlists, Keyword lists and maps, Modules and functions,
   alias/require/import/use, Module attributes, Structs, Recursion, Enumerables and Streams, Comprehensions, Protocols,
   Sigils, try/catch/rescue, Processes, IO and the file system, Writing documentation, Optional syntax, Erlang libraries, Debugging
-- [x] Cheatsheet: Enum (every function, 10 diagrams)
-- [x] Cheatsheet: set-theoretic types (5 diagrams)
-- [x] Mix & OTP (all 9 chapters, 30 diagrams): Introduction to Mix, Agents, Registries and supervision trees, Supervising dynamic children,
+- [x] Cheatsheet: Enum (every function)
+- [x] Cheatsheet: set-theoretic types
+- [x] Mix & OTP (all 9 chapters): Introduction to Mix, Agents, Registries and supervision trees, Supervising dynamic children,
   Task and gen_tcp, Doctests/patterns/with, Configuration and distribution, Client-server with GenServer, Releases
-- [x] Meta-programming (Quote and unquote, Macros, Domain-Specific Languages; 13 diagrams)
-- [x] Anti-patterns (intro + code, design, process, meta-programming: 25 patterns, 21 diagrams)
-- [x] References (all 10: compatibility, gradual types, library guidelines, naming conventions, operators, patterns and guards, syntax, SBoM, typespecs, Unicode syntax; 31 diagrams)
+- [x] Meta-programming (Quote and unquote, Macros, Domain-Specific Languages)
+- [x] Anti-patterns (intro + code, design, process, meta-programming: 25 patterns)
+- [x] References (all 10: compatibility, gradual types, library guidelines, naming conventions, operators, patterns and guards, syntax, SBoM, typespecs, Unicode syntax)
 
 ## License
 

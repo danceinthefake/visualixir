@@ -1,3 +1,6 @@
+import { readdirSync } from "node:fs";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitepress";
 
 const base = process.env.DOCS_BASE ?? "/";
@@ -15,6 +18,19 @@ const sections: Record<string, string> = {
   references: "References",
 };
 
+// Counts shown on the home page, computed so they can't go stale.
+const docsDir = fileURLToPath(new URL("..", import.meta.url));
+const pageCount = Object.keys(sections).reduce(
+  (n, dir) => n + readdirSync(join(docsDir, dir)).filter((f) => f.endsWith(".md")).length,
+  0,
+);
+const diagramCount = (function count(dir: string): number {
+  return readdirSync(dir, { withFileTypes: true }).reduce(
+    (n, e) => n + (e.isDirectory() ? count(join(dir, e.name)) : e.name.endsWith(".svg") ? 1 : 0),
+    0,
+  );
+})(join(docsDir, "diagrams"));
+
 export default defineConfig({
   title,
   description: `Elixir, drawn. ${tagline}`,
@@ -24,6 +40,9 @@ export default defineConfig({
   sitemap: site ? { hostname: site + base } : undefined,
   // One description per page: VitePress emits <meta name="description"> from pageData.description.
   transformPageData(pageData) {
+    if (pageData.relativePath === "index.md" && pageData.frontmatter.hero) {
+      pageData.frontmatter.hero.tagline = `${tagline} ${pageCount} pages, ${diagramCount} diagrams, in the official order.`;
+    }
     const section = sections[pageData.relativePath.split("/")[0]];
     if (pageData.frontmatter.description || !section) return;
     pageData.description = `${pageData.title} (${section}): the official Elixir docs, explained with diagrams.`;

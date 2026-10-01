@@ -4,7 +4,7 @@ title: Visualixir
 hero:
   name: Visualixir
   text: Elixir, drawn.
-  tagline: The official Elixir docs, explained with diagrams. 53 pages, 178 diagrams, in the official order.
+  tagline: The official Elixir docs, explained with diagrams, in the official order.
   actions:
     - theme: brand
       text: Start with the introduction
