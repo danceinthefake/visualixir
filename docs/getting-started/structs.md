@@ -38,6 +38,19 @@ jane = %{john | name: "Jane"}
 `%User{} = value` checks that the value is a `User` struct. To update from a keyword list or map with unknown fields, use `struct!/2`, which
 raises on invalid fields, instead of `Map` functions.
 
+## Dynamic updates
+
+To update a struct from a keyword list or map whose fields you don't know until runtime, use `struct!/2`. It raises on invalid fields:
+
+```elixir
+john = %User{name: "John", age: 27}
+struct!(john, name: "Jane", age: 30)   #=> %User{age: 30, name: "Jane"}
+struct!(john, invalid: "field")
+#=> ** (KeyError) key :invalid not found in: %User{age: 27, name: "John"}
+```
+
+Use `%{john | name: "Jane"}` when you know the fields at compile time, and always prefer `struct!/2` to the `Map` functions, to keep the struct intact.
+
 ## Structs are bare maps underneath
 
 A struct is a map with one extra key, `__struct__`, holding the module name.
@@ -49,7 +62,16 @@ is_map(john)       #=> true
 john.__struct__    #=> User
 ```
 
-But structs don't inherit map features. `john[:name]` fails (no `Access` behaviour) and `Enum.each(john, …)` raises
+But structs don't inherit map features:
+
+```elixir
+john[:name]
+#=> ** (UndefinedFunctionError) function User.fetch/2 is undefined (User does not implement the Access behaviour)
+Enum.each(john, fn {field, value} -> IO.puts(value) end)
+#=> ** (Protocol.UndefinedError) protocol Enumerable not implemented for %User{age: 27, name: "John"} of type User (a struct)
+```
+
+In other words, structs don't inherit map features. `john[:name]` fails (no `Access` behaviour) and `Enum.each(john, …)` raises
 `Protocol.UndefinedError`. You attach behaviour like this with [protocols](https://elixir.hexdocs.pm/protocols.html).
 
 ## Defaults and required keys

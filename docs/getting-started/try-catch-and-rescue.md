@@ -56,7 +56,17 @@ supervisor starts a fresh one. For *expected* failures, like a user typing a wro
 
 ### Reraise
 
-Rescue to log, then `reraise e, __STACKTRACE__` so the exception keeps its value and origin. Errors are never for flow control.
+Rescue to log, then `reraise e, __STACKTRACE__` so the exception keeps its value and origin. ```elixir
+try do
+  ... some code ...
+rescue
+  e ->
+    Logger.error(Exception.format(:error, e, __STACKTRACE__))
+    reraise e, __STACKTRACE__
+end
+```
+
+`__STACKTRACE__` is used both when formatting and when re-raising, so the exception is raised as is, with its original value and origin. Errors are never for flow control.
 For that, there are throws.
 
 ## Throws
@@ -88,6 +98,35 @@ Files, ETS tables and sockets are linked to the process and are closed anyway wh
 when nothing was raised, and errors inside `else` aren't caught.
 
 <Diagram name="try-catch-and-rescue/order" caption="after always runs and never changes the returned value." />
+
+For example, close a file even if writing to it fails:
+
+```elixir
+{:ok, file} = File.open("sample", [:utf8, :write])
+try do
+  IO.write(file, "olá")
+  raise "oops, something went wrong"
+after
+  File.close(file)
+end
+#=> ** (RuntimeError) oops, something went wrong
+```
+
+A function body can skip the `try` line. Elixir wraps the body in a `try` whenever `after`, `rescue` or `catch` is given:
+
+```elixir
+defmodule RunAfter do
+  def without_even_trying do
+    raise "oops"
+  after
+    IO.puts("cleaning up!")
+  end
+end
+
+RunAfter.without_even_trying
+# cleaning up!
+#=> ** (RuntimeError) oops
+```
 
 ```elixir
 try do

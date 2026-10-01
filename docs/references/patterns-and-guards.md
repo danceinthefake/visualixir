@@ -125,6 +125,8 @@ for x when x >= 0 <- [1, -2, 3, -4], do: x
 
 `with` also allows patterns and guards in `else`. `try` supports them in `catch` and `else`, and `receive` uses them to select messages.
 
+The match operator `=` supports patterns but **not** guards: `{:ok, binary} = File.read("some/file")` has no `when`.
+
 ## Custom guards
 
 Only these constructs are valid in patterns and guards, but macros that expand into them are fine. `Record` provides such macros for named tuple fields. For guards, use `defguard/1` and `defguardp/1`,

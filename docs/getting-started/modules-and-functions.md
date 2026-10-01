@@ -26,6 +26,21 @@ Run one with `elixir math.exs`, or load it into a shell with `iex math.exs`.
 
 <Diagram name="modules-and-functions/visibility" caption="Only def functions cross the module boundary." />
 
+```elixir
+defmodule Math do
+  def sum(a, b) do
+    do_sum(a, b)
+  end
+
+  defp do_sum(a, b) do
+    a + b
+  end
+end
+
+Math.sum(1, 2)      #=> 3
+Math.do_sum(1, 2)   #=> ** (UndefinedFunctionError)
+```
+
 ## Clauses and guards
 
 A function can have several clauses. Elixir tries them top to bottom and runs the first that
@@ -53,7 +68,21 @@ use `do` blocks for anything longer.
 def join(a, b, sep \\ " "), do: a <> sep <> b
 ```
 
-The default is evaluated **each time it's used**, not when the function is defined. With several
+The default is evaluated **each time it's used**, not when the function is defined:
+
+```elixir
+defmodule DefaultTest do
+  def dowork(x \\ "hello") do
+    x
+  end
+end
+
+DefaultTest.dowork()      #=> "hello"
+DefaultTest.dowork(123)   #=> 123
+DefaultTest.dowork()      #=> "hello"
+```
+
+With several
 clauses, declare defaults once in a body-less *function head*, which can't have patterns or guards:
 
 ```elixir

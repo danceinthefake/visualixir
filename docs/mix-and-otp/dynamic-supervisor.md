@@ -29,7 +29,7 @@ KV.Bucket.child_spec(name: :shopping)
 Supervisor.start_link([{KV.Bucket, name: :shopping}], strategy: :one_for_one)
 pid = Process.whereis(:shopping)
 Process.exit(pid, :kill)
-Process.whereis(:shopping)    #=> a new pid
+Process.whereis(:shopping)    #=> #PID<0.50.0>   (a new pid)
 ```
 
 <Diagram name="dynamic-supervisor/restart" caption="Kill the bucket and the supervisor starts a new one under the same name." />

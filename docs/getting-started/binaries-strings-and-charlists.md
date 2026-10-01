@@ -22,6 +22,9 @@ encoding that uses 1 to 4 bytes per code point.
 
 "hełło" <> <<0>>
 #=> <<104, 101, 197, 130, 197, 130, 111, 0>>   (the exact bytes)
+
+IO.inspect("hełło", binaries: :as_binaries)
+#=> <<104, 101, 197, 130, 197, 130, 111>>
 ```
 
 A **grapheme** is what a reader sees as one character. It can be several code points: the woman

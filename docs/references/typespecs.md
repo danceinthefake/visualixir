@@ -158,7 +158,36 @@ that `parse/0` was implemented instead of `parse/1`.
 
 <Diagram name="typespecs/behaviour" caption="A behaviour is a contract. Callers call back into any implementation." />
 
-Behaviours let you pass modules around and call `parser.parse(contents)` on whichever module fits. You don't need a behaviour to dispatch dynamically on a module, but they often go together.
+Behaviours let you pass modules around and call `parser.parse(contents)` on whichever module fits. For example, a function that picks a parser by file extension:
+
+```elixir
+@spec parse_path(Path.t(), [module()]) :: {:ok, term} | {:error, atom}
+def parse_path(filename, parsers) do
+  with {:ok, ext} <- parse_extension(filename),
+       {:ok, parser} <- find_parser(ext, parsers),
+       {:ok, contents} <- File.read(filename) do
+    parser.parse(contents)
+  end
+end
+
+defp parse_extension(filename) do
+  if ext = Path.extname(filename) do
+    {:ok, ext}
+  else
+    {:error, :no_extension}
+  end
+end
+
+defp find_parser(ext, parsers) do
+  if parser = Enum.find(parsers, fn parser -> ext in parser.extensions() end) do
+    {:ok, parser}
+  else
+    {:error, :no_matching_parser}
+  end
+end
+```
+
+You could also call a parser directly: `CSVParser.parse(...)`. You don't need a behaviour to dispatch dynamically on a module, but they often go together.
 
 ### Optional callbacks
 

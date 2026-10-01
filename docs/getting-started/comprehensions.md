@@ -29,7 +29,20 @@ for n <- 0..5, rem(n, 3) == 0, do: n * n   #=> [0, 9]
 
 <Diagram name="comprehensions/pipeline" caption="Generator, then filter, then block, then collectable." />
 
-You can chain several generators and filters. Later ones run inside earlier ones, so two generators give the Cartesian product:
+You can chain several generators and filters. This one lists the files in several directories and gets the size of each regular file. `path = ...` binds a value for the filter and the body that follow:
+
+```elixir
+dirs = ["/home/mikey", "/home/james"]
+
+for dir <- dirs,
+    file <- File.ls!(dir),
+    path = Path.join(dir, file),
+    File.regular?(path) do
+  File.stat!(path).size
+end
+```
+
+ Later ones run inside earlier ones, so two generators give the Cartesian product:
 
 ```elixir
 for i <- [:a, :b, :c], j <- [1, 2], do: {i, j}

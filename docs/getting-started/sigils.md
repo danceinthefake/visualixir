@@ -36,6 +36,25 @@ The uppercase one takes the text literally.
 
 <Diagram name="sigils/lower-upper" caption="~S is what you want when writing escapes in docs." />
 
+The escape codes available in textual sigils:
+
+| Code | Meaning |
+|---|---|
+| `\\` | single backslash |
+| `\a` | bell/alert |
+| `\b` | backspace |
+| `\d` | delete |
+| `\e` | escape |
+| `\f` | form feed |
+| `\n` | newline |
+| `\r` | carriage return |
+| `\s` | space |
+| `\t` | tab |
+| `\v` | vertical tab |
+| `\0` | null byte |
+| `\xDD` | one byte in hex, such as `\x13` |
+| `\uDDDD`, `\u{D...}` | a Unicode code point in hex, such as `\u{1F600}` |
+
 Heredocs (`"""`) work with sigils, so `@doc ~S"""` avoids double-escaping in documentation.
 
 ## Calendar sigils
