@@ -1,4 +1,4 @@
-import { readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitepress";
@@ -17,6 +17,13 @@ const sections: Record<string, string> = {
   cheatsheets: "Cheatsheets",
   references: "References",
 };
+
+// When the official chapters were last taken (upstream/SNAPSHOT.json, written by scripts/upstream.mjs).
+const snapFile = fileURLToPath(new URL("../../upstream/SNAPSHOT.json", import.meta.url));
+const snapshot: { date: string; elixir?: string } | undefined = existsSync(snapFile)
+  ? JSON.parse(readFileSync(snapFile, "utf8"))
+  : undefined;
+const snapshotText = snapshot ? `snapshot of ${snapshot.date}${snapshot.elixir ? `, Elixir ${snapshot.elixir}` : ""}` : "";
 
 // Counts shown on the home page, computed so they can't go stale.
 const docsDir = fileURLToPath(new URL("..", import.meta.url));
@@ -198,9 +205,9 @@ export default defineConfig({
         },
       ],
     },
+    snapshot,
     footer: {
-      message:
-        "Site code: MIT. Pages and diagrams are derived from the Elixir documentation (Apache-2.0). Not affiliated with the Elixir Team.",
+      message: `Site code: MIT. Pages and diagrams are derived from the Elixir documentation (Apache-2.0${snapshotText ? ", " + snapshotText : ""}). Not affiliated with the Elixir Team.`,
       copyright: "Copyright © 2026 DanceInTheFake",
     },
     search: { provider: "local" },

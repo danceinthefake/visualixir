@@ -7,6 +7,7 @@ import "blessing-ui/style.css";
 import "./diagram.css";
 import "./custom.css";
 import Diagram from "./Diagram.vue";
+import DocNotice from "./DocNotice.vue";
 
 export default {
   extends: DefaultTheme,
@@ -38,7 +39,7 @@ export default {
         { immediate: true, flush: "post" },
       );
     }
-    return h(DefaultTheme.Layout);
+    return h(DefaultTheme.Layout, null, { "doc-footer-before": () => h(DocNotice) });
   },
   enhanceApp({ app }) {
     app.component("Diagram", Diagram);

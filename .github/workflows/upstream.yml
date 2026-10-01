@@ -1,0 +1,42 @@
+name: upstream
+# Weekly: have the official Elixir docs changed since our snapshot? Opens (or updates) one issue if so.
+on:
+  schedule:
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    name: compare with the official docs
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - id: check
+        run: |
+          set +e
+          node scripts/upstream.mjs --markdown > report.md
+          code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          cat report.md
+          exit 0
+      # exit 1: something changed. One open issue, kept up to date, not one per week.
+      - if: steps.check.outputs.code == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create upstream-drift --color FBCA04 --description "The official Elixir docs changed" 2>/dev/null || true
+          existing=$(gh issue list --label upstream-drift --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --body-file report.md
+          else
+            gh issue create --title "The official Elixir docs changed" --label upstream-drift --body-file report.md
+          fi
+      # exit 2: could not check (network). Fail the run so it shows up red.
+      - if: steps.check.outputs.code == '2'
+        run: exit 1

@@ -8,6 +8,7 @@ Visualixir contains two kinds of material under two licences.
    docs/index.md and everything under docs/.vitepress.
 
 2. CONTENT, licensed under the Apache License 2.0 (see LICENSES/Apache-2.0.txt)
+   (the verbatim copies of the official chapters in upstream/ are Apache-2.0 as well)
    The documentation pages under docs/getting-started, docs/mix-and-otp,
    docs/meta-programming, docs/anti-patterns, docs/cheatsheets and docs/references,
    and the diagrams under docs/diagrams (the .dot sources and the generated .svg files).
@@ -33,6 +34,7 @@ CHANGES MADE TO THE ELIXIR DOCUMENTATION (Apache License 2.0, section 4b)
    - Shortened the deprecations table on the Compatibility and deprecations page to
      v1.17 and later, linking to the full table.
    - Left out the standard library module API documentation.
+   upstream/ holds the official chapters unmodified, as taken on the date in upstream/SNAPSHOT.json.
    These are modifications. The original text is authoritative, so consult it for
    anything that matters.
 

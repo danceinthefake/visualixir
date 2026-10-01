@@ -38,6 +38,18 @@ Production is at https://visualixir.blessing.id (Cloudflare Pages, deployed by `
 
 Icons and the social image are in `docs/public/` (`favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `og.png`). The mark is a small tree diagram in Blessing UI's colours. `og.png` has the page and diagram counts baked in.
 
+## Keeping up with the official docs
+
+The pages mirror the official Elixir docs as of a **snapshot** (date and Elixir version in `upstream/SNAPSHOT.json`, shown under every page and in the footer). `upstream/` holds the official chapters as they were when each page was written.
+
+```sh
+pnpm upstream:check            # fetch every chapter and compare with the snapshot (exit 1: changed, 2: could not check)
+pnpm upstream:diff <slug>      # what changed in one chapter
+pnpm upstream:update           # accept the fetched chapters as the new snapshot, after you have updated the pages
+```
+
+It also reports chapters that appeared in the official index with no page here, and pages whose chapter is gone. A weekly workflow (`.github/workflows/upstream.yml`) runs the check and opens an issue when something changed.
+
 ## Deploying
 
 CI (`.github/workflows/ci.yml`) builds on every push and pull request. Its `deploy` job is off by default. To deploy by hand:

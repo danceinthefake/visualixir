@@ -20,3 +20,13 @@
 
 /* Keyboard focus on a scrollable diagram. */
 .diagram > div:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 2px; }
+
+/* Note under each derived page: when it was taken, and where the original is. */
+.doc-notice {
+  margin: 2rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--vp-c-divider);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--vp-c-text-2);
+}

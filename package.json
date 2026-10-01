@@ -9,7 +9,10 @@
     "dev": "make && vitepress dev docs",
     "build": "make && vitepress build docs",
     "build:site": "vitepress build docs",
-    "preview": "vitepress preview docs"
+    "preview": "vitepress preview docs",
+    "upstream:check": "node scripts/upstream.mjs",
+    "upstream:diff": "node scripts/upstream.mjs --diff",
+    "upstream:update": "node scripts/upstream.mjs --update"
   },
   "engines": {
     "node": ">=24"

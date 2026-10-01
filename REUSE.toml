@@ -53,3 +53,10 @@ path = ["docs/cheatsheets/types-cheat.md", "docs/diagrams/types-cheat/**"]
 precedence = "override"
 SPDX-FileCopyrightText = ["2025 The Elixir Team", "2026 DanceInTheFake"]
 SPDX-License-Identifier = "Apache-2.0"
+
+# Verbatim snapshots of the official chapters (each file also carries its own SPDX header).
+[[annotations]]
+path = "upstream/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = ["2012 Plataformatec", "2021 The Elixir Team", "2025 The Elixir Team"]
+SPDX-License-Identifier = "Apache-2.0"
