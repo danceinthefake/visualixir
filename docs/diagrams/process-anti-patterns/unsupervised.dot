@@ -1,5 +1,9 @@
 digraph unsupervised {
   node [shape=box]
+  subgraph cluster_bad {
+    label="Counter.start_link() on its own"
+    loose [label="a counter process nobody owns:\nno start order, no shutdown guarantee,\nhard to observe"]
+  }
   subgraph cluster_good {
     label="inside a supervision tree"
     sup [label="App.Supervisor" class=hl]
@@ -7,9 +11,5 @@ digraph unsupervised {
     c2 [label="Counter, name: :other_counter"]
     sup -> c1 [label=" started 1st, stopped last"]
     sup -> c2 [label=" started 2nd, stopped first"]
-  }
-  subgraph cluster_bad {
-    label="Counter.start_link() on its own"
-    loose [label="a counter process nobody owns:\nno start order, no shutdown guarantee,\nhard to observe"]
   }
 }

@@ -9,62 +9,62 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(14.4 284.4)">
 <title>kw_vs_map</title>
 <g id="clust1" class="cluster">
-<title>cluster_kw</title>
-<polygon fill="none" stroke="black" points="115.88,-8 115.88,-103 486.75,-103 486.75,-8 115.88,-8"/>
-<text xml:space="preserve" text-anchor="middle" x="301.31" y="-85.7" font-family="Roboto" font-size="14.00">keyword list [a: 1, b: 2, a: 3]</text>
-<text xml:space="preserve" text-anchor="middle" x="301.31" y="-68.45" font-family="Roboto" font-size="14.00">ordered · atom keys · keys may repeat</text>
+<title>cluster_map</title>
+<polygon fill="none" stroke="black" points="0,-8 0,-159 304.75,-159 304.75,-8 0,-8"/>
+<text xml:space="preserve" text-anchor="middle" x="152.38" y="-141.7" font-family="Roboto" font-size="14.00">map %{:a =&gt; 1, 2 =&gt; :b}</text>
+<text xml:space="preserve" text-anchor="middle" x="152.38" y="-124.45" font-family="Roboto" font-size="14.00">any key type · keys unique · no promised order</text>
 </g>
 <g id="clust2" class="cluster">
-<title>cluster_map</title>
-<polygon fill="none" stroke="black" points="0,-111 0,-262 304.75,-262 304.75,-111 0,-111"/>
-<text xml:space="preserve" text-anchor="middle" x="152.38" y="-244.7" font-family="Roboto" font-size="14.00">map %{:a =&gt; 1, 2 =&gt; :b}</text>
-<text xml:space="preserve" text-anchor="middle" x="152.38" y="-227.45" font-family="Roboto" font-size="14.00">any key type · keys unique · no promised order</text>
+<title>cluster_kw</title>
+<polygon fill="none" stroke="black" points="116.88,-167 116.88,-262 484.75,-262 484.75,-167 116.88,-167"/>
+<text xml:space="preserve" text-anchor="middle" x="300.81" y="-244.7" font-family="Roboto" font-size="14.00">keyword list [a: 1, b: 2, a: 3]</text>
+<text xml:space="preserve" text-anchor="middle" x="300.81" y="-227.45" font-family="Roboto" font-size="14.00">ordered · atom keys · keys may repeat</text>
+</g>
+<!-- m1 -->
+<g id="node1" class="node">
+<title>m1</title>
+<polygon fill="#f2f2f2" stroke="#333333" points="124.88,-17 124.88,-53 178.88,-53 178.88,-17 124.88,-17"/>
+<text xml:space="preserve" text-anchor="middle" x="139" y="-30.7" font-family="Roboto" font-size="14.00">:a</text>
+<polyline fill="none" stroke="#333333" points="153.12,-17.75 153.12,-53"/>
+<text xml:space="preserve" text-anchor="middle" x="165.88" y="-30.7" font-family="Roboto" font-size="14.00">1</text>
+</g>
+<!-- m2 -->
+<g id="node2" class="node">
+<title>m2</title>
+<polygon fill="#f2f2f2" stroke="#333333" points="124.88,-72 124.88,-108 178.88,-108 178.88,-72 124.88,-72"/>
+<text xml:space="preserve" text-anchor="middle" x="137.12" y="-85.7" font-family="Roboto" font-size="14.00">2</text>
+<polyline fill="none" stroke="#333333" points="149.38,-72.75 149.38,-108"/>
+<text xml:space="preserve" text-anchor="middle" x="164" y="-85.7" font-family="Roboto" font-size="14.00">:b</text>
 </g>
 <!-- k1 -->
-<g id="node1" class="node">
+<g id="node3" class="node">
 <title>k1</title>
-<polygon fill="#f2f2f2" stroke="#333333" points="178.88,-52 124.88,-52 124.88,-16 178.88,-16 178.88,-52"/>
-<text xml:space="preserve" text-anchor="middle" x="151.88" y="-29.32" font-family="Roboto" font-size="14.00">{:a, 1}</text>
+<polygon fill="#f2f2f2" stroke="#333333" points="178.88,-211 124.88,-211 124.88,-175 178.88,-175 178.88,-211"/>
+<text xml:space="preserve" text-anchor="middle" x="151.88" y="-188.32" font-family="Roboto" font-size="14.00">{:a, 1}</text>
 </g>
 <!-- k2 -->
-<g id="node2" class="node">
+<g id="node4" class="node">
 <title>k2</title>
-<polygon fill="#f2f2f2" stroke="#333333" points="386.75,-52 332.75,-52 332.75,-16 386.75,-16 386.75,-52"/>
-<text xml:space="preserve" text-anchor="middle" x="359.75" y="-29.32" font-family="Roboto" font-size="14.00">{:b, 2}</text>
+<polygon fill="#f2f2f2" stroke="#333333" points="386.75,-211 332.75,-211 332.75,-175 386.75,-175 386.75,-211"/>
+<text xml:space="preserve" text-anchor="middle" x="359.75" y="-188.32" font-family="Roboto" font-size="14.00">{:b, 2}</text>
 </g>
 <!-- k1&#45;&gt;k2 -->
 <g id="edge1" class="edge">
 <title>k1&#45;&gt;k2</title>
-<path fill="none" stroke="#333333" d="M179.37,-34C215.35,-34 279.87,-34 320.93,-34"/>
-<polygon fill="#333333" stroke="#333333" points="320.85,-37.5 330.85,-34 320.85,-30.5 320.85,-37.5"/>
+<path fill="none" stroke="#333333" d="M179.37,-193C215.35,-193 279.87,-193 320.93,-193"/>
+<polygon fill="#333333" stroke="#333333" points="320.85,-196.5 330.85,-193 320.85,-189.5 320.85,-196.5"/>
 </g>
 <!-- k3 -->
-<g id="node3" class="node">
+<g id="node5" class="node">
 <title>k3</title>
-<polygon fill="#f2f2f2" stroke="#333333" points="476.75,-52 422.75,-52 422.75,-16 476.75,-16 476.75,-52"/>
-<text xml:space="preserve" text-anchor="middle" x="449.75" y="-29.32" font-family="Roboto" font-size="14.00">{:a, 3}</text>
+<polygon fill="#f2f2f2" stroke="#333333" points="476.75,-211 422.75,-211 422.75,-175 476.75,-175 476.75,-211"/>
+<text xml:space="preserve" text-anchor="middle" x="449.75" y="-188.32" font-family="Roboto" font-size="14.00">{:a, 3}</text>
 </g>
 <!-- k2&#45;&gt;k3 -->
 <g id="edge2" class="edge">
 <title>k2&#45;&gt;k3</title>
-<path fill="none" stroke="#333333" d="M387.15,-34C394.64,-34 402.93,-34 410.95,-34"/>
-<polygon fill="#333333" stroke="#333333" points="410.85,-37.5 420.85,-34 410.85,-30.5 410.85,-37.5"/>
-</g>
-<!-- m1 -->
-<g id="node4" class="node">
-<title>m1</title>
-<polygon fill="#f2f2f2" stroke="#333333" points="124.88,-120 124.88,-156 178.88,-156 178.88,-120 124.88,-120"/>
-<text xml:space="preserve" text-anchor="middle" x="139" y="-133.7" font-family="Roboto" font-size="14.00">:a</text>
-<polyline fill="none" stroke="#333333" points="153.12,-120.75 153.12,-156"/>
-<text xml:space="preserve" text-anchor="middle" x="165.88" y="-133.7" font-family="Roboto" font-size="14.00">1</text>
-</g>
-<!-- m2 -->
-<g id="node5" class="node">
-<title>m2</title>
-<polygon fill="#f2f2f2" stroke="#333333" points="124.88,-175 124.88,-211 178.88,-211 178.88,-175 124.88,-175"/>
-<text xml:space="preserve" text-anchor="middle" x="137.12" y="-188.7" font-family="Roboto" font-size="14.00">2</text>
-<polyline fill="none" stroke="#333333" points="149.38,-175.75 149.38,-211"/>
-<text xml:space="preserve" text-anchor="middle" x="164" y="-188.7" font-family="Roboto" font-size="14.00">:b</text>
+<path fill="none" stroke="#333333" d="M387.15,-193C394.64,-193 402.93,-193 410.95,-193"/>
+<polygon fill="#333333" stroke="#333333" points="410.85,-196.5 420.85,-193 410.85,-189.5 410.85,-196.5"/>
 </g>
 </g>
 </svg>

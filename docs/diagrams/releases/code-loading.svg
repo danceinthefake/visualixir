@@ -9,52 +9,52 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(14.4 216.4)">
 <title>code_loading</title>
 <g id="clust1" class="cluster">
-<title>cluster_int</title>
-<polygon fill="none" stroke="black" points="72.62,-8 72.62,-109 474.5,-109 474.5,-8 72.62,-8"/>
-<text xml:space="preserve" text-anchor="middle" x="273.56" y="-91.7" font-family="Roboto" font-size="14.00">interactive: the default outside releases</text>
+<title>cluster_emb</title>
+<polygon fill="none" stroke="black" points="8,-8 8,-85 425.38,-85 425.38,-8 8,-8"/>
+<text xml:space="preserve" text-anchor="middle" x="216.69" y="-67.7" font-family="Roboto" font-size="14.00">embedded: what releases use</text>
 </g>
 <g id="clust2" class="cluster">
-<title>cluster_emb</title>
-<polygon fill="none" stroke="black" points="8,-117 8,-194 425.38,-194 425.38,-117 8,-117"/>
-<text xml:space="preserve" text-anchor="middle" x="216.69" y="-176.7" font-family="Roboto" font-size="14.00">embedded: what releases use</text>
-</g>
-<!-- i1 -->
-<g id="node1" class="node">
-<title>i1</title>
-<polygon fill="#f2f2f2" stroke="#333333" points="134.62,-64 80.62,-64 80.62,-28 134.62,-28 134.62,-64"/>
-<text xml:space="preserve" text-anchor="middle" x="107.62" y="-41.33" font-family="Roboto" font-size="14.00">boot</text>
-</g>
-<!-- i2 -->
-<g id="node2" class="node">
-<title>i2</title>
-<polygon fill="#f2f2f2" stroke="#333333" points="466.5,-75.88 235.25,-75.88 235.25,-16.12 466.5,-16.12 466.5,-75.88"/>
-<text xml:space="preserve" text-anchor="middle" x="350.88" y="-58.58" font-family="Roboto" font-size="14.00">first call to Enum.map/2:</text>
-<text xml:space="preserve" text-anchor="middle" x="350.88" y="-41.33" font-family="Roboto" font-size="14.00">Enum is loaded now</text>
-<text xml:space="preserve" text-anchor="middle" x="350.88" y="-24.07" font-family="Roboto" font-size="14.00">(a latency spike for early requests)</text>
-</g>
-<!-- i1&#45;&gt;i2 -->
-<g id="edge1" class="edge">
-<title>i1&#45;&gt;i2</title>
-<path fill="none" stroke="#333333" d="M134.9,-46C156.85,-46 189.87,-46 223.48,-46"/>
-<polygon fill="#333333" stroke="#333333" points="223.38,-49.5 233.38,-46 223.38,-42.5 223.38,-49.5"/>
+<title>cluster_int</title>
+<polygon fill="none" stroke="black" points="72.62,-93 72.62,-194 474.5,-194 474.5,-93 72.62,-93"/>
+<text xml:space="preserve" text-anchor="middle" x="273.56" y="-176.7" font-family="Roboto" font-size="14.00">interactive: the default outside releases</text>
 </g>
 <!-- e1 -->
-<g id="node3" class="node">
+<g id="node1" class="node">
 <title>e1</title>
-<polygon fill="#f2f2f2" stroke="#333333" points="199.25,-161 16,-161 16,-125 199.25,-125 199.25,-161"/>
-<text xml:space="preserve" text-anchor="middle" x="107.62" y="-138.32" font-family="Roboto" font-size="14.00">boot: every module loaded</text>
+<polygon fill="#f2f2f2" stroke="#333333" points="199.25,-52 16,-52 16,-16 199.25,-16 199.25,-52"/>
+<text xml:space="preserve" text-anchor="middle" x="107.62" y="-29.32" font-family="Roboto" font-size="14.00">boot: every module loaded</text>
 </g>
 <!-- e2 -->
-<g id="node4" class="node hl">
+<g id="node2" class="node hl">
 <title>e2</title>
-<polygon fill="#f2f2f2" stroke="#333333" points="417.38,-161 284.38,-161 284.38,-125 417.38,-125 417.38,-161"/>
-<text xml:space="preserve" text-anchor="middle" x="350.88" y="-138.32" font-family="Roboto" font-size="14.00">first request: ready</text>
+<polygon fill="#f2f2f2" stroke="#333333" points="417.38,-52 284.38,-52 284.38,-16 417.38,-16 417.38,-52"/>
+<text xml:space="preserve" text-anchor="middle" x="350.88" y="-29.32" font-family="Roboto" font-size="14.00">first request: ready</text>
 </g>
 <!-- e1&#45;&gt;e2 -->
-<g id="edge2" class="edge">
+<g id="edge1" class="edge">
 <title>e1&#45;&gt;e2</title>
-<path fill="none" stroke="#333333" d="M199.49,-143C223.59,-143 249.39,-143 272.69,-143"/>
-<polygon fill="#333333" stroke="#333333" points="272.4,-146.5 282.4,-143 272.4,-139.5 272.4,-146.5"/>
+<path fill="none" stroke="#333333" d="M199.49,-34C223.59,-34 249.39,-34 272.69,-34"/>
+<polygon fill="#333333" stroke="#333333" points="272.4,-37.5 282.4,-34 272.4,-30.5 272.4,-37.5"/>
+</g>
+<!-- i1 -->
+<g id="node3" class="node">
+<title>i1</title>
+<polygon fill="#f2f2f2" stroke="#333333" points="134.62,-149 80.62,-149 80.62,-113 134.62,-113 134.62,-149"/>
+<text xml:space="preserve" text-anchor="middle" x="107.62" y="-126.33" font-family="Roboto" font-size="14.00">boot</text>
+</g>
+<!-- i2 -->
+<g id="node4" class="node">
+<title>i2</title>
+<polygon fill="#f2f2f2" stroke="#333333" points="466.5,-160.88 235.25,-160.88 235.25,-101.12 466.5,-101.12 466.5,-160.88"/>
+<text xml:space="preserve" text-anchor="middle" x="350.88" y="-143.57" font-family="Roboto" font-size="14.00">first call to Enum.map/2:</text>
+<text xml:space="preserve" text-anchor="middle" x="350.88" y="-126.33" font-family="Roboto" font-size="14.00">Enum is loaded now</text>
+<text xml:space="preserve" text-anchor="middle" x="350.88" y="-109.08" font-family="Roboto" font-size="14.00">(a latency spike for early requests)</text>
+</g>
+<!-- i1&#45;&gt;i2 -->
+<g id="edge2" class="edge">
+<title>i1&#45;&gt;i2</title>
+<path fill="none" stroke="#333333" d="M134.9,-131C156.85,-131 189.87,-131 223.48,-131"/>
+<polygon fill="#333333" stroke="#333333" points="223.38,-134.5 233.38,-131 223.38,-127.5 223.38,-134.5"/>
 </g>
 </g>
 </svg>

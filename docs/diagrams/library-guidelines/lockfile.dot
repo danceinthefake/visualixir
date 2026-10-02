@@ -8,7 +8,7 @@ digraph lockfile {
   }
   subgraph cluster_ci {
     label="your CI: two workflows"
-    c2 [label="workflow 2: mix deps.unlock --all\nnewest dependencies, maybe nightly" class=hl]
     c1 [label="workflow 1: uses the checked-in mix.lock\ndeterministic builds for contributors" class=hl]
+    c2 [label="workflow 2: mix deps.unlock --all\nnewest dependencies, maybe nightly" class=hl]
   }
 }
