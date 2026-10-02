@@ -1,0 +1,14 @@
+digraph ets {
+  node [shape=box]
+  subgraph cluster_proc {
+    label="the owner process's heap"
+    h [label="after 1_000_000 inserts:\n2_585 words"]
+    c [label="a lookup copies the value in:\n20_003 words for a 10_000-element list" class=hl]
+  }
+  subgraph cluster_ets {
+    label="the ETS table: outside every process heap"
+    t [label="1_000_000 tuples\n104 MB of ETS memory"]
+  }
+  h -> t [label=" insert: copied out\l"]
+  t -> c [label=" lookup: copied in\l"]
+}

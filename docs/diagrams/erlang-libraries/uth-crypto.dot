@@ -1,0 +1,9 @@
+digraph crypto {
+  node [shape=box]
+  call [label=":crypto.hash(:sha256, data)"]
+  nif [label="a NIF: the VM calls into native code"]
+  th [label="run on a dirty IO scheduler thread (erts_dios_N)\nso the normal schedulers stay free" class=hl]
+  ossl [label="OpenSSL 3.6.4, written in C, does the hashing"]
+  cpu [label="this CPU has dedicated SHA and AES instructions (sha_ni, aes)\nSHA-256 ran at about 2_000 MB/s, MD5 at about 900 MB/s" class=hl]
+  call -> nif -> th -> ossl -> cpu
+}

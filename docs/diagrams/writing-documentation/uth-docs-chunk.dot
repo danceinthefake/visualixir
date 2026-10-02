@@ -1,0 +1,9 @@
+digraph docs_chunk {
+  node [shape=record]
+  file [label="<f>Elixir.Enum.beam on disk: 187_856 bytes|Code 49_375|Dbgi 63_498|Docs 18_287|the other chunks"]
+  node [shape=box]
+  mem [label="in memory when Enum is loaded:\nthe code, not the documentation" class=hl]
+  fetch [label="Code.fetch_docs(Enum) reads the Docs chunk from the file\ncode memory changed by 0 bytes"]
+  file:f -> mem [label=" loading\l"]
+  file:f -> fetch [style=dashed label=" on demand\l"]
+}

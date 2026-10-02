@@ -1,0 +1,13 @@
+digraph startup {
+  node [shape=box]
+  sh [label="elixir: a shell script"]
+  erl [label="erl, then erlexec: Erlang's launchers"]
+  vm [label="beam.smp: the VM itself\nstarted by the kernel (execve), 48 OS threads here" class=hl]
+  disk [label="the storage: .beam files\nthe VM opened 213 of them for a one-line script"]
+  mem [label="the kernel's page cache, then the VM's memory\n209 modules loaded, 12.6 MB of code" class=hl]
+  run [label="your script runs"]
+  sh -> erl -> vm
+  vm -> disk [label=" openat, readv\l"]
+  disk -> mem [label=" copied into\l"]
+  mem -> run
+}

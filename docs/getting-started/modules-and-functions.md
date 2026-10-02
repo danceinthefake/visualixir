@@ -41,6 +41,18 @@ Math.sum(1, 2)      #=> 3
 Math.do_sum(1, 2)   #=> ** (UndefinedFunctionError)
 ```
 
+<UnderTheHood>
+
+**Two kinds of call.** A call to a function in the same module, `do_sum(a, b)`, compiles to `call_only` to a label inside the module's own code: a jump. A call to another module, `Math.sum(1, 2)`, compiles to `call_ext_only` through the module's import table, and the VM finds the function in the other module's *exports*. Only `def` functions are exported: `module_info(:exports)` listed `sum/2` but not the private `do_sum/2`. A default argument produces another export: `join(a, b, sep \\ " ")` exported both `join/2` and `join/3`.
+
+**Where the module comes from.** A module isn't in memory until it is first needed. A script that called a module through `apply/3` saw `:erlang.module_loaded/1` return `false`. Tracing it showed the write of a marker line, then `openat` of `Elixir.Math.beam`, then the next marker: the VM read the file from disk at the first call, and the module stays in memory after that.
+
+<Diagram name="modules-and-functions/uth-calls" caption="A local call is a jump. A call to another module goes through its exports, loading it first if needed." />
+
+*Sources:* instructions read with `:beam_disasm`, loading observed with `strace -f -e trace=openat,writev` on Erlang/OTP 29 and Elixir 1.20. Elixir may load a module earlier than the first call, for example when the compiler checks a call in a script.
+
+</UnderTheHood>
+
 ## Clauses and guards
 
 A function can have several clauses. Elixir tries them top to bottom and runs the first that

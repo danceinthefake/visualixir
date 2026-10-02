@@ -1,0 +1,13 @@
+digraph calls {
+  node [shape=box]
+  subgraph cluster_local {
+    label="a call inside the module (public or private)"
+    l [label="call_only to a label in the same code\na jump" class=hl]
+  }
+  subgraph cluster_remote {
+    label="Math.sum(1, 2) from another module"
+    r [label="call_ext_only through the import table:\nthe VM finds Math.sum/2 in its exports"]
+    ld [label="first call to a module not yet loaded:\nthe VM opens Elixir.Math.beam and reads it\nthen the module stays in memory" class=hl]
+    r -> ld [style=dashed label=" if not loaded\l"]
+  }
+}

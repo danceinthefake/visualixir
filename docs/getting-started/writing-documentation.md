@@ -75,3 +75,15 @@ underscore (`__add__/2`): those are treated as hidden and never imported.
 ## Reading docs back
 
 `Code.fetch_docs/1` reads them from the bytecode on disk. Modules defined in IEx have no file, so they have no fetchable docs.
+
+<UnderTheHood>
+
+**Where documentation lives.** Documentation is stored inside the compiled `.beam` file, in a chunk named `Docs`. For `Elixir.Enum.beam`, the file is 187,856 bytes on disk: 49,375 are the code, 63,498 are debug information (`Dbgi`) and 18,287 are the documentation, about a tenth. The chapter says documentation is "not loaded into memory when modules are loaded" and is read from the bytecode on disk with `Code.fetch_docs/1`. Measured, calling `Code.fetch_docs(Enum)` changed `:erlang.memory(:code)` by 0 bytes, so nothing is kept in memory.
+
+<Diagram name="writing-documentation/uth-docs-chunk" caption="One .beam file: the code is loaded into memory, the documentation stays on disk until asked for." />
+
+That is also why modules defined in IEx have no fetchable docs: there is no file to read the chunk from.
+
+*Sources:* chunk sizes from `:beam_lib.info/1` on Erlang/OTP 29 and Elixir 1.20. The loading behaviour is the chapter's own description.
+
+</UnderTheHood>

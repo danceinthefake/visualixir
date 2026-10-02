@@ -48,6 +48,18 @@ end
 
 The application a module belongs to is shown under the Erlang logo in its docs sidebar.
 
+<UnderTheHood>
+
+**Who does the work.** `:crypto.hash/2` is a *NIF*, a function written in C that the VM calls directly, and it calls OpenSSL (`:crypto.info_lib()` reports OpenSSL 3.6.4 here). While hashing 256 MB, the OS thread that was running was a dirty IO scheduler (`erts_dios_6`), so the normal schedulers kept running other processes.
+
+**In the hardware.** This CPU has dedicated instructions for hashing and encryption: `sha_ni` and `aes` appear in `/proc/cpuinfo`. Measured, SHA-256 ran at about 2,000 MB/s and MD5, which has no such instruction, at about 900 MB/s. That is consistent with the SHA instructions being used, but I haven't confirmed that OpenSSL uses them on this build.
+
+<Diagram name="erlang-libraries/uth-crypto" caption="A crypto call goes from Elixir into C code, on a dirty scheduler thread, then to the CPU." />
+
+*Sources:* measured on Erlang/OTP 29 with `:timer.tc/1`, `/proc/cpuinfo` and `/proc/self/task`. Throughput depends on the CPU.
+
+</UnderTheHood>
+
 ## :digraph
 
 Directed graphs with shortest-path and cycle algorithms:
@@ -78,6 +90,16 @@ table = :ets.new(:ets_test, [])
 :ets.insert(table, {"India", 1_284_000_000})
 ```
 
+<UnderTheHood>
+
+**Where an ETS table lives.** The table is not on any process's heap. After inserting 1,000,000 `{integer, string}` tuples, the owning process's heap measured 2,585 words and `:erlang.memory(:ets)` had grown by 104 MB. Inserting copies the tuple into the table, and a lookup copies the value back into the calling process: looking up a 10,000-element list copied 20,003 words (28 microseconds), while a small value took under a microsecond. So ETS suits many small values read often, and costs more the larger the value you read.
+
+<Diagram name="erlang-libraries/uth-ets" caption="ETS data lives outside every process heap. Writes copy out and reads copy in." />
+
+*Sources:* measured with `:ets.info/2`, `:erlang.memory/1`, `:erts_debug.flat_size/1` and `Process.info/2` on Erlang/OTP 29.
+
+</UnderTheHood>
+
 ## :math, :queue, :rand, :zip and :zlib
 
 `:math` covers trigonometry, exponentials and logarithms (`:math.sin/1`, `:math.exp/1`, `:math.log/1`).
@@ -95,6 +117,16 @@ q = :queue.in("B", q)
 
 `:rand` gives random values (`:rand.uniform/0`, `:rand.uniform(6)`) and seeding (`:rand.seed/2`). `:zip` reads and writes ZIP
 files, `:zlib` does zlib compression (`:zlib.compress/1` and `:zlib.uncompress/1`).
+
+<UnderTheHood>
+
+**What a queue is made of.** A queue built with `:queue.in/2` looked like `{[5, 4, 3, 2], [1]}`: one list for the rear, in reverse, and one for the front. Adding is one cons onto the rear list. Taking takes from the front, and only when the front is empty is the rear list reversed, once. That is why the Erlang docs give both operations as amortized O(1). The docs call the representation opaque, so this is an implementation detail and not something to depend on.
+
+<Diagram name="erlang-libraries/uth-queue" caption="A queue is two lists. The rear is reversed into the front only when the front runs out." />
+
+*Sources:* printed on Erlang/OTP 29; complexity from the [`queue` docs](https://www.erlang.org/doc/apps/stdlib/queue.html).
+
+</UnderTheHood>
 
 ## Learning Erlang
 

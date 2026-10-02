@@ -1,0 +1,11 @@
+digraph queue {
+  node [shape=record]
+  q [label="<f>front: [2, 3] | rear: [5, 4]"]
+  node [shape=box]
+  in [label="in(6): put 6 on the front of the rear list\none cons, nothing is copied"]
+  out [label="out: take from the front list\nwhen it is empty, reverse the rear list once"]
+  note [label="amortized O(1) for both (the Erlang docs)" class=hl]
+  in -> q:f
+  q:f -> out
+  out -> note [style=dashed]
+}
