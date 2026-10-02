@@ -99,7 +99,7 @@ end
 Files, ETS tables and sockets are linked to the process and are closed anyway when it crashes. `else` matches the result of the `do` block
 when it finished without a throw or an error, and errors inside `else` aren't caught.
 
-<Diagram name="try-catch-and-rescue/order" caption="after always runs and never changes the returned value." />
+<Diagram name="try-catch-and-rescue/order" caption="after runs whether or not the block failed, and never changes the returned value. It is a soft guarantee: a linked process exiting skips it." />
 
 For example, close a file even if writing to it fails:
 

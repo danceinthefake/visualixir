@@ -4,7 +4,7 @@ digraph order {
   q [label="Did it raise, throw or exit?"]
   rc [label="rescue / catch\nmatches the error"]
   el [label="else\nmatches the result of the do block"]
-  af [label="after\nalways runs, never changes the return value" class=hl]
+  af [label="after\nruns whether or not the block failed\n(a soft guarantee), never changes the return value" class=hl]
   ret [label="value of the try"]
   t -> q
   q -> rc [label=" yes"]

@@ -84,7 +84,7 @@ table = :ets.new(:ets_test, [])
 
 `:queue` is an efficient double-ended FIFO queue:
 
-<Diagram name="erlang-libraries/queue" caption="First in, first out. An empty queue returns :empty." />
+<Diagram name="erlang-libraries/queue" caption="First in, first out. Taking from an empty queue returns {:empty, queue}." />
 
 ```elixir
 q = :queue.new

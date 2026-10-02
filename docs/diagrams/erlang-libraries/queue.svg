@@ -74,7 +74,7 @@
 <path fill="none" stroke="#333333" d="M749.34,-36.15C746.88,-45.54 752.22,-54 765.38,-54 772.77,-54 777.7,-51.32 780.16,-47.31"/>
 <polygon fill="#333333" stroke="#333333" points="783.61,-47.98 781.24,-37.66 776.65,-47.21 783.61,-47.98"/>
 <text xml:space="preserve" text-anchor="start" x="721.88" y="-75.2" font-family="Roboto" font-size="14.00"> :queue.out(q)</text>
-<text xml:space="preserve" text-anchor="start" x="721.88" y="-57.95" font-family="Roboto" font-size="14.00"> :empty</text>
+<text xml:space="preserve" text-anchor="start" x="721.88" y="-57.95" font-family="Roboto" font-size="14.00"> {:empty, q}</text>
 </g>
 </g>
 </svg>
