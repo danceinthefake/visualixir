@@ -1,0 +1,10 @@
+digraph match {
+  node [shape=box]
+  code [label="{:ok, v} = result"]
+  t1 [label="is it a tuple of size 2\nwhose first element is :ok?\nthree tests: is_tagged_tuple" class=hl]
+  load [label="get_tuple_element\nload element 1 into a register"]
+  done [label="no allocation, no copy:\nv is the same word, still inside result" class=hl]
+  fail [label="a test fails: jump to the next clause,\nor raise MatchError" class=dim]
+  code -> t1 -> load -> done
+  t1 -> fail [style=dashed label=" no\l"]
+}

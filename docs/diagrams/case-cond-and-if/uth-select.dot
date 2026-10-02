@@ -1,0 +1,19 @@
+digraph select {
+  node [shape=box]
+  subgraph cluster_val {
+    label="case x do :a -> 1  :b -> 2  :c -> 3  _ -> 0"
+    sv [label="select_val: look the value up\nin a table and jump" class=hl]
+    arms [label="the code for that arm: move a constant, return"]
+    sv -> arms
+  }
+  subgraph cluster_guard {
+    label="guard: when is_integer(x) and x > 10"
+    g1 [label="is_integer: one test"]
+    g2 [label="is_ge 11: one comparison\nno function is called" class=hl]
+    g1 -> g2
+  }
+  subgraph cluster_if {
+    label="if condition do ... else ... end"
+    iff [label="select_val on the condition\nfalse and nil go to the else side"]
+  }
+}

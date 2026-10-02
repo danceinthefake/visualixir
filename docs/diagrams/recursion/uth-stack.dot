@@ -1,0 +1,16 @@
+digraph stack {
+  node [shape=box]
+  subgraph cluster_body {
+    label="body recursion: h + body(t), double_each"
+    b1 [label="allocate: a stack frame for each call"]
+    b2 [label="call, then add after it returns, then deallocate"]
+    b3 [label="2 million elements: the process used 80_592 KB,\nabout 3 words (24 bytes) of stack per call"]
+    b1 -> b2 -> b3
+  }
+  subgraph cluster_tail {
+    label="tail recursion: tail(t, h + acc)"
+    t1 [label="call_only: a jump back to the start\nno frame is kept"]
+    t2 [label="2 million elements: 33_580 KB\nthe 32 MB list, and no stack growth" class=hl]
+    t1 -> t2
+  }
+}

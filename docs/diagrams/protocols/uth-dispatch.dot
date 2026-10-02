@@ -1,0 +1,8 @@
+digraph dispatch {
+  node [shape=box]
+  call [label="Enumerable.reduce([1, 2], acc, fun)"]
+  impl [label="impl_for: a few type tests and one jump\nis_map, is_atom, select_val ...\nbuilt when the project is compiled (consolidation)" class=hl]
+  mod [label="it returns a module: Enumerable.List"]
+  run [label="the call goes to Enumerable.List.reduce/3"]
+  call -> impl -> mod -> run
+}

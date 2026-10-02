@@ -1,0 +1,16 @@
+digraph peak_heap {
+  node [shape=box]
+  subgraph cluster_enum {
+    label="Enum: map, filter, sum over 2_000_000 numbers"
+    e1 [label="map builds a list of 2 million"]
+    e2 [label="filter builds another list"]
+    e3 [label="the process heap ended at 75 MB\nand the run took about 250 ms"]
+    e1 -> e2 -> e3
+  }
+  subgraph cluster_stream {
+    label="Stream: the same steps, run per element by Enum.sum"
+    s1 [label="each number goes through map, filter and sum\nthen it is garbage"]
+    s2 [label="the process heap ended at 609 words\nand the run took about 65 ms" class=hl]
+    s1 -> s2
+  }
+}

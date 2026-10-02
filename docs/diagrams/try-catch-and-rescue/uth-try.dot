@@ -1,0 +1,12 @@
+digraph try_frame {
+  node [shape=box]
+  t [label="try: a catch point is recorded\nin the function's stack frame" class=hl]
+  body [label="the body runs"]
+  ok [label="no error: try_end removes the catch point"]
+  err [label="error: the VM unwinds the stack back to the catch point,\nbuilds the stacktrace, jumps to try_case" class=hl]
+  cap [label="the stacktrace keeps at most 8 frames\neven 1000 calls deep" class=dim]
+  t -> body
+  body -> ok
+  body -> err [style=dashed label=" raise\l"]
+  err -> cap
+}
