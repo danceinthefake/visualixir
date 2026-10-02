@@ -45,6 +45,18 @@ The options: `:binary` (binaries, not lists), `packet: :line` (one line at a tim
 `reuseaddr: true` (reuse the address if the listener crashes). Test with `telnet 127.0.0.1 4040`. When the client quits, `recv` returns
 `{:error, :closed}`, which the `{:ok, data}` match doesn't expect. We'll fix that later. More urgent: nothing supervises this.
 
+<UnderTheHood>
+
+**What `:gen_tcp` asks the kernel for.** Tracing the echo server and a client with `strace -f -y -Y` showed, from a scheduler thread: `socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)`, `bind` to port 4747, `listen(fd, 5)` (the 5 is the queue of waiting connections, which `ss` also shows), and `epoll_ctl` registering each socket with the kernel's `epoll`. A `connect` returned `EINPROGRESS` and a `recvfrom` returned `EAGAIN` ("no data yet"): the sockets are non-blocking. The process that called `recv` simply waits, using no CPU, until `epoll` reports data, and the VM then calls `recvfrom` again and gets the line. The kernel holds the connection's state and buffers; `ss -tnm` showed a receive buffer limit of 128 KiB and a send buffer limit of about 2.5 MB.
+
+**In the hardware.** This test used the loopback interface, so no network card was involved. Over a real network the packets also pass through the network card, which is outside what I measured here.
+
+<Diagram name="task-and-gen-tcp/uth-socket" caption="Receiving: the process waits, the kernel's epoll reports data, and the VM reads it." />
+
+*Sources:* `strace` and `ss` on Linux with Erlang/OTP 29. Socket call names are Linux's.
+
+</UnderTheHood>
+
 ## Tasks
 
 `Task.start_link/1` runs an existing function in a new process that can be part of a supervision tree. As a child spec, `{Task, fn -> ... end}`:

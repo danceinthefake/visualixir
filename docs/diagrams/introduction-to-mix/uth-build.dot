@@ -1,0 +1,9 @@
+digraph build {
+  node [shape=box]
+  src [label="lib/kv.ex: your source"]
+  comp [label="mix compile: the Elixir compiler turns it into BEAM bytecode" class=hl]
+  out [label="written to _build/dev/lib/kv:\nebin/Elixir.KV.beam (1_592 bytes), ebin/kv.app (164 bytes),\nconsolidated/*.beam (7 protocols), .mix/ manifests"]
+  again [label="mix compile again: the manifest says nothing changed\nno .beam file is written" class=dim]
+  src -> comp -> out
+  out -> again [style=dashed]
+}

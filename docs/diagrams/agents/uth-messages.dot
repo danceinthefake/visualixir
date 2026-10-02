@@ -1,0 +1,8 @@
+digraph messages {
+  node [shape=box]
+  a [label="caller: Agent.get(agent, fn m -> m.a end)"]
+  b [label="agent: receives {:\"$gen_call\", {caller, alias}, {:get, fun}}\nthe fun was copied into its mailbox (message 1)" class=hl]
+  c [label="agent: runs the fun on its own state"]
+  d [label="caller: receives the reply (message 2)\nit was waiting, using no CPU"]
+  a -> b -> c -> d
+}

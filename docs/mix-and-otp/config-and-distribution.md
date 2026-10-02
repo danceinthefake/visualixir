@@ -60,6 +60,18 @@ node. You can `send` to it and get replies as usual.
 
 <Diagram name="config-and-distribution/nodes-rpc" caption="The process runs where the code is. Its output returns to the spawning node." />
 
+<UnderTheHood>
+
+**What crosses the wire.** Nodes are separate VMs connected by TCP. A node finds another's port through `epmd`, the Erlang Port Mapper Daemon, which listens on port 4369 by default, and the connection then goes through a handshake and a cookie check ([distribution protocol](https://www.erlang.org/doc/apps/erts/erl_dist_protocol.html)). A term is sent in the *external term format*: for `{:hello, "world", [1, 2, 3], %{a: 1}}`, `:erlang.term_to_binary/1` gave 36 bytes beginning with 131, the format's version byte, against 160 bytes for the term on the heap ([format](https://www.erlang.org/doc/apps/erts/erl_ext_dist.html)). The other node decodes it into its own heap, which is another copy.
+
+**What that costs.** A call to another node on the same machine took about 48 microseconds (`:erpc.call/4`, averaged over 10,000 calls), against about 0.016 microseconds for a local call: a few thousand times more, and that is on loopback, with no real network in between.
+
+<Diagram name="config-and-distribution/uth-wire" caption="A term is encoded, sent over TCP, decoded into the other node's heap." />
+
+*Sources:* measured with `:peer`, `:erpc` and `:timer.tc/1` on Erlang/OTP 29. `epmd` was reported running on port 4369.
+
+</UnderTheHood>
+
 ## Distributed naming with :global
 
 Start two nodes (`PORT=4100 iex --sname foo -S mix`, `PORT=4101 iex --sname bar -S mix`) and create a bucket on `bar` from `foo` with

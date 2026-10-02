@@ -32,6 +32,18 @@ Release created at _build/prod/rel/kv
 
 <Diagram name="releases/code-loading" caption="A release pays the loading cost at boot instead of on the first requests." />
 
+<UnderTheHood>
+
+**What embedded mode changes.** I built a small release and started it in each mode as a daemon. In the default *embedded* mode, 614 modules were already loaded at boot and `Stream` was in memory before anything called it. In *interactive* mode only 159 were, and `Stream` was not loaded, so the first call to it reads `Elixir.Stream.beam` from disk, as in the Modules chapter. That read is the latency spike the chapter describes, moved to boot time.
+
+**What is in the directory.** The release was 21 MB: 11 MB for the VM runtime (`erts`, whose `beam.smp` alone is 10.1 MB), 9.4 MB for libraries and 599 `.beam` files. That is why it runs on a machine without Erlang or Elixir installed.
+
+<Diagram name="releases/uth-modes" caption="Embedded mode loads the modules at boot. Interactive mode loads each on first use." />
+
+*Sources:* measured with `bin/kv daemon` and `bin/kv rpc`, `:code.all_loaded/0` and `du`, on Elixir 1.20 / OTP 29. The counts depend on the application.
+
+</UnderTheHood>
+
 ## Configuring releases
 
 <Diagram name="releases/hooks" caption="One hook at build time, three at boot." />

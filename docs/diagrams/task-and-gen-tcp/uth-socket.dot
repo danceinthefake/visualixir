@@ -1,0 +1,19 @@
+digraph socket {
+  node [shape=box]
+  subgraph cluster_vm {
+    label="the Erlang VM: a scheduler thread makes the calls"
+    code [label=":gen_tcp.listen / accept / recv / send"]
+    sys [label="socket, bind, listen(fd, 5), epoll_ctl\nrecvfrom: EAGAIN means no data yet, so the process waits" class=hl]
+    code -> sys
+  }
+  subgraph cluster_k {
+    label="the Linux kernel"
+    tcp [label="the TCP stack and the socket's buffers\nreceive 128 KiB, send about 2.5 MB (ss -tnm)"]
+    ep [label="epoll: tells the VM when data has arrived"]
+  }
+  net [label="over a real network the packets go through the network card\nhere it was loopback, so no card was involved" class=dim]
+  sys -> tcp
+  tcp -> ep
+  tcp -> net [style=dashed]
+  ep -> sys [label=" data ready: recvfrom returns the line\l"]
+}

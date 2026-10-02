@@ -36,6 +36,16 @@ $ mix new kv --module KV
 
 <Diagram name="introduction-to-mix/workflow" caption="The everyday loop." />
 
+<UnderTheHood>
+
+**What `mix compile` writes.** Compiling a new `kv` project wrote files under `_build/dev/lib/kv`: `ebin/Elixir.KV.beam` (1,592 bytes), the application file `ebin/kv.app` (164 bytes), the seven consolidated protocols in `consolidated/` (the protocol step from the Protocols chapter), and manifests in `.mix/`. A `.beam` file begins with the bytes `FOR1`, the tag of its container format. Running `mix compile` again wrote no `.beam` file: the manifest lets Mix see that nothing changed. That is why a second compile prints nothing and `recompile()` can answer `:noop`.
+
+<Diagram name="introduction-to-mix/uth-build" caption="Compiling turns source into .beam files on disk. A manifest lets Mix skip work." />
+
+*Sources:* `strace -f -y -e trace=openat` on `mix compile` with Elixir 1.20 / OTP 29, and `ls` of `_build`. File sizes depend on the code and the Elixir version.
+
+</UnderTheHood>
+
 ## Running tests
 
 By convention every file in `lib/` has a `<name>_test.exs` in `test/`. Test files are scripts (`.exs`), so they aren't compiled first.

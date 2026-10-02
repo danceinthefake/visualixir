@@ -1,0 +1,13 @@
+digraph modes {
+  node [shape=box]
+  subgraph cluster_e {
+    label="embedded (a release's default)"
+    e [label="at boot: 614 modules already loaded\nStream is in memory before anyone calls it" class=hl]
+  }
+  subgraph cluster_i {
+    label="interactive (RELEASE_MODE=interactive)"
+    i [label="at boot: 159 modules loaded\nStream is loaded when first called, from disk"]
+  }
+  size [label="the release directory: 21 MB\nthe VM runtime (erts) 11 MB, the libraries 9.4 MB, 599 .beam files" class=dim]
+  e -> size [style=invis]
+}

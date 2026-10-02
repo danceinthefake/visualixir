@@ -1,0 +1,7 @@
+digraph mailbox {
+  node [shape=box]
+  mb [label="mailbox, in arrival order:\njunk, junk, junk, ... , target"]
+  scan [label="receive do :target -> ... end\nlooks at each message from the front until one matches" class=hl]
+  t [label="10 messages ahead: under a microsecond\n10_000: 41 microseconds\n1_000_000: 5_149 microseconds (5 ms)"]
+  mb -> scan -> t
+}

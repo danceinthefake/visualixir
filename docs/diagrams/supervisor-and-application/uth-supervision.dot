@@ -1,0 +1,9 @@
+digraph supervision {
+  node [shape=box]
+  a [label="the supervisor starts the child and links to it\ntrap_exit is true for the supervisor"]
+  b [label="the child dies"]
+  c [label="the VM sends an exit signal to every linked process" class=hl]
+  d [label="the supervisor traps it: the signal arrives as a message"]
+  e [label="the supervisor starts a new child\nabout 199 microseconds from the kill to a running child"]
+  a -> b -> c -> d -> e
+}

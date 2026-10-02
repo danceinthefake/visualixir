@@ -1,0 +1,8 @@
+digraph registry {
+  node [shape=box]
+  reg [label="Registry.start_link(keys: :unique, name: UthReg)"]
+  ets [label="an ETS table named UthReg, type :set\nthe names live there, outside any process heap" class=hl]
+  look [label="a lookup is an ETS read:\nthe pid is copied to the caller"]
+  reg -> ets [label=" creates\l"]
+  ets -> look
+}

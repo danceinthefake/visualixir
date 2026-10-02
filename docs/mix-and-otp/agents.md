@@ -97,3 +97,13 @@ Everything **inside** the function you pass runs in the agent process, the *serv
 
 That matters for cost. `Process.sleep(1000)` on the client only delays that caller. On the server, it blocks every other request to that agent and
 can make clients time out. GenServers, coming up, make the client/server split explicit.
+
+<UnderTheHood>
+
+**What `Agent.get` sends.** Tracing the agent process with `:erlang.trace/3` showed that one `Agent.get/2` is two messages. The agent receives `{:"$gen_call", {caller, alias}, {:get, fun}}`, and sends back the reply. The `fun` is inside the first message, so, as with any message, it is copied into the agent's mailbox, with whatever it captured. Then the agent runs it against its own state, which is what "everything inside the function runs in the agent" means.
+
+<Diagram name="agents/uth-messages" caption="One Agent.get is two messages: the function goes to the agent, the reply comes back." />
+
+*Sources:* traced with `:erlang.trace(agent, true, [:send, :receive])` on Erlang/OTP 29. The exact shape of the message is an implementation detail of `GenServer` and can change.
+
+</UnderTheHood>
