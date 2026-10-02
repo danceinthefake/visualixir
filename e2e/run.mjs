@@ -3,6 +3,7 @@
 //   node e2e/run.mjs site search     just those (site, layout, search, axe, axe-phone)
 // With BASE_URL set it checks that site instead and starts no server (add --live for deployment checks).
 import { spawn, spawnSync } from "node:child_process";
+import { openSync } from "node:fs";
 
 const all = ["site", "layout", "search", "axe", "axe-phone"];
 const wanted = process.argv.slice(2).filter((a) => !a.startsWith("--"));
@@ -18,12 +19,20 @@ const cmd = {
 let server;
 if (!process.env.BASE_URL) {
   const port = 4173;
-  // detached: the server is a grandchild of pnpm, so kill the whole group or it outlives the run and holds the port
-  server = spawn("pnpm", ["exec", "vitepress", "preview", "docs", "--port", String(port)], { stdio: "ignore", detached: true });
-  for (let i = 0; i < 60; i++) {
-    try { if ((await fetch(`http://localhost:${port}/`)).ok) break; } catch {}
-    await new Promise((r) => setTimeout(r, 500));
+  // The server's output goes to a file so a failed run leaves evidence. Detached: it is a grandchild of pnpm,
+  // so we kill the whole group at the end, or it outlives the run and holds the port.
+  const log = openSync(new URL("../.e2e-server.log", import.meta.url), "w");
+  server = spawn("pnpm", ["exec", "vitepress", "preview", "docs", "--port", String(port)], { stdio: ["ignore", log, log], detached: true });
+  // Ready means a content page answers, not only "/": the home page can be served before the rest of the build is.
+  let ready = false;
+  for (let i = 0; i < 120 && !ready; i++) {
+    try {
+      const [a, b] = await Promise.all([fetch(`http://localhost:${port}/`), fetch(`http://localhost:${port}/getting-started/introduction`)]);
+      ready = a.ok && b.ok;
+    } catch {}
+    if (!ready) await new Promise((r) => setTimeout(r, 500));
   }
+  if (!ready) { console.error("the preview server did not become ready; see .e2e-server.log"); process.exit(1); }
 }
 let failed = 0;
 for (const t of tasks) {

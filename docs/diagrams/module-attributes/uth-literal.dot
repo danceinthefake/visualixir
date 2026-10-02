@@ -1,0 +1,8 @@
+digraph literal {
+  node [shape=box]
+  c [label="compile time: @big is computed once"]
+  file [label="stored in the .beam file on disk\nthe LitT chunk: 24_311 of 36_448 bytes"]
+  load [label="the module is loaded: read from disk,\nthe literal is kept outside every process heap"]
+  call [label="get/0 returns a pointer to it\nthe same term on every call, no heap used" class=hl]
+  c -> file -> load -> call
+}

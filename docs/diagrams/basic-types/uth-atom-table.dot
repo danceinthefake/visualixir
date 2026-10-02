@@ -1,0 +1,10 @@
+digraph atom_table {
+  node [shape=box]
+  code [label="your code: :hello"]
+  word [label="a word holding an index\nno heap used" class=hl]
+  table [label="the atom table: one for the whole VM\nthe text is stored once, about 34 bytes per new atom\nnever garbage-collected, limit 1_048_576"]
+  cmp [label="comparing two atoms: comparing two words" class=dim]
+  code -> word [label=" the compiler\l turns it into\l"]
+  word -> table [label=" index into\l"]
+  word -> cmp [style=invis]
+}

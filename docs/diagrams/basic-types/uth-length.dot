@@ -1,0 +1,17 @@
+digraph length {
+  node [shape=box]
+  subgraph cluster_size {
+    label="byte_size(string): the size is known without reading the bytes"
+    s1 [label="read one stored number"]
+    s2 [label="done: under a microsecond for 56 MB" class=hl]
+    s1 -> s2
+  }
+  subgraph cluster_len {
+    label="String.length(string): walk and decode every byte"
+    l1 [label="read a byte, decode UTF-8\n(1 to 4 bytes per character)"]
+    l2 [label="find where a grapheme ends"]
+    l3 [label="count it, move on, until the end\n56 MB took about 1.3 s" class=hl]
+    l1 -> l2 -> l3
+    l3 -> l1 [style=dashed label=" next\l"]
+  }
+}

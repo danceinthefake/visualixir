@@ -1,0 +1,12 @@
+digraph shared_keys {
+  node [shape=box]
+  s1 [label="struct 1\nthe values"]
+  s2 [label="struct 2\nthe values"]
+  s3 [label="struct 1000\nthe values"]
+  k [label="one tuple of keys, shared by all\n__struct__, age, email, name: 5 words" class=hl]
+  note [label="1000 structs of 3 fields: 12_005 words counted with sharing,\n17_000 if every one carried its own keys" class=dim]
+  s1 -> k
+  s2 -> k
+  s3 -> k
+  k -> note [style=invis]
+}

@@ -1,0 +1,14 @@
+digraph closure {
+  node [shape=box]
+  subgraph cluster_a {
+    label="in one process"
+    big [label="a list of 10_000 integers\n20_000 words"]
+    fn [label="the fun object, made by make_fun3\nholds the captured variable" class=hl]
+    fn -> big [label=" captures\l"]
+  }
+  subgraph cluster_b {
+    label="the receiving process"
+    copy [label="a full copy of the closure and its list\nthe receiver grew by 160 KB"]
+  }
+  fn -> copy [label=" send: copies\l everything captured\l"]
+}

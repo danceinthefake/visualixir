@@ -1,0 +1,13 @@
+digraph word {
+  node [shape=box]
+  subgraph cluster_imm {
+    label="kept inside the 8-byte word: no heap used"
+    i [label="small integer 42\nanything up to 2^59 - 1 (60 bits)\nflat_size: 0 words" class=hl]
+    a [label="atom :hello\nthe word holds an index\nflat_size: 0 words"]
+  }
+  subgraph cluster_obj {
+    label="the word points to an object on the heap"
+    f [label="float 1.0\n2 words"]
+    b [label="integer 2^59 or more (a bignum)\n2 words, 3 for 2^100"]
+  }
+}

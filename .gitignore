@@ -2,3 +2,4 @@ node_modules
 docs/.vitepress/cache
 docs/.vitepress/dist
 erl_crash.dump
+.e2e-server.log

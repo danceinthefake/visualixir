@@ -40,6 +40,18 @@ x                      #=> 42
 
 <Diagram name="anonymous-functions/closure" caption="double closes over add. The inner x = 0 leaves the outer x alone." />
 
+<UnderTheHood>
+
+**In memory.** `fn x -> x + y end` makes an object on the heap, the *fun object*, that holds every variable it captured. The compiler shows it as two instructions: `test_heap` reserves room, then `make_fun3` builds the object with its list of captured variables. Calling it, `f.(a)`, is a `call_fun` instruction. Whatever the closure captured is part of it: a closure over a 10,000-element list measured 20,003 words.
+
+**What that costs when you send it.** A message is copied into the receiver's heap, so sending that closure copied the whole list: the receiver grew by about 160 KB. Capture only what you need, and see the "Sending unnecessary data" anti-pattern.
+
+<Diagram name="anonymous-functions/uth-closure" caption="A closure carries what it captured, and sending it copies all of it." />
+
+*Sources:* instructions read with `:beam_disasm`, sizes with `:erts_debug.flat_size/1`, on Erlang/OTP 29. Message copying is documented in the [Efficiency Guide](https://www.erlang.org/doc/system/eff_guide_processes.html).
+
+</UnderTheHood>
+
 ## Clauses and guards
 
 Like `case`, an anonymous function can have several clauses and guards. Every clause needs the same

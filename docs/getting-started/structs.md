@@ -72,6 +72,16 @@ Enum.each(john, fn {field, value} -> IO.puts(value) end)
 
 `john[:name]` fails because there is no `Access` behaviour, and `Enum.each(john, …)` raises `Protocol.UndefinedError`. You attach behaviour like this with [protocols](./protocols).
 
+<UnderTheHood>
+
+**In memory.** A struct is a map with one extra key, `__struct__`, so `%User{name: nil, age: nil, email: nil}` took 12 words against 10 for a plain map with the same three keys. The saving is in the keys. All structs of one kind share a single tuple of keys: 1000 of them took 12,005 words counted with sharing, and would take 17,000 if each carried its own. This is the optimisation the "Structs with 32 fields or more" anti-pattern refers to.
+
+<Diagram name="structs/uth-shared-keys" caption="Every struct of a kind points at the same tuple of keys." />
+
+*Sources:* measured with `:erts_debug.size/1` (counts shared parts once) and `:erts_debug.flat_size/1` on Erlang/OTP 29.
+
+</UnderTheHood>
+
 ## Defaults and required keys
 
 Omitted defaults are `nil`. Fields with implicit `nil` must come **first**, then the keyword list:

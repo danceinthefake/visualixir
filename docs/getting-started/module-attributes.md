@@ -55,6 +55,18 @@ defp example, do: @example
 
 <Diagram name="module-attributes/snapshots" caption="One reader means one snapshot." />
 
+<UnderTheHood>
+
+**In storage.** The value is computed once, when the module compiles, and written into the `.beam` file. For a module with a 5000-element attribute, the file was 36,448 bytes and its `LitT` (literals) chunk was 24,311 of them. Loading the module reads that file from disk.
+
+**In memory.** Once loaded, the literal sits outside every process heap, in the memory kept for the module. `get/0` returns a pointer to it. Two calls returned the same term (`:erts_debug.same/2` was `true`), and after 1000 calls returning a 2000-word literal the process heap had not grown at all. The Efficiency Guide adds that a literal sent to another process on the same node is not copied.
+
+<Diagram name="module-attributes/uth-literal" caption="An attribute's value is stored in the .beam file and shared by every call." />
+
+*Sources:* chunk sizes from `:beam_lib.info/1`, the rest measured on Erlang/OTP 29. Literals are described in the [Efficiency Guide](https://www.erlang.org/doc/system/eff_guide_processes.html).
+
+</UnderTheHood>
+
 ## As compile-time constants
 
 For a plain constant, a function is usually enough: prefer `defp hours_in_a_day(), do: 24` over `@hours_in_a_day 24`. A

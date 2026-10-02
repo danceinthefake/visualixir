@@ -1,0 +1,15 @@
+digraph cache_lines {
+  node [shape=box]
+  subgraph cluster_bin {
+    label="binary: 1000 characters = 1000 bytes"
+    b1 [label="one 64-byte cache line holds 64 characters"]
+    b2 [label="reading it straight through: about 16 lines" class=hl]
+    b1 -> b2
+  }
+  subgraph cluster_list {
+    label="charlist: 1000 characters = 16_000 bytes"
+    c1 [label="a cell is 16 bytes: a cache line holds 4 characters"]
+    c2 [label="reading it straight through: about 250 lines"]
+    c1 -> c2
+  }
+}

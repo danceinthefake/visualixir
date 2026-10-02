@@ -56,6 +56,18 @@ so `%{}` matches every map.
 
 `Map.get/2`, `Map.put/3` and `Map.to_list/1` cover the usual operations.
 
+<UnderTheHood>
+
+**In memory.** Measured with `:erts_debug.flat_size/1`, a keyword list of 5 entries took 25 words and the map with the same data took 14. Each keyword entry is a list cell (2 words) plus a two-element tuple (3 words), separate objects the CPU has to follow one by one. A small map keeps its keys in one tuple and its values in another. The memory guide describes this: a small map has up to 32 keys, and a larger one uses a hash tree ([memory guide](https://www.erlang.org/doc/system/memory.html)). The numbers show the switch: 32 keys took 68 words and 33 keys took 125.
+
+<Diagram name="keywords-and-maps/uth-map-sizes" caption="The same data as a keyword list and as maps of growing size, in words." />
+
+Looking a key up in a keyword list means walking its cells until you find it, as the chapter says. In a map the keys sit together in one tuple.
+
+*Sources:* sizes measured on a 64-bit Erlang/OTP 29. The 32-key limit is from the [memory guide](https://www.erlang.org/doc/system/memory.html).
+
+</UnderTheHood>
+
 ## Maps with predefined keys
 
 When the shape is known, use atom keys. `%{name: "John", age: 23}` is the same as

@@ -45,9 +45,16 @@ export async function pool(items, n, fn) {
 
 /** Open a page and let it hydrate. Some pages never go network-idle, the DOM is what matters. */
 export async function open(page, path) {
-  await page
+  // A page that never goes network-idle is fine (the DOM is what matters). A page that fails to load is not:
+  // Chromium's error page has no <main> and disables zoom, and axe would report that as the site's problem.
+  const res = await page
     .goto(BASE + path, { waitUntil: "networkidle", timeout: 20000 })
-    .catch(() => page.waitForLoadState("domcontentloaded"));
+    .catch(async (e) => {
+      if (!/Timeout/.test(e.message)) throw new Error(`${path}: ${e.message.split("\n")[0]}`);
+      await page.waitForLoadState("domcontentloaded");
+      return null;
+    });
+  if (res && res.status() >= 400) throw new Error(`${path}: HTTP ${res.status()}`);
   await page.waitForTimeout(300);
 }
 

@@ -1,0 +1,10 @@
+digraph map_sizes {
+  node [shape=box]
+  kw [label="keyword list, 5 entries: 25 words\neach entry is a list cell (2 words)\nand a tuple (3 words), stored apart"]
+  m5 [label="map, 5 keys: 14 words\none tuple of keys, one tuple of values" class=hl]
+  m32 [label="map, 32 keys: 68 words\nstill one tuple of keys and one of values"]
+  m33 [label="map, 33 keys: 125 words\nthe VM switches to a hash tree"]
+  kw -> m5 [label=" same data\l" style=dashed]
+  m5 -> m32 [label=" grows by about 2 words a key\l"]
+  m32 -> m33 [label=" one more key\l"]
+}
