@@ -17,11 +17,11 @@ Enum.map(1..3, fn x -> x * 2 end)                      #=> [2, 4, 6]
 <Diagram name="enumerable-and-streams/enumerable" caption="Enum functions are polymorphic: any Enumerable will do." />
 
 `Enum` only enumerates. For operations specific to one type, like inserting at a position, use that type's module
-(`List.insert_at/3`). See the [Enum cheatsheet](https://elixir.hexdocs.pm/enum-cheat.html) for the full list.
+(`List.insert_at/3`). See the [Enum cheatsheet](/cheatsheets/enum-cheat) for the full list.
 
 ## Eager vs lazy
 
-Every `Enum` function is **eager**. Most take an enumerable and return a list, so a pipeline builds an intermediate list at
+Every `Enum` function is **eager**. Many take an enumerable and return a list, so a pipeline builds an intermediate list at
 every step.
 
 ## The pipe operator

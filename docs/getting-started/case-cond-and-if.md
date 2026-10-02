@@ -33,7 +33,17 @@ end
 ```
 
 An error raised inside a guard doesn't escape. It just makes the guard fail, and the next clause is
-tried. If nothing matches:
+tried:
+
+```elixir
+case 1 do
+  x when hd(x) -> "Won't match"   # hd(1) raises, so the guard fails
+  x -> "Got #{x}"
+end
+#=> "Got 1"
+```
+
+If nothing matches:
 
 ```elixir
 case :ok do
@@ -42,7 +52,7 @@ end
 #=> ** (CaseClauseError) no case clause matching: :ok
 ```
 
-The full list of guards is in the [Patterns and Guards](https://elixir.hexdocs.pm/patterns-and-guards.html#guards) reference.
+The full list of guards is in the [Patterns and Guards](/references/patterns-and-guards#guards) reference.
 
 ## if
 

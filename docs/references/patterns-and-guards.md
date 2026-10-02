@@ -123,7 +123,7 @@ end
 for x when x >= 0 <- [1, -2, 3, -4], do: x
 ```
 
-`with` also allows patterns and guards in `else`. `try` supports them in `catch` and `else`, and `receive` uses them to select messages.
+Function clauses (`def`, `defp`) and anonymous functions (`fn`) support patterns and guards too, as do `case` clauses. `with` also allows patterns and guards in `else`. `try` supports them in `catch` and `else`, and `receive` uses them to select messages.
 
 The match operator `=` supports patterns but **not** guards: `{:ok, binary} = File.read("some/file")` has no `when`.
 

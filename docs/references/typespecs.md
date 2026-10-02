@@ -79,6 +79,8 @@ Lists: `list(type)` (proper), `nonempty_list(type)`, `maybe_improper_list(conten
 | `keyword(t)` | `[{atom(), t}]` |
 | `list()` | `[any()]` |
 | `nonempty_list()` | `nonempty_list(any())` |
+| `maybe_improper_list()` | `maybe_improper_list(any(), any())` |
+| `nonempty_maybe_improper_list()` | `nonempty_maybe_improper_list(any(), any())` |
 | `mfa()` | `{module(), atom(), arity()}` |
 | `module()`, `node()` | `atom()` |
 | `no_return()` | `none()` |

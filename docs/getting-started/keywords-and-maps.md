@@ -75,7 +75,7 @@ map.agee             #=> ** (KeyError) key :agee not found
 | `%{map \| key: v}` | `KeyError` |
 
 Raising early catches typos and mistakes fast. Elixir developers prefer `map.key` and pattern
-matching over the `Map` functions for that reason. [Structs](https://elixir.hexdocs.pm/structs.html) build on this.
+matching over the `Map` functions for that reason. [Structs](./structs) build on this.
 
 ## Nested data
 

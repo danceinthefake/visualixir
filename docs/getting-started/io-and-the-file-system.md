@@ -71,6 +71,6 @@ What an integer means depends on the device:
 - **iodata**: integers are **bytes**
 - **chardata**: integers are **Unicode code points**
 
-For ASCII they're the same. Charlists are chardata.
+For ASCII they're the same. Charlists are chardata. A file opened without an encoding expects iodata (use the `bin*` functions), while `:stdio` and files opened with `:utf8` expect chardata.
 
 <Diagram name="io-and-the-file-system/iodata-chardata" caption="The device's encoding decides between iodata and chardata." />

@@ -106,6 +106,14 @@ Inference avoids reporting violations where no runtime error would happen, with 
 - **`for` assumes it runs at least once.** In `for _i <- list do Atom.to_string(x) end` followed by `x + 1`, the checker assumes `x` is an atom. If `list` is empty there's no runtime error, but it still warns. Wrap the loop in `if list != [] do`.
 - **Struct update must be statically proven.** `%User{user | name: "John Doe"}` warns unless the type system can prove `user` is a `User`, even if it always is at runtime. Match when defining it: `%User{} = user = find_user_by_id(42)`.
 
+## Roadmap
+
+Elixir now infers types for all language constructs. The goal is to assess performance and collect feedback on the quality of error messages before adding user-facing types.
+
+If the results are satisfactory, the next milestone is **typed structs**. Programs often pattern match on structs, which reveals the fields but not their types. Propagating field types through the program lets the checker find more errors.
+
+The third milestone is **set-theoretic type signatures for functions**. Erlang typespecs are not precise enough for set-theoretic types, so they will be phased out of the language and their post-processing moved into a separate library once this stage is done.
+
 ## Resources
 
 - Paper: *The Design Principles of the Elixir Type System*, Giuseppe Castagna, Guillaume Duboc and José Valim

@@ -23,7 +23,7 @@ hd([])     #=> ** (ArgumentError) argument error
 
 A list of printable ASCII numbers prints as a *charlist*: `[104, 101, 108, 108, 111]` shows as
 `~c"hello"`. It is still a list of integers. See
-[Binaries, strings, and charlists](https://elixir.hexdocs.pm/binaries-strings-and-charlists.html).
+[Binaries, strings, and charlists](./binaries-strings-and-charlists).
 
 ## Tuples
 

@@ -57,7 +57,7 @@ result   #=> 13
 #=> ** (MatchError) no match of right hand side value: {:error, :oops}
 ```
 
-`:ok` is a literal, so it has to equal `:error`. It doesn't, so the match stops there and `result` is never bound.
+`:ok` is a literal, so the first element of the right side must also be `:ok`. It is `:error`, so the match stops there and `result` is never bound.
 
 <Diagram name="pattern-matching/mismatch" caption="{:ok, result} = {:error, :oops} fails on the first field" />
 

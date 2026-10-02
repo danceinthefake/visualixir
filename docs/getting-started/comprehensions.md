@@ -42,7 +42,7 @@ for dir <- dirs,
 end
 ```
 
- Later ones run inside earlier ones, so two generators give the Cartesian product:
+Later ones run inside earlier ones, so two generators give the Cartesian product:
 
 ```elixir
 for i <- [:a, :b, :c], j <- [1, 2], do: {i, j}
@@ -74,5 +74,11 @@ for {key, val} <- %{"a" => 1, "b" => 2}, into: %{}, do: {key, val * val}  #=> %{
 
 <Diagram name="comprehensions/into" caption="into: chooses where the results are poured." />
 
-`IO.stream/2` is both `Enumerable` and `Collectable`, so `for line <- stream, into: stream, do: String.upcase(line)` is an echo terminal.
+`IO.stream/2` is both `Enumerable` and `Collectable`, so this is an echo terminal that prints back whatever you type, upcased (hit `Ctrl+C` twice to leave it):
+
+```elixir
+stream = IO.stream(:stdio, :line)
+for line <- stream, into: stream, do: String.upcase(line) <> "\n"
+```
+
 `:reduce` and `:uniq` are other options. See the [`for` reference](https://elixir.hexdocs.pm/Kernel.SpecialForms.html#for/1).

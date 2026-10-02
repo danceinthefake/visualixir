@@ -58,7 +58,7 @@ defp example, do: @example
 ## As compile-time constants
 
 For a plain constant, a function is usually enough: prefer `defp hours_in_a_day(), do: 24` over `@hours_in_a_day 24`. A
-composite of plain data (no calls, no operators) is allocated once and shared across every call.
+function can also return a composite of plain data (no calls, no operators), such as `%{timezone: "Etc/UTC", locale: "pt-BR"}`. It is allocated once and shared across every call.
 
 Attributes earn their place when you must compute something at compile time, most often inside patterns and guards, which
 allow only a few expressions:

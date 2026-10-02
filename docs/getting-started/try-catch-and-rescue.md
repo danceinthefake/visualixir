@@ -56,7 +56,9 @@ supervisor starts a fresh one. For *expected* failures, like a user typing a wro
 
 ### Reraise
 
-Rescue to log, then `reraise e, __STACKTRACE__` so the exception keeps its value and origin. ```elixir
+Rescue to log, then re-raise:
+
+```elixir
 try do
   ... some code ...
 rescue
@@ -66,7 +68,7 @@ rescue
 end
 ```
 
-`__STACKTRACE__` is used both when formatting and when re-raising, so the exception is raised as is, with its original value and origin. Errors are never for flow control.
+`__STACKTRACE__` is used both when formatting and when re-raising, so the exception is raised as is, with its original value and origin. Errors are reserved for unexpected or exceptional situations, never for flow control.
 For that, there are throws.
 
 ## Throws
@@ -95,7 +97,7 @@ end
 
 `try/after` cleans up whether or not the block raised. It's a soft guarantee: if a linked process exits, `after` doesn't run.
 Files, ETS tables and sockets are linked to the process and are closed anyway when it crashes. `else` matches the result of the `do` block
-when nothing was raised, and errors inside `else` aren't caught.
+when it finished without a throw or an error, and errors inside `else` aren't caught.
 
 <Diagram name="try-catch-and-rescue/order" caption="after always runs and never changes the returned value." />
 

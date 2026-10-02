@@ -35,8 +35,7 @@ jane = %{john | name: "Jane"}
 %User{} = %{}              #=> ** (MatchError)
 ```
 
-`%User{} = value` checks that the value is a `User` struct. To update from a keyword list or map with unknown fields, use `struct!/2`, which
-raises on invalid fields, instead of `Map` functions.
+`%User{} = value` also checks that the value is a `User` struct.
 
 ## Dynamic updates
 
@@ -71,8 +70,7 @@ Enum.each(john, fn {field, value} -> IO.puts(value) end)
 #=> ** (Protocol.UndefinedError) protocol Enumerable not implemented for %User{age: 27, name: "John"} of type User (a struct)
 ```
 
-In other words, structs don't inherit map features. `john[:name]` fails (no `Access` behaviour) and `Enum.each(john, …)` raises
-`Protocol.UndefinedError`. You attach behaviour like this with [protocols](https://elixir.hexdocs.pm/protocols.html).
+`john[:name]` fails because there is no `Access` behaviour, and `Enum.each(john, …)` raises `Protocol.UndefinedError`. You attach behaviour like this with [protocols](./protocols).
 
 ## Defaults and required keys
 

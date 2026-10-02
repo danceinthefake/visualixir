@@ -48,6 +48,12 @@ Errors from **invalid argument types** always raise, bang or not (`File.read(123
 
 <Diagram name="naming-conventions/get-fetch" caption="Three ways to read a key, three ways to say it's missing." />
 
+For key-value data structures:
+
+- `get` returns the value, or a default (itself `nil` unless you give one) when the key is missing.
+- `fetch` returns `{:ok, value}`, or `:error` when the key is missing.
+- `fetch!` returns the value, or **raises** when the key is missing.
+
 Examples: `Map.get/2`, `Map.fetch/2`, `Map.fetch!/2`, and the same in `Keyword`.
 
 ### compare

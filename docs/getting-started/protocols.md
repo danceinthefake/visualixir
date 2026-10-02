@@ -58,7 +58,7 @@ A struct is a map, but it doesn't share the map's implementations. `Size.size(%M
 
 Writing every implementation by hand gets tedious. Implement the protocol for `Any`, then either:
 
-- **derive**: `@derive [Size]` on a struct, explicit and preferred by most libraries, or
+- **derive**: `@derive [Size]` on a struct, explicit, and the approach many libraries push towards, or
 - **fall back**: `@fallback_to_any true` in the protocol, opt-in for every type (a poor default, so it's off).
 
 ```elixir

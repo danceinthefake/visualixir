@@ -8,8 +8,8 @@ A string is a binary, a binary is a bitstring, and a charlist is a list. This ch
 
 ## Code points and UTF-8
 
-Unicode gives every character a number, its **code point**. `?a` is `97`, `?ł` is `322`. `"a"`
-writes a character by its hex code point.
+Unicode gives every character a number, its **code point**. `?a` is `97`, `?ł` is `322`. `"\u0061"`
+writes a character by its hex code point, so `"\u0061" == "a"`.
 
 A code point is *what* is stored. An **encoding** is *how*. Elixir strings are UTF-8, a variable-width
 encoding that uses 1 to 4 bytes per code point.
