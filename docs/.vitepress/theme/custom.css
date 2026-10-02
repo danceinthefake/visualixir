@@ -30,3 +30,12 @@
   line-height: 1.6;
   color: var(--vp-c-text-2);
 }
+
+/* "Under the hood": our own explanation, set apart from the text taken from the official chapters. */
+.under-the-hood { margin: 24px 0; padding-inline-start: 16px; border-inline-start: 3px solid var(--vp-c-brand-1); }
+.under-the-hood .bless-collapsible__summary { font-size: 1rem; }
+.under-the-hood__note { display: block; letter-spacing: normal; margin-top: 2px; font-size: 0.8125rem; font-weight: 400; color: var(--vp-c-text-2); }
+/* the content area is a grid: without minmax(0, …) wide diagrams stretch it past the viewport */
+.under-the-hood .bless-collapsible__content { grid-template-columns: minmax(0, 1fr); }
+.under-the-hood .bless-collapsible__inner { min-width: 0; font-size: inherit; line-height: inherit; }
+.under-the-hood .bless-collapsible__inner > :first-child { margin-top: 0; }

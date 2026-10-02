@@ -1,6 +1,6 @@
 // Phone layout: at 390px and 320px (WCAG reflow) no page scrolls sideways, diagram text stays readable,
 // and a diagram that scrolls sideways can be reached with the keyboard.
-import { BASE, finish, launch, open, pages, pool } from "./lib.mjs";
+import { BASE, finish, launch, open, openAll, pages, pool } from "./lib.mjs";
 
 const browser = await launch();
 const failures = [];
@@ -12,6 +12,7 @@ for (const width of [390, 320]) {
   await pool(list, workers.length, async (path, _i, worker) => {
     const page = workers[worker];
     await open(page, path);
+    await openAll(page); // diagrams in collapsibles must scroll and stay readable too
     const r = await page.evaluate(() => {
       const vw = innerWidth;
       const wide = [...document.querySelectorAll(".vp-doc *")]

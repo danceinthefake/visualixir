@@ -8,6 +8,7 @@ import "./diagram.css";
 import "./custom.css";
 import Diagram from "./Diagram.vue";
 import DocNotice from "./DocNotice.vue";
+import UnderTheHood from "./UnderTheHood.vue";
 
 export default {
   extends: DefaultTheme,
@@ -43,5 +44,6 @@ export default {
   },
   enhanceApp({ app }) {
     app.component("Diagram", Diagram);
+    app.component("UnderTheHood", UnderTheHood);
   },
 } satisfies Theme;

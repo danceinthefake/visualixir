@@ -18,7 +18,8 @@ const cmd = {
 let server;
 if (!process.env.BASE_URL) {
   const port = 4173;
-  server = spawn("pnpm", ["exec", "vitepress", "preview", "docs", "--port", String(port)], { stdio: "ignore" });
+  // detached: the server is a grandchild of pnpm, so kill the whole group or it outlives the run and holds the port
+  server = spawn("pnpm", ["exec", "vitepress", "preview", "docs", "--port", String(port)], { stdio: "ignore", detached: true });
   for (let i = 0; i < 60; i++) {
     try { if ((await fetch(`http://localhost:${port}/`)).ok) break; } catch {}
     await new Promise((r) => setTimeout(r, 500));
@@ -29,5 +30,5 @@ for (const t of tasks) {
   if (!cmd[t]) { console.error(`unknown check: ${t} (${all.join(", ")})`); failed++; continue; }
   failed += spawnSync("node", cmd[t], { stdio: "inherit" }).status ? 1 : 0;
 }
-server?.kill();
+if (server) try { process.kill(-server.pid); } catch {}
 process.exit(failed ? 1 : 0);

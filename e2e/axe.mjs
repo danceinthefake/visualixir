@@ -2,7 +2,7 @@
 // Usage: node e2e/axe.mjs [--width 1200]   (390 = phone: also catches scrollable regions without keyboard access)
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
-import { BASE, finish, launch, open, pages, pool } from "./lib.mjs";
+import { BASE, finish, launch, open, openAll, pages, pool } from "./lib.mjs";
 
 const width = Number(process.argv[process.argv.indexOf("--width") + 1]) || 1200;
 const axeSrc = readFileSync(createRequire(import.meta.url).resolve("axe-core/axe.min.js"), "utf8");
@@ -18,9 +18,13 @@ for (const scheme of ["light", "dark"]) {
     const page = workers[worker]; // one page per worker slot, never shared
     await open(page, path);
     await page.addScriptTag({ content: axeSrc });
-    const r = await page.evaluate(() => axe.run(document, { resultTypes: ["violations"] }));
-    for (const v of r.violations)
-      failures.push(`${path} [${scheme}, ${width}px] ${v.id} (${v.impact}): ${v.help} e.g. ${v.nodes[0].target.join(" ")}`);
+    // once with every collapsible closed (what a reader first sees), once with them open (axe skips hidden content)
+    for (const state of ["closed", "open"]) {
+      if (state === "open" && !(await openAll(page))) break;
+      const r = await page.evaluate(() => axe.run(document, { resultTypes: ["violations"] }));
+      for (const v of r.violations)
+        failures.push(`${path} [${scheme}, ${width}px, ${state}] ${v.id} (${v.impact}): ${v.help} e.g. ${v.nodes[0].target.join(" ")}`);
+    }
   });
   await ctx.close();
 }

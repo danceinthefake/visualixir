@@ -51,6 +51,17 @@ export async function open(page, path) {
   await page.waitForTimeout(300);
 }
 
+/** Open every collapsible. Returns how many there were. Closed content is skipped by axe and by some layout checks. */
+export async function openAll(page) {
+  const n = await page.evaluate(() => {
+    const all = [...document.querySelectorAll("details")];
+    all.forEach((d) => (d.open = true));
+    return all.length;
+  });
+  if (n) await page.waitForTimeout(500); // the open animation, and diagrams re-measuring
+  return n;
+}
+
 export function finish(name, failures) {
   if (failures.length) {
     console.error(`\n${name}: ${failures.length} problem(s)`);
