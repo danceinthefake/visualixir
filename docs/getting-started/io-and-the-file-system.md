@@ -56,7 +56,7 @@ files across nodes.
 
 **From your call to the disk.** `File.read!/1` and `File.write!/2` end in system calls made by an OS thread named `erts_dios_N`: one of the VM's *dirty IO schedulers*. The VM keeps these apart from the normal schedulers that run your processes, so a slow disk blocks one of them and not your processes ([dirty NIFs](https://www.erlang.org/doc/apps/erts/erl_nif.html)). This machine has 10 (`:erlang.system_info(:dirty_io_schedulers)`).
 
-<Diagram name="io-and-the-file-system/syscalls" caption="The system calls a file read and a file write make, and where the data waits." />
+<Diagram name="io-and-the-file-system/uth-syscalls" caption="The system calls a file read and a file write make, and where the data waits." />
 
 Tracing the calls with `strace -f -y -Y` showed:
 
@@ -80,7 +80,7 @@ $ strace -f -y -Y -e trace=openat,readv,writev,fsync,close elixir script.exs
 
 **Below the VM: the hardware.** Under ext4, this machine has three more layers (`lsblk -s`). First dm-crypt, the kernel's disk encryption, which this volume uses. Then an NVMe driver, which sends commands to the drive over PCIe. Last, the drive itself: a Toshiba KXG50ZNV512G SSD whose own controller stores the data in flash memory. `fsync` reaches all the way down: the man page says it includes "flushing a disk cache if present" and blocks "until the device reports that the transfer has completed" ([fsync(2)](https://man7.org/linux/man-pages/man2/fsync.2.html)).
 
-<Diagram name="io-and-the-file-system/kernel-stack" caption="A write returns once the data is in the page cache. It reaches the SSD later, or at fsync." />
+<Diagram name="io-and-the-file-system/uth-kernel-stack" caption="A write returns once the data is in the page cache. It reaches the SSD later, or at fsync." />
 
 *Sources:* the traces above were captured on Linux with Erlang/OTP 29 and Elixir 1.20. System call names and the disk layers are Linux's and this machine's; other systems differ. [Dirty NIFs](https://www.erlang.org/doc/apps/erts/erl_nif.html) are documented in the Erlang docs.
 

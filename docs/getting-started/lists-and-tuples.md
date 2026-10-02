@@ -72,7 +72,7 @@ immutable.
 
 **Where the data lives.** Every process has its own heap: an array of *words*, 8 bytes each on a 64-bit machine. A small integer or an atom fits in one word. A list cell is two words: the element (or a pointer to it) and a pointer to the rest of the list. A tuple is one header word that holds its size, then one word per element.
 
-<Diagram name="lists-and-tuples/heap-words" caption="The same data as words on the heap, and the one instruction that reads each." />
+<Diagram name="lists-and-tuples/uth-heap-words" caption="The same data as words on the heap, and the one instruction that reads each." />
 
 **What the CPU does.** The compiler turns `[head | _]` into `get_hd` and a tuple pattern into `get_tuple_element`: each loads one word. On x86-64 and aarch64 the VM translates those instructions to native machine code when a module loads ([BeamAsm](https://www.erlang.org/doc/apps/erts/beamasm.html); `:erlang.system_info(:emu_flavor)` is `:jit` here). `length/1` has to follow the pointer in every cell, so it costs time in proportion to the list. A tuple's size sits in its header, so checking it, as `test_arity` does, walks nothing.
 
@@ -93,7 +93,7 @@ This sharing only holds inside one process. A term sent as a message, or stored 
 
 **Below the VM: the hardware.** `get_hd` ends up as a *load instruction*: read the word at this address. The CPU translates the address with the page tables, then looks in its caches before going to RAM. On this machine each core has a 32 KiB L1 and a 512 KiB L2 cache, and all cores share a 16 MiB L3 (`lscpu`). Data moves between RAM and the caches in 64-byte *cache lines* (`getconf LEVEL1_DCACHE_LINESIZE`), so reading one word brings its neighbours along. A list cell is 16 bytes, so a line holds four cells that sit side by side, and a small tuple fits in one or two lines. Reading data that is already in a cache is cheap, and a miss that goes all the way to RAM is slow ([What Every Programmer Should Know About Memory](https://akkadia.org/drepper/cpumemory.pdf)).
 
-<Diagram name="lists-and-tuples/memory-stack" caption="From hd(list) down to the CPU caches, RAM and the kernel's page tables." />
+<Diagram name="lists-and-tuples/uth-memory-stack" caption="From hd(list) down to the CPU caches, RAM and the kernel's page tables." />
 
 *Sources:* the [Erlang memory guide](https://www.erlang.org/doc/system/memory.html) for the word as the unit. Its table of sizes is from OTP 19 and is off by a word for tuples and lists, so the sizes above come from measurement. Instructions were read with `:beam_disasm`. Hardware figures come from `lscpu` and `getconf` on an AMD Ryzen 7 5700G; other CPUs have other sizes.
 

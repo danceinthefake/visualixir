@@ -72,6 +72,7 @@ chapters, and says so in its title. The rules are stricter than for the rest of 
 - **Prefer measurement to memory.** The Erlang memory guide's size table is from OTP 19 and is off by a word
   for tuples and lists. Check with `:erts_debug.flat_size/1`, `:erlang.process_info/2`, `:beam_disasm`, or `strace -f -y -Y`.
 - **No section is better than an invented one.** If a construct has no memory, CPU or storage story, leave it out.
+- Name their diagrams `uth-<name>.dot` so licensing (MIT, original work) is picked up by one glob in `REUSE.toml`.
 - The audit (`pnpm audit:pages`) skips these sections and the diagrams used only in them, so nothing checks them
   for you. Review them by hand.
 
