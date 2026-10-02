@@ -31,11 +31,21 @@
   color: var(--vp-c-text-2);
 }
 
-/* "Under the hood": our own explanation, set apart from the text taken from the official chapters. */
-.under-the-hood { margin: 24px 0; padding-inline-start: 16px; border-inline-start: 3px solid var(--vp-c-brand-1); }
-.under-the-hood .bless-collapsible__summary { font-size: 1rem; }
-.under-the-hood__note { display: block; letter-spacing: normal; margin-top: 2px; font-size: 0.8125rem; font-weight: 400; color: var(--vp-c-text-2); }
+/* "Under the hood": our own explanation. A tinted panel with an accent bar, so it can't be mistaken for the chapter text. */
+.under-the-hood {
+  margin: 32px 0;
+  padding: 0 20px 8px;
+  background: var(--vp-c-brand-soft);
+  border: 1px solid var(--vp-c-brand-1);
+  border-inline-start-width: 6px;
+  border-bottom: 1px solid var(--vp-c-brand-1);
+}
+.under-the-hood .bless-collapsible__summary { padding: 14px 0; font-size: 1.0625rem; color: var(--vp-c-brand-1); }
+/* Blessing fades a hovered summary with opacity, which drops this title below 4.5:1: underline it instead */
+.under-the-hood .bless-collapsible__summary:hover { opacity: 1; text-decoration: underline; }
+.under-the-hood__note { display: block; margin-top: 2px; font-size: 0.8125rem; font-weight: 400; letter-spacing: normal; color: var(--vp-c-text-2); }
 /* the content area is a grid: without minmax(0, …) wide diagrams stretch it past the viewport */
 .under-the-hood .bless-collapsible__content { grid-template-columns: minmax(0, 1fr); }
 .under-the-hood .bless-collapsible__inner { min-width: 0; font-size: inherit; line-height: inherit; }
 .under-the-hood .bless-collapsible__inner > :first-child { margin-top: 0; }
+.under-the-hood .bless-collapsible[open] > .bless-collapsible__summary { border-bottom: 1px solid var(--vp-c-divider); margin-bottom: 12px; }

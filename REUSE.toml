@@ -69,6 +69,9 @@ path = [
   "docs/diagrams/processes/scheduler.*",
   "docs/diagrams/processes/message-copy.*",
   "docs/diagrams/io-and-the-file-system/syscalls.*",
+  "docs/diagrams/lists-and-tuples/memory-stack.*",
+  "docs/diagrams/processes/threads-cores.*",
+  "docs/diagrams/io-and-the-file-system/kernel-stack.*",
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "2026 DanceInTheFake"

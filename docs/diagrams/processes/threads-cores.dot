@@ -1,0 +1,11 @@
+digraph threads_cores {
+  node [shape=box]
+  p [label="20_053 Elixir processes\nonly data: a few KB of heap and a mailbox each"]
+  vm [label="the VM decides which process runs next\nrun queues and reductions" class=hl]
+  t [label="16 scheduler threads: OS threads named erts_sched_N\nspawning 20_000 processes added no thread"]
+  os [label="the Linux kernel decides which CPU runs each OS thread" class=hl]
+  cpu [label="16 logical CPUs: 8 cores with 2 hardware threads each\nunder load, the 16 threads used 14 of them"]
+  other [label="the VM's other OS threads: 48 in all\n16 dirty CPU, 10 dirty IO, 6 helpers" class=dim]
+  p -> vm -> t -> os -> cpu
+  t -> other [style=invis]
+}

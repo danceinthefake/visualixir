@@ -1,0 +1,22 @@
+digraph memory_stack {
+  node [shape=box]
+  a [label="your code: hd(list)"]
+  b [label="the VM: one instruction, get_hd\n(native machine code under the JIT)"]
+  c [label="the CPU: a load instruction\nwith a virtual address" class=hl]
+  subgraph cluster_cpu {
+    label="inside the CPU: caches, nearest first (this Ryzen 7 5700G)"
+    l1 [label="L1 cache\n32 KiB per core"]
+    l2 [label="L2 cache\n512 KiB per core"]
+    l3 [label="L3 cache\n16 MiB, shared by all cores"]
+    l1 -> l2 [label=" not found: next\l"]
+    l2 -> l3 [label=" not found: next\l"]
+  }
+  ram [label="RAM\ndata moves in 64-byte cache lines"]
+  pt [label="page tables, kept by the kernel:\nvirtual address to physical page\n(pages are 4096 bytes)" class=dim]
+  pf [label="first touch of a new page:\nthe kernel assigns one (a page fault)\nabout 25_000 to build a 32 MB list" class=dim]
+  a -> b -> c
+  c -> l1 [label=" looks here first\l"]
+  l3 -> ram [label=" not found: next\l"]
+  c -> pt [style=dashed label=" translated by\l"]
+  pt -> pf [style=dashed]
+}

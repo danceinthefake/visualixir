@@ -76,6 +76,12 @@ big = :binary.copy("x", 10_000_000)
 
 Binaries of up to 64 bytes live on the heap and are copied like any other term. Larger ones are stored outside every heap and reference-counted ([Binary handling](https://www.erlang.org/doc/system/binaryhandling.html)). That is why a copy is cheap for a 10 MB binary and costly for a 100,000-element list. Numbers were measured with Erlang/OTP 29 on 64-bit Linux.
 
+**Below the VM: the kernel and the CPU.** The VM is an ordinary Linux program made of OS threads: 48 on this machine, of which 16 are schedulers (`erts_sched_N`), 16 dirty CPU, 10 dirty IO and 6 helpers. Spawning 20,053 Elixir processes did not add a single thread. A process is only data, a few KB of heap and a mailbox, that a scheduler thread picks up and runs for a while. So two schedulers are at work, one inside the other. The VM decides which process runs next on each of its threads. The Linux kernel decides which CPU runs each of those threads ([sched(7)](https://man7.org/linux/man-pages/man7/sched.7.html)). The VM's 4000 reductions are its own limit and are separate from Linux, which can also pause a thread whenever it chooses.
+
+<Diagram name="processes/threads-cores" caption="Two schedulers: the VM picks the process, the Linux kernel picks the CPU." />
+
+**Below the VM: the hardware.** This CPU, an AMD Ryzen 7 5700G, has 8 cores with 2 hardware threads each, so Linux sees 16 logical CPUs. That is why the VM started 16 schedulers. With 32 busy processes, the 16 scheduler threads were spread over 14 of the 16 logical CPUs (read from `/proc/self/task`). Sending the 1.6 MB list from the example above means reading it from the sender's heap and writing it into the receiver's, so all of it passes through the CPU's caches. 1.6 MB is more than a core's 512 KiB L2 cache, so it can't all stay in the nearest cache.
+
 *Sources:* the Erlang docs linked above, and the [BEAM Book](https://blog.stenmans.org/theBeamBook/) for how schedulers treat a process that is waiting. The reduction count per turn is the value this OTP release reports and has changed between releases.
 
 </UnderTheHood>
