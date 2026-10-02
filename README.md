@@ -54,6 +54,10 @@ Icons and the social image are in `docs/public/` (`favicon.svg`, `favicon-32.png
 
 CI runs the audit and the build on every push, then the e2e checks (three jobs in parallel), and deploys only if they pass. Set `CHROMIUM=/usr/bin/chromium` to use a system browser locally instead of Playwright's download.
 
+## "Under the hood" sections
+
+Some pages end a section with a collapsed **Under the hood** panel: what the construct does in memory, on the CPU or on storage, down to the kernel and the hardware. It is our own explanation, not derived from the official chapters, and says so in its title. Every claim is cited to the Erlang/OTP docs or a man page, or measured (Elixir 1.20 / OTP 29, 64-bit Linux). The rules for writing one are in [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Keeping up with the official docs
 
 The pages mirror the official Elixir docs as of a **snapshot** (date and Elixir version in `upstream/SNAPSHOT.json`, shown under every page and in the footer). `upstream/` holds the official chapters as they were when each page was written.

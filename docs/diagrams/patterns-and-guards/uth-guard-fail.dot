@@ -1,0 +1,11 @@
+digraph guard_fail {
+  node [shape=box]
+  subgraph cluster_body {
+    label="in a function body: map_size(m) == 0"
+    b [label="the instruction has failure label 0:\na wrong argument raises an error"]
+  }
+  subgraph cluster_guard {
+    label="in a guard: when map_size(m) == 0"
+    g [label="the instruction has a real failure label (16):\na wrong argument makes the guard fail\nand execution jumps to the next clause" class=hl]
+  }
+}

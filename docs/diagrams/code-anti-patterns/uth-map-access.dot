@@ -1,0 +1,15 @@
+digraph map_access {
+  node [shape=box]
+  subgraph cluster_s {
+    label="point.x"
+    s1 [label="is_map, then get_map_elements: instructions in the function"]
+    s2 [label="a missing key goes straight to the KeyError code" class=hl]
+    s1 -> s2
+  }
+  subgraph cluster_d {
+    label="point[:x]"
+    d1 [label="call_ext_only Access.get/2: a function call"]
+    d2 [label="it works for maps, keyword lists and more,\nand a missing key returns nil"]
+    d1 -> d2
+  }
+}

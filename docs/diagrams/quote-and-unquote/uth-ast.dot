@@ -1,0 +1,9 @@
+digraph ast {
+  node [shape=box]
+  q [label="quote do: sum(1, 2, 3)"]
+  t [label="a 3-tuple {:sum, [], [1, 2, 3]}: 4 words\nplus a list of 3 arguments: 6 words\n10 words of heap in all" class=hl]
+  n [label="quote do: sum(1, 2 + 3, 4): 38 words\nthe nested + adds its own tuple and metadata"]
+  src [label="a 3-line function: 28 bytes of source text\n640 bytes of heap as a quoted expression, with line information" class=dim]
+  q -> t -> n
+  n -> src [style=invis]
+}

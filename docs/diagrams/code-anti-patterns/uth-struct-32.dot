@@ -1,0 +1,8 @@
+digraph struct32 {
+  node [shape=box]
+  a [label="31 fields: 32 keys with __struct__\na flat map: the keys tuple is shared\n37 words per instance"]
+  b [label="32 fields: 33 keys, a hash tree\nnothing to share: 125 words per instance" class=hl]
+  c [label="40 fields: 151 words per instance" class=dim]
+  a -> b [label=" one more field\l"]
+  b -> c
+}

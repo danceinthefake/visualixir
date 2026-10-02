@@ -73,6 +73,16 @@ defp convert_status("redirect"), do: :redirect
 
 <Diagram name="code-anti-patterns/atoms" caption="Keep the set of atoms fixed and known." />
 
+<UnderTheHood>
+
+**Why the limit is the problem, not memory.** Measured, creating 10,000 new atoms grew the atom table by about 34 bytes each (for short names). At that rate the table's limit of 1,048,576 atoms is only about 35 MB, so it fills long before the machine runs out of memory, as the chapter says. I started a throwaway VM with a low limit (`erl +t 20000`) and created atoms past it: the VM stopped with `no more index entries in atom_tab (max=20000)` and wrote a crash dump. Atoms are never freed, so anyone who can make your code create atoms can stop the whole node.
+
+<Diagram name="code-anti-patterns/uth-atom-limit" caption="The atom table is small and never freed, so filling it stops the VM." />
+
+*Sources:* measured on Erlang/OTP 29 with `:erlang.memory/1` and `:erlang.system_info/1`. The [memory guide](https://www.erlang.org/doc/system/memory.html) notes that the atom table is not garbage-collected.
+
+</UnderTheHood>
+
 ## Long parameter list
 
 **Problem:** functions with too many arguments have a confusing interface and invite mistakes: `loan(user_name, email, password, user_alias, book_title, book_ed)`.
@@ -111,6 +121,16 @@ defmodule PlugAuth do    # good
 
 Pattern matching is another option: `def plot(%{x: x, y: y, z: z})` and `def plot(%{x: x, y: y})` check that the keys exist and extract in one step, raising `FunctionClauseError` otherwise. Structs (with `@enforce_keys`) only allow static access, at the cost of a compile-time dependency.
 
+<UnderTheHood>
+
+**Two different pieces of machine code.** I compiled `point.x` and `point[:x]` and read them with `:beam_disasm`. `point.x` is `is_map` followed by `get_map_elements`, instructions in the function itself, and a missing key falls through to the code that raises `KeyError`. `point[:x]` is `call_ext_only Access.get/2`, a call to a function that works for maps, keyword lists and other types, and returns `nil` when the key is missing. The dynamic form can do more, and that is also why it cannot tell the compiler that the key must be there.
+
+<Diagram name="code-anti-patterns/uth-map-access" caption="point.x is instructions in your function. point[:x] is a call to Access.get/2." />
+
+*Sources:* disassembled with `:beam_disasm` on Elixir 1.20 / OTP 29.
+
+</UnderTheHood>
+
 ## Non-assertive pattern matching
 
 **Problem:** defensive code that always returns *something*, even for input it wasn't written for, hides bugs. `Enum.at(String.split(pair, "="), 1)` on `"university=institution=UFMG"` quietly returns `"institution"`.
@@ -141,3 +161,15 @@ It matters most with Erlang APIs, which never return `nil` but may return `:erro
 <Diagram name="code-anti-patterns/struct-32" caption="Under 32 fields, every struct shares one tuple of keys." />
 
 **Refactoring:** keep it under 32. Nest optional fields in one `:metadata` field, nest rarely used fields in a sub-struct, or group fields that change together in a tuple. Balance this against the ergonomics of fields that are read and written often.
+
+<UnderTheHood>
+
+**The extra key.** A struct is a map with one more key, `__struct__`, so a struct with 31 fields has 32 keys and one with 32 fields has 33. Measured with `:erts_debug.size/1`: with 31 fields, 1000 instances with every field set cost about 37 words each, because they share one tuple of keys. At 32 fields it was about 125 words each, 3.4 times more, and at 40 fields about 151. At 32 fields the map is a hash tree (the Keywords and maps section shows the jump) and there is no key tuple to share. This is the cost the anti-pattern describes.
+
+One case went the other way: copying an existing 40-field struct with one field changed shared most of the tree and cost about 26 words, less than for a small struct. So the measured cost is about creating many structs with all their fields set, not about updating one.
+
+<Diagram name="code-anti-patterns/uth-struct-32" caption="At 32 fields a struct stops sharing its keys, and each instance costs about three times more." />
+
+*Sources:* measured on Erlang/OTP 29, 64-bit. The threshold is the one in the official chapter and the [memory guide](https://www.erlang.org/doc/system/memory.html).
+
+</UnderTheHood>

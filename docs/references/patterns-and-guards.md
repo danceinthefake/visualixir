@@ -108,6 +108,16 @@ def empty?(val)
 
 <Diagram name="patterns-and-guards/guard-errors" caption="An error inside one or-ed guard fails all of it. Separate guards are tried one by one." />
 
+<UnderTheHood>
+
+**Why an error in a guard only fails the guard.** I compiled `when map_size(m) == 0` and the same expression in a function body, and read both with `:beam_disasm`. In the body, the `map_size` instruction has failure label `0`, which means "raise the error". In the guard, it has a real label (16): if the argument is not a map the instruction jumps there, to the next clause, and nothing is raised. So the rule that guards fail instead of raising isn't a special case checked at runtime: it is how the compiler wires the instruction.
+
+<Diagram name="patterns-and-guards/uth-guard-fail" caption="In a guard, the same instruction jumps to the next clause on failure instead of raising." />
+
+*Sources:* disassembled with `:beam_disasm` on Elixir 1.20 / OTP 29.
+
+</UnderTheHood>
+
 ## Where they are allowed
 
 <Diagram name="patterns-and-guards/where" caption="Everything that matches accepts a pattern, and most accept guards." />

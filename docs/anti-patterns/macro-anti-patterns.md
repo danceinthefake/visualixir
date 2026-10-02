@@ -52,6 +52,16 @@ end
 
 <Diagram name="macro-anti-patterns/large-gen" caption="The checks are compiled once, not once per route." />
 
+<UnderTheHood>
+
+**What the extra code costs.** I generated 300 functions with a macro in two ways. In the fat macro, the checks were written inside every generated function. In the thin macro, each function was a single call to one shared function that holds the checks. The fat version produced a 142,968-byte `.beam` compiled in 263 ms, and the thin one a 56,324-byte `.beam` in 54 ms: 2.5 times the file and about 5 times the compile time. The generated code is compiled and stored once per call to the macro, so it grows with every use.
+
+<Diagram name="macro-anti-patterns/uth-large-gen" caption="Code a macro generates is compiled and written to the .beam once per call." />
+
+*Sources:* measured with `Code.compile_string/1` and `:timer.tc/1` on Elixir 1.20 / OTP 29. If the macro's code runs while the module compiles, as with attributes, the file doesn't grow, but the compile time still does (130 ms against 20 ms in my first try).
+
+</UnderTheHood>
+
 ## Unnecessary macros
 
 **Problem:** a macro where a function would do makes code harder to read and reason about, and harder to evolve.

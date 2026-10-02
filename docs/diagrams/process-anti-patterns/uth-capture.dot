@@ -1,0 +1,9 @@
+digraph capture {
+  node [shape=box]
+  a [label="spawn(fn -> log_request_ip(conn.remote_ip) end)\nthe closure captures all of conn (104 KB)"]
+  ar [label="the new process: 139 KB" class=hl]
+  b [label="ip = conn.remote_ip\nspawn(fn -> log_request_ip(ip) end)"]
+  br [label="the new process: 2 KB" class=hl]
+  a -> ar [label=" the whole closure\l is copied\l"]
+  b -> br
+}

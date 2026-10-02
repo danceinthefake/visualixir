@@ -40,6 +40,16 @@ Five literals quote to **themselves**: atoms, numbers, lists, strings and two-el
 
 <Diagram name="quote-and-unquote/literals" caption="Almost everything is a tuple. Five literals are not." />
 
+<UnderTheHood>
+
+**A quoted expression is ordinary data on the heap.** `quote do: sum(1, 2, 3)` is the tuple `{:sum, [], [1, 2, 3]}`: 4 words for the tuple and 6 for the list of arguments, 10 words in all (`:erts_debug.flat_size/1`). A nested call adds its own tuple and metadata: `sum(1, 2 + 3, 4)` took 38 words. The `+` carries `[context: Elixir, import: Kernel]`. A three-line function is 28 bytes as source text and, parsed with its line information, 640 bytes of heap. Nothing here is special to the VM: the compiler walks these tuples and lists like any others, and macros receive and return them.
+
+<Diagram name="quote-and-unquote/uth-ast" caption="Quoted code is tuples and lists on the heap, with a cost in words like any other term." />
+
+*Sources:* measured on Elixir 1.20 / OTP 29. Sizes depend on the metadata the parser attaches.
+
+</UnderTheHood>
+
 ## Unquoting
 
 `quote` gives you the code as written. To inject a *value* into it, use `unquote/1`:

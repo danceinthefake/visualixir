@@ -1,0 +1,11 @@
+digraph large_gen {
+  node [shape=box]
+  subgraph cluster_fat {
+    label="fat macro: the checks are inside every generated function"
+    f [label="300 functions: .beam 142_968 bytes\ncompiled in 263 ms"]
+  }
+  subgraph cluster_thin {
+    label="thin macro: each function calls one shared function"
+    t [label="300 functions: .beam 56_324 bytes\ncompiled in 54 ms" class=hl]
+  }
+}

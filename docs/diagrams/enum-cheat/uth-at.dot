@@ -1,0 +1,8 @@
+digraph at {
+  node [shape=box]
+  l0 [label="Enum.at(list, 0): the first cell\n3 microseconds"]
+  l1 [label="Enum.at(list, 999_999): follow 999_999 pointers\nthrough 16 MB of list cells: 2_377 microseconds" class=hl]
+  t [label="elem(tuple, 999_999): one load at a fixed offset\nunder a microsecond" class=dim]
+  l0 -> l1 [style=invis]
+  l1 -> t [style=invis]
+}

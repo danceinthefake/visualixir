@@ -1,0 +1,14 @@
+digraph bottleneck {
+  node [shape=box]
+  subgraph cluster_fun {
+    label="a plain function: Calculator.add(a, b)"
+    f [label="runs in each caller, on whatever scheduler it is on\n16 callers, 8_000_000 adds: 281 ms" class=hl]
+  }
+  subgraph cluster_gs {
+    label="a GenServer: GenServer.call(pid, {:add, a, b})"
+    c [label="16 callers send messages"]
+    mb [label="one mailbox, handled one at a time by one process"]
+    g [label="16 callers, 2_000_000 adds: 1_406 ms\n500_000 adds from one caller: 598 ms against 32 ms for the function"]
+    c -> mb -> g
+  }
+}

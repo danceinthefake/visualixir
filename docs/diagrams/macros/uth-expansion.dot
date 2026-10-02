@@ -1,0 +1,15 @@
+digraph expansion {
+  node [shape=box]
+  subgraph cluster_fun {
+    label="fun_unless(x, do: IO.puts(\"hi\"))"
+    f1 [label="IO.puts is called first:\nthe argument is evaluated before the call"]
+    f2 [label="build the do: [...] list, then call_ext_last\nUthUnless.fun_unless/2"]
+    f1 -> f2
+  }
+  subgraph cluster_mac {
+    label="macro_unless(x, do: IO.puts(\"hi\"))"
+    m1 [label="the macro ran while compiling: the caller holds the result"]
+    m2 [label="select_val on x, then call IO.puts only if it falls through\nno call to the macro's module at all" class=hl]
+    m1 -> m2
+  }
+}

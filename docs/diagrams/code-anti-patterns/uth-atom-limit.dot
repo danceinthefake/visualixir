@@ -1,0 +1,9 @@
+digraph atom_limit {
+  node [shape=box]
+  a [label="String.to_atom(input), once per new string"]
+  b [label="each new atom adds about 34 bytes to the table\n1_048_576 atoms is only about 35 MB"]
+  c [label="the table is full: the VM stops\n\"no more index entries in atom_tab\" and a crash dump" class=hl]
+  d [label="so the limit is reached long before memory runs out" class=dim]
+  a -> b -> c
+  c -> d [style=invis]
+}
