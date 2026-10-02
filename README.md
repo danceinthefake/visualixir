@@ -12,6 +12,10 @@ pnpm run dev           # builds diagrams, then serves docs
 pnpm run build
 ```
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). The most useful report is a page that disagrees with the official chapter.
+
 ## Layout
 
 ```

@@ -1,0 +1,29 @@
+name: Inaccuracy
+description: A page says something the official chapter doesn't, or leaves out something it should keep.
+labels: [inaccuracy]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: Link to the page on visualixir.blessing.id.
+    validations:
+      required: true
+  - type: textarea
+    id: says
+    attributes:
+      label: What the page says
+      description: Quote the sentence, or describe the diagram.
+    validations:
+      required: true
+  - type: textarea
+    id: official
+    attributes:
+      label: What the official docs say
+      description: Quote it and link the chapter on elixir.hexdocs.pm.
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else

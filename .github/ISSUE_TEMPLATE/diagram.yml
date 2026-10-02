@@ -1,0 +1,22 @@
+name: Diagram problem
+description: A diagram is wrong, confusing, unreadable on a phone, or has bad contrast.
+labels: [diagram]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page and diagram
+      description: Link to the page and say which diagram.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's wrong
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Browser, device, theme
+      description: For example, Firefox on Android, dark mode.

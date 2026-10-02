@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question about Elixir itself
+    url: https://elixirforum.com
+    about: This tracker is for the Visualixir site, not for learning Elixir.
+  - name: The official Elixir docs
+    url: https://elixir.hexdocs.pm
+    about: Visualixir follows these. A problem in the official text belongs upstream.
