@@ -27,6 +27,14 @@ Visualixir contains two kinds of material under two licences.
    Compatibility and deprecations, Naming conventions, Operators reference, Patterns and
    guards, Syntax reference, Typespecs reference, Unicode syntax and Writing documentation.
 
+3. ORIGINAL EXPLANATIONS
+   Sections headed "Under the hood" (the <UnderTheHood> blocks in the pages) are Visualixir's own
+   explanations of what happens below the language. They are not derived from the Elixir documentation
+   and say so on the page. Their text sits in page files that are Apache-2.0 as a whole, so it is
+   offered under Apache-2.0 with the rest of the file. The diagrams used only in those sections are
+   MIT, listed in REUSE.toml. They are based on the Erlang/OTP documentation and on measurements, which
+   each section states.
+
 CHANGES MADE TO THE ELIXIR DOCUMENTATION (Apache License 2.0, section 4b)
    - Condensed, restructured and paraphrased the prose; some sections were merged or reordered.
    - Rewrote many code examples in a shorter form, and reformatted output as tables.

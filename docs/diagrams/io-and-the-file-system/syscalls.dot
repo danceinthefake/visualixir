@@ -1,0 +1,23 @@
+digraph syscalls {
+  node [shape=box]
+  subgraph cluster_beam {
+    label="the Erlang VM"
+    p [label="your process\nFile.read!(path)\nFile.write!(path, iodata)" class=hl]
+    d [label="a dirty IO scheduler thread\n(erts_dios_N): the normal\nschedulers stay free while\nit waits on the OS"]
+    p -> d [label=" runs the\l file operation\l"]
+  }
+  subgraph cluster_os {
+    label="the operating system"
+    r [label="read:\nopenat, fstat,\nreadv, close"]
+    w [label="write:\nopenat, fstat, writev\n(one buffer), close\n:file.sync adds fsync"]
+    cache [label="kernel page cache\nfile data held in memory"]
+    disk [label="the storage device"]
+    r -> cache [dir=both]
+    w -> cache
+    cache -> disk [label=" written back later,\l or at fsync\l"]
+  }
+  d -> r
+  d -> w
+  res [label="the data comes back as a binary:\nover 64 bytes it lives outside\nthe heap, your process holds\na small reference" class=hl]
+  r -> res [style=dashed]
+}

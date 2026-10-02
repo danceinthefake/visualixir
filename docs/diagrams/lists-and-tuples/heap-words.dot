@@ -1,0 +1,15 @@
+digraph heap_words {
+  node [shape=record]
+  subgraph cluster_list {
+    label="list [1, 2, 3]: 3 cells of 2 words = 6 words = 48 bytes"
+    l [label="<e1>1|→ cell 2|2|→ cell 3|3|[]"]
+    hd [label="hd/1 and [head | tail] = list:\nget_hd is one load of the first word.\nThe tail is the second word." shape=box class=hl]
+    hd -> l:e1 [style=dashed]
+  }
+  subgraph cluster_tuple {
+    label="tuple {:a, :b, :c, :d}: 5 words = 40 bytes"
+    t [label="<h>arity 4|<a>:a|<b>:b|<c>:c|<d>:d"]
+    te [label="a tuple pattern: get_tuple_element\nis one load at a fixed offset" shape=box class=hl]
+    te -> t:c [style=dashed]
+  }
+}

@@ -68,6 +68,31 @@ immutable.
 - **Tagged tuple** for succeed-or-fail results: `File.read/1` gives `{:ok, contents}` or
   `{:error, :enoent}`. Pattern matching handles both.
 
+<UnderTheHood>
+
+**Where the data lives.** Every process has its own heap: an array of *words*, 8 bytes each on a 64-bit machine. A small integer or an atom fits in one word. A list cell is two words: the element (or a pointer to it) and a pointer to the rest of the list. A tuple is one header word that holds its size, then one word per element.
+
+<Diagram name="lists-and-tuples/heap-words" caption="The same data as words on the heap, and the one instruction that reads each." />
+
+**What the CPU does.** The compiler turns `[head | _]` into `get_hd` and a tuple pattern into `get_tuple_element`: each loads one word. On x86-64 and aarch64 the VM translates those instructions to native machine code when a module loads ([BeamAsm](https://www.erlang.org/doc/apps/erts/beamasm.html); `:erlang.system_info(:emu_flavor)` is `:jit` here). `length/1` has to follow the pointer in every cell, so it costs time in proportion to the list. A tuple's size sits in its header, so checking it, as `test_arity` does, walks nothing.
+
+**Why `++` copies and prepending doesn't.** `[x | list]` allocates one new cell (the compiler reserves two words with `test_heap`, then `put_list`) that points at the old list, so nothing is copied. `list ++ [4]` has to build new cells that end in `[4]`, so it copies every cell of `list`. `put_elem/3` builds a new tuple of `n + 1` words, and elements are shared, not copied.
+
+```elixir
+l = Enum.to_list(1..1000)
+:erts_debug.flat_size(l)             #=> 2000  words: 2 per cell
+:erts_debug.size([l, [0 | l]])       #=> 2006  prepend: 6 words, l is shared
+:erts_debug.size([l, l ++ [4]])      #=> 4006  append: l is copied
+```
+
+`size/1` counts shared parts once and `flat_size/1` counts every part. `:erts_debug` is a debugging module, not a stable API. Numbers were measured on a 64-bit machine with Erlang/OTP 29 and will differ on other builds.
+
+This sharing only holds inside one process. A term sent as a message, or stored in an ETS table, is copied without it ("loss of sharing" in the [Efficiency Guide](https://www.erlang.org/doc/system/eff_guide_processes.html)).
+
+*Sources:* the [Erlang memory guide](https://www.erlang.org/doc/system/memory.html) for the word as the unit. Its table of sizes is from OTP 19 and is off by a word for tuples and lists, so the sizes above come from measurement. Instructions were read with `:beam_disasm`.
+
+</UnderTheHood>
+
 ## Size or length?
 
 The name tells you the cost. `size` is constant time, `length` is linear (both start with "l").

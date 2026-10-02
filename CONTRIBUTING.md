@@ -61,6 +61,20 @@ CI runs the same checks and blocks the deploy if one fails. Run `pnpm assets` on
 Keep a pull request to one thing. Describe the change from the reader's side first (what they'll see
 differently), then the mechanics.
 
+## "Under the hood" sections
+
+A page may have one optional collapsed section explaining what a construct does in memory, on the CPU or on
+storage: `<UnderTheHood> ... </UnderTheHood>`. It is our own explanation, not derived from the official
+chapters, and says so in its title. The rules are stricter than for the rest of the page:
+
+- **Every claim is cited or demonstrated.** Cite the Erlang/OTP docs (or the BEAM Book, or a man page), or show a
+  snippet you ran and its output. Quote numbers you measured, and say the platform and OTP version.
+- **Prefer measurement to memory.** The Erlang memory guide's size table is from OTP 19 and is off by a word
+  for tuples and lists. Check with `:erts_debug.flat_size/1`, `:erlang.process_info/2`, `:beam_disasm`, or `strace -f -y -Y`.
+- **No section is better than an invented one.** If a construct has no memory, CPU or storage story, leave it out.
+- The audit (`pnpm audit:pages`) skips these sections and the diagrams used only in them, so nothing checks them
+  for you. Review them by hand.
+
 ## When the official docs change
 
 A weekly workflow opens an `upstream-drift` issue when the official chapters change. To handle it:

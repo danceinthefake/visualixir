@@ -1,0 +1,17 @@
+digraph scheduler {
+  node [shape=box]
+  subgraph cluster_queue {
+    label="run queue: processes ready to run, in order"
+    q [label="<f0>process B (front)|process C|…" shape=record]
+  }
+  subgraph cluster_core {
+    label="a CPU core"
+    sched [label="scheduler: an OS thread\n(by default one per logical processor)" class=hl]
+    run [label="running: process A\nits own heap, 233 words to start"]
+    sched -> run
+  }
+  q:f0 -> sched [label=" next in line\l"]
+  run -> q [label=" after about 4000 reductions\l (roughly function calls):\l back of the queue\l" style=dashed constraint=false]
+  w [label="process D waits in receive:\nnot queued, no CPU use\nuntil a message arrives" class=dim]
+  run -> w [style=invis]
+}

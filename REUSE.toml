@@ -60,3 +60,16 @@ path = "upstream/**"
 precedence = "aggregate"
 SPDX-FileCopyrightText = ["2012 Plataformatec", "2021 The Elixir Team", "2025 The Elixir Team"]
 SPDX-License-Identifier = "Apache-2.0"
+
+# Diagrams that appear only inside <UnderTheHood> sections: original work, not derived from the Elixir docs.
+# (The sections' text lives in page files that are Apache-2.0 as a whole. REUSE cannot split a file.)
+[[annotations]]
+path = [
+  "docs/diagrams/lists-and-tuples/heap-words.*",
+  "docs/diagrams/processes/scheduler.*",
+  "docs/diagrams/processes/message-copy.*",
+  "docs/diagrams/io-and-the-file-system/syscalls.*",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 DanceInTheFake"
+SPDX-License-Identifier = "MIT"

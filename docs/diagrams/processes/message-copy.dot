@@ -1,0 +1,21 @@
+digraph message_copy {
+  node [shape=box]
+  subgraph cluster_a {
+    label="sender: its own heap"
+    sl [label="a list of 100_000 integers\n200_000 words = 1.6 MB"]
+    sp [label="a ProcBin: a small reference\nto a 10 MB binary"]
+  }
+  subgraph cluster_b {
+    label="receiver: its own heap"
+    rl [label="a full copy of the list\nthe receiver grew by about 1.6 MB"]
+    rp [label="its own ProcBin\nthe receiver stayed at 2.6 KB" class=hl]
+  }
+  subgraph cluster_shared {
+    label="outside every process heap"
+    big [label="the 10 MB binary\nreference counted, one copy"]
+  }
+  sl -> rl [label=" copied\l"]
+  sp -> big [style=dashed]
+  rp -> big [style=dashed]
+  sp -> rp [label=" the reference is copied,\l not the bytes\l"]
+}

@@ -10,6 +10,10 @@ Checks what a page SAYS is supported by its own chapter, and reports what it DRO
   numbers   numeric literals (1_048_576, 0x1F, v1.17)
   diagrams  the same refs and numbers in the labels of docs/diagrams/**/*.dot
 
+<UnderTheHood> blocks are Visualixir's own explanations, not derived from the chapters, so they are
+skipped, along with the diagrams that only appear inside them (those are checked by hand against
+Erlang/OTP docs or measurements, see CONTRIBUTING.md).
+
 A token counts as supported if it appears in the page's own chapter, or in any chapter for the
 checks that allow it. Anything found in no chapter is a finding. Reviewed, harmless findings live
 in scripts/audit-allow.json. It cannot judge prose: a wrong explanation built from correct terms passes.
@@ -50,6 +54,16 @@ def add(kind, where, token):
     if token not in ALLOW.get(kind, []):
         findings[kind].append((where, token))
 
+UTH = re.compile(r"<UnderTheHood>.*?</UnderTheHood>", re.S)
+strip_uth = lambda md: UTH.sub("", md)
+# diagrams that appear only inside an <UnderTheHood> block are ours, not derived from a chapter
+own = set()
+for f in glob.glob(f"{DOCS}/*/*.md"):
+    md = open(f).read()
+    inside = {n for b in UTH.findall(md) for n in re.findall(r'<Diagram name="([^"]+)"', b)}
+    outside = set(re.findall(r'<Diagram name="([^"]+)"', strip_uth(md)))
+    own |= inside - outside
+
 dropped = []
 for sec in SECTIONS:
     for f in sorted(glob.glob(f"{DOCS}/{sec}/*.md")):
@@ -57,7 +71,7 @@ for sec in SECTIONS:
         where = f"{sec}/{slug}"
         if slug not in src:
             findings["no_source"].append((where, f"upstream/{slug}.md")); continue
-        md, own = open(f).read(), src[slug]
+        md, own_src = strip_uth(open(f).read()), src[slug]
         code = "\n".join(fences(md))
         for r in sorted(set(QUAL.findall(code + "\n" + "\n".join(inline(md)))) | set(ERL.findall(code))):
             if r not in anysrc: add("refs", where, r)
@@ -76,12 +90,13 @@ for sec in SECTIONS:
         for n in sorted(set(NUM.findall(re.sub(r"<[^>]*>", " ", md)))):
             if n not in ("2012", "2021", "2025", "2026", "0.7") and n not in anysrc: add("numbers", where, n)
         # what the chapter has that the page lacks (informational)
-        scode = "\n".join(fences(own)) + "\n" + "\n".join(inline(own))
+        scode = "\n".join(fences(own_src)) + "\n" + "\n".join(inline(own_src))
         refs = {r for r in set(QUAL.findall(scode)) | set(ERL.findall(scode)) if not r.startswith(("Enum.Out", "IEx."))}
         dropped.append((where, len(refs), sorted(r for r in refs if r not in md)))
 
 for f in sorted(glob.glob(f"{DOCS}/diagrams/*/*.dot")):
     slug, where = f.split("/")[-2], "diagrams/" + "/".join(f.split("/")[-2:])
+    if "/".join(f.split("/")[-2:])[:-4] in own: continue
     if slug not in src: findings["no_source"].append((where, f"upstream/{slug}.md")); continue
     labels = " ".join(LABEL.findall(open(f).read())).replace('\\"', '"').replace("\\n", " ").replace("\\l", " ")
     for r in sorted(set(QUAL.findall(labels)) | set(ERL.findall(labels))):

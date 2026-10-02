@@ -52,6 +52,34 @@ files across nodes.
 
 <Diagram name="io-and-the-file-system/io-process" caption="IO functions are messages to a device process." />
 
+<UnderTheHood>
+
+**From your call to the disk.** `File.read!/1` and `File.write!/2` end in system calls made by an OS thread named `erts_dios_N`: one of the VM's *dirty IO schedulers*. The VM keeps these apart from the normal schedulers that run your processes, so a slow disk blocks one of them and not your processes ([dirty NIFs](https://www.erlang.org/doc/apps/erts/erl_nif.html)). This machine has 10 (`:erlang.system_info(:dirty_io_schedulers)`).
+
+<Diagram name="io-and-the-file-system/syscalls" caption="The system calls a file read and a file write make, and where the data waits." />
+
+Tracing the calls with `strace -f -y -Y` showed:
+
+| In Elixir | System calls |
+|---|---|
+| `File.read!(path)` | `openat`, `fstat`, `readv`, `close` |
+| `File.write!(path, iodata)` | `openat`, `fstat`, `writev`, `close` |
+| `:file.sync(file)` | adds `fsync` |
+
+**Where the data waits.** When `writev` returns, the kernel has the data in its page cache, which is not the same as on the disk. `fsync` is how a program asks for the file's data to be flushed to the device ([`fsync(2)`](https://man7.org/linux/man-pages/man2/fsync.2.html)). `File.read!` copies data from the kernel into a buffer that becomes a binary. A binary over 64 bytes lives outside the heap, and your process holds a small reference: a 5,000-byte binary measured 8 words.
+
+**A detail about iodata.** Passing a list to `File.write!` saved building one big binary in your own code. In the trace, though, the file layer gathered the pieces into a single buffer before the system call: one `writev` with one 4013-byte buffer. That is what OTP 29 did for this call, and other functions, such as socket writes, may behave differently.
+
+**A process, or just a handle.** `File.open/2` normally returns a pid, because the file is served by a device process, as above. With the `:raw` option it returns a plain handle (`{:file_descriptor, :prim_file, ...}`) and no process. The Erlang docs call this faster, since no process handles the file, but the `io` module can't be used on it and only the process that opened it can use it ([`file:open/2`](https://www.erlang.org/doc/apps/kernel/file.html)).
+
+```console
+$ strace -f -y -Y -e trace=openat,readv,writev,fsync,close elixir script.exs
+```
+
+*Sources:* the traces above were captured on Linux with Erlang/OTP 29 and Elixir 1.20. System call names are Linux's; other systems differ. [Dirty NIFs](https://www.erlang.org/doc/apps/erts/erl_nif.html) are documented in the Erlang docs.
+
+</UnderTheHood>
+
 ## iodata and chardata
 
 Most IO functions accept a **list** of binaries and integers, nested to any depth, instead of one string. Why? Strings are immutable, so
