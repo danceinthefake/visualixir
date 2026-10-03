@@ -1,7 +1,7 @@
 digraph spawn {
   node [shape=box]
   s [label="spawn: the VM makes a process\na small heap and a mailbox, no OS thread" class=hl]
-  c [label="measured: about 4.2 microseconds each\nfor 1_000_000 processes, about 2.6 KB each"]
-  r [label="a restart is the same work, plus the exit signal:\nabout 199 microseconds from kill to a running child"]
+  c [label="measured: about 2.5 to 4 microseconds each\nfor 1_000_000 processes, about 2.6 KB each"]
+  r [label="a restart is the same work, plus the exit signal:\nabout 150 to 200 microseconds from kill to a running child"]
   s -> c -> r
 }

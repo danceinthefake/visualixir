@@ -93,7 +93,7 @@ Supervised processes give you:
 
 <UnderTheHood>
 
-**How a supervisor notices a death.** A supervised child is linked to its supervisor, and the supervisor has `trap_exit` set (`Process.info(sup, :trap_exit)` returned `{:trap_exit, true}`). When a process dies, the VM sends an exit signal to every process it is linked to. Normally that kills the receiver too. A process that traps exits gets the signal as a message instead, and the supervisor reacts by starting a new child. Measured, a supervised child that was killed was running again 199 microseconds later.
+**How a supervisor notices a death.** A supervised child is linked to its supervisor, and the supervisor has `trap_exit` set (`Process.info(sup, :trap_exit)` returned `{:trap_exit, true}`). When a process dies, the VM sends an exit signal to every process it is linked to. Normally that kills the receiver too. A process that traps exits gets the signal as a message instead, and the supervisor reacts by starting a new child. Measured, a supervised child that was killed was running again about 150 to 200 microseconds later (146 and 199 in two runs).
 
 <Diagram name="supervisor-and-application/uth-supervision" caption="A link carries the exit signal, and trapping it turns it into a message the supervisor can act on." />
 

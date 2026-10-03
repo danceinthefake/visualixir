@@ -55,11 +55,11 @@ In IEx, `flush/0` prints and empties the shell's mailbox.
 
 <UnderTheHood>
 
-**Who runs your process.** By default the VM starts one *scheduler*, an OS thread, for each logical processor (`:erlang.system_info(:schedulers)` is 16 on the machine this was written on). A scheduler runs one process at a time, taken from the front of its run queue. The VM counts *reductions*, roughly one per function call, and a process gets a fixed number per turn (`:erlang.system_info(:context_reductions)` is 4000). When they are used up it goes to the back of the queue, so one busy process can't hold a core. A process waiting in `receive` is not in a run queue and uses no CPU until a message arrives.
+**Who runs your process.** By default the VM starts one *scheduler*, an OS thread, for each logical processor, which is the documented default ([`+S`](https://www.erlang.org/doc/apps/erts/erl_cmd.html); `:erlang.system_info(:schedulers)` is 16 on the machine this was written on). A scheduler runs one process at a time, taken from the front of its run queue. The VM counts *reductions*, roughly one per function call, and a process gets a fixed number per turn (`:erlang.system_info(:context_reductions)` is 4000). When they are used up it goes to the back of the queue, so one busy process can't hold a core. A process waiting in `receive` is not in a run queue and uses no CPU until a message arrives.
 
 <Diagram name="processes/uth-scheduler" caption="A scheduler takes the next ready process, and a process that has used its reductions goes to the back." />
 
-**What a process costs.** A new process gets a heap of 233 words (`Process.info(pid, :heap_size)`). Measured, an idle process used about 2.6 KB in total, and 20,000 of them averaged 2.7 KB each. The heap grows as needed, and each process's heap is garbage-collected on its own ([Efficiency Guide](https://www.erlang.org/doc/system/eff_guide_processes.html)).
+**What a process costs.** A new process gets a heap of 233 words (`Process.info(pid, :heap_size)`). Measured, an idle process used about 2.6 KB in total, and 20,000 of them averaged 2.7 KB each. The guide says the garbage collector increases the heap as needed ([Efficiency Guide](https://www.erlang.org/doc/system/eff_guide_processes.html)).
 
 **What `send` does.** Processes share no memory. Sending a message copies the data into the receiver's heap, except for large binaries, which are shared by reference ([Efficiency Guide](https://www.erlang.org/doc/system/eff_guide_processes.html)).
 

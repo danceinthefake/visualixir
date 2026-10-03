@@ -69,6 +69,7 @@ chapters, and says so in its title. The rules are stricter than for the rest of 
 
 - **Every claim is cited or demonstrated.** Cite the Erlang/OTP docs (or the BEAM Book, or a man page), or show a
   snippet you ran and its output. Quote numbers you measured, and say the platform and OTP version.
+- **Report timings as ranges, from at least two runs.** They drift by tens of percent between runs (a repeat of mine moved `Enum.at` from 2.4 to 1.7 ms and a restart from 199 to 146 microseconds). Sizes in words are exact and reproduce.
 - **Prefer measurement to memory.** The Erlang memory guide's size table is from OTP 19 and is off by a word
   for tuples and lists. Check with `:erts_debug.flat_size/1`, `:erlang.process_info/2`, `:beam_disasm`, or `strace -f -y -Y`.
 - **No section is better than an invented one.** If a construct has no memory, CPU or storage story, leave it out.

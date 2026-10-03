@@ -4,6 +4,6 @@ digraph supervision {
   b [label="the child dies"]
   c [label="the VM sends an exit signal to every linked process" class=hl]
   d [label="the supervisor traps it: the signal arrives as a message"]
-  e [label="the supervisor starts a new child\nabout 199 microseconds from the kill to a running child"]
+  e [label="the supervisor starts a new child\nabout 150 to 200 microseconds from the kill to a running child"]
   a -> b -> c -> d -> e
 }

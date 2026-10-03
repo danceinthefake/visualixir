@@ -4,7 +4,7 @@ digraph wire {
   e [label="encoded: term_to_binary, the external term format\n36 bytes, starting with the version byte 131" class=hl]
   tcp [label="a TCP connection between the two VMs\nfound through epmd (port 4369), set up with a handshake and a cookie"]
   d [label="decoded into node B's heap: another copy"]
-  cost [label="a call to another node on this machine: about 48 microseconds\na local call: about 0.016 microseconds" class=dim]
+  cost [label="a call to another node on this machine: roughly 50 microseconds\na local call: about 0.016 microseconds" class=dim]
   t -> e -> tcp -> d
   d -> cost [style=invis]
 }

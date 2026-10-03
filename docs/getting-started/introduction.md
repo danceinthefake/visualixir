@@ -30,7 +30,7 @@ iex(2)> "hello" <> " world"
 
 **What starts when you type `elixir`.** `elixir` is a shell script (its first line is `#!/bin/sh`). Tracing the system calls of `elixir hello.exs` showed it start `erl`, which starts `erlexec`, which starts `beam.smp`: the Erlang VM, a normal Linux program that the kernel loads with `execve`. On this machine the VM then runs as 48 OS threads.
 
-**Where the code comes from.** The VM and all of Elixir are `.beam` files on disk, and each one is a file the VM reads and loads. For a script that only prints one line, the VM opened 213 `.beam` files, loaded 209 modules and held 12.6 MB of code in memory. `elixirc` does the reverse: it writes one `.beam` file per module (a small module of four functions was 2,308 bytes).
+**Where the code comes from.** The VM itself (`beam.smp`) is a native program, but Elixir and Erlang's libraries are `.beam` files on disk, and the VM reads and loads each one it needs. For a script that only prints one line, the VM opened 213 `.beam` files, loaded 209 modules and held 12.6 MB of code in memory. `elixirc` does the reverse: it writes one `.beam` file per module (a small module with a few functions was 2,308 bytes).
 
 <Diagram name="introduction/uth-startup" caption="From the elixir command to your script: a launcher chain, then the VM reading .beam files." />
 

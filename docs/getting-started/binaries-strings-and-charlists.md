@@ -99,7 +99,7 @@ raises `ArgumentError`.
 
 **In memory.** A binary of up to 64 bytes lives on the process heap. A larger one lives outside every heap, and the heap holds only a small reference to it ([binary handling](https://www.erlang.org/doc/system/binaryhandling.html)). Measured: 64 bytes took 10 words, and 65 bytes or more a constant 8 words, however long. A charlist is a list, and a list cell is 2 words (16 bytes) per character. So 1000 characters took 16,000 bytes as a charlist and 1000 bytes as a binary.
 
-**In the hardware.** The CPU reads memory in 64-byte *cache lines* (`getconf LEVEL1_DCACHE_LINESIZE`). One line holds 64 characters of a binary, but only 4 cells of a charlist. Reading 1000 characters straight through touches about 16 lines for the binary and about 250 for the charlist. This is one reason text is a binary in Elixir. Charlists mostly turn up when calling older Erlang libraries, as the chapter says.
+**In the hardware.** The CPU reads memory in 64-byte *cache lines* (`getconf LEVEL1_DCACHE_LINESIZE`). One line holds 64 characters of a binary, but only 4 cells of a charlist. Reading 1000 characters straight through touches about 16 lines for the binary, and at best about 250 for the charlist, which is only that few if its cells happen to sit next to each other. That fits Elixir using binaries for text. Charlists mostly turn up when calling older Erlang libraries, as the chapter says.
 
 <Diagram name="binaries-strings-and-charlists/uth-cache-lines" caption="The same text in a binary and in a charlist, counted in cache lines." />
 

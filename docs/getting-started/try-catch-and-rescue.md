@@ -75,7 +75,7 @@ For that, there are throws.
 
 **What `try` becomes.** The compiled code for `try ... rescue` (read with `:beam_disasm`) is `try`, which records a *catch point* in the function's stack frame, then the body, then `try_end` to remove the catch point when nothing went wrong. If an error is raised, the VM unwinds the stack back to the nearest catch point, builds the stacktrace (`build_stacktrace`) and jumps to `try_case`. A `try` that doesn't fail costs one frame slot and two instructions.
 
-**The stacktrace is capped.** The VM keeps at most 8 frames (`:erlang.system_flag(:backtrace_depth, n)` returns the old value, 8). Raising 1000 calls deep and calling `__STACKTRACE__` still gave 8 frames. That keeps the cost of an error bounded, and it is why a very deep stack shows only the innermost calls.
+**The stacktrace is capped.** The VM keeps at most 8 frames (`:erlang.system_flag(:backtrace_depth, n)` returns the old value, 8). Raising 1000 calls deep and calling `__STACKTRACE__` still gave 8 frames. So a very deep stack shows only its innermost calls, and the stacktrace stays a fixed size.
 
 <Diagram name="try-catch-and-rescue/uth-try" caption="try marks a catch point. An error unwinds the stack back to it." />
 

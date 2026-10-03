@@ -64,7 +64,7 @@ node. You can `send` to it and get replies as usual.
 
 **What crosses the wire.** Nodes are separate VMs connected by TCP. A node finds another's port through `epmd`, the Erlang Port Mapper Daemon, which listens on port 4369 by default, and the connection then goes through a handshake and a cookie check ([distribution protocol](https://www.erlang.org/doc/apps/erts/erl_dist_protocol.html)). A term is sent in the *external term format*: for `{:hello, "world", [1, 2, 3], %{a: 1}}`, `:erlang.term_to_binary/1` gave 36 bytes beginning with 131, the format's version byte, against 160 bytes for the term on the heap ([format](https://www.erlang.org/doc/apps/erts/erl_ext_dist.html)). The other node decodes it into its own heap, which is another copy.
 
-**What that costs.** A call to another node on the same machine took about 48 microseconds (`:erpc.call/4`, averaged over 10,000 calls), against about 0.016 microseconds for a local call: a few thousand times more, and that is on loopback, with no real network in between.
+**What that costs.** A call to another node on the same machine took roughly 50 microseconds (`:erpc.call/4`, averaged over 10,000 calls in one run), against about 0.016 microseconds for the same addition done locally: a few thousand times more, and that is on loopback, with no real network in between.
 
 <Diagram name="config-and-distribution/uth-wire" caption="A term is encoded, sent over TCP, decoded into the other node's heap." />
 

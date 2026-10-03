@@ -58,7 +58,7 @@ so `%{}` matches every map.
 
 <UnderTheHood>
 
-**In memory.** Measured with `:erts_debug.flat_size/1`, a keyword list of 5 entries took 25 words and the map with the same data took 14. Each keyword entry is a list cell (2 words) plus a two-element tuple (3 words), separate objects the CPU has to follow one by one. A small map keeps its keys in one tuple and its values in another. The memory guide describes this: a small map has up to 32 keys, and a larger one uses a hash tree ([memory guide](https://www.erlang.org/doc/system/memory.html)). The numbers show the switch: 32 keys took 68 words and 33 keys took 125.
+**In memory.** Measured with `:erts_debug.flat_size/1`, a keyword list of 5 entries took 25 words and the map with the same data took 14. Each keyword entry is a list cell (2 words) plus a two-element tuple (3 words), separate objects the CPU has to follow one by one. A small map keeps its keys in one tuple and its values in another, as the anti-patterns chapter on 32-field structs describes. The memory guide says a small map has up to 32 keys and a larger one uses a hash tree ([memory guide](https://www.erlang.org/doc/system/memory.html)). The numbers show the switch: 32 keys took 68 words and 33 keys took 125.
 
 <Diagram name="keywords-and-maps/uth-map-sizes" caption="The same data as a keyword list and as maps of growing size, in words." />
 

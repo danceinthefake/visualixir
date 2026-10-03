@@ -8,15 +8,15 @@ digraph kernel_stack {
     label="the Linux kernel, right away"
     b [label="writev: a system call\nthe CPU switches from user mode to kernel mode"]
     c [label="the file system (ext4) copies the data into\npage cache pages and marks them dirty" class=hl]
-    d [label="page cache: file data held in RAM\nDirty grew 28 MB to 290 MB for a 256 MB write"]
+    d [label="page cache: file data held in RAM\nDirty grew by about 260 MB for a 256 MB write"]
     b -> c -> d
   }
-  r [label="writev returns: 64 MiB took 46 ms\nthe data is in RAM only" class=hl]
+  r [label="writev returns: 64 MiB took 15 to 46 ms\nthe data is in RAM only" class=hl]
   subgraph cluster_later {
     label="later, or when you call :file.sync (fsync)"
     e [label="dm-crypt encrypts each block\n(this volume is encrypted)"]
     f [label="the NVMe driver sends the blocks over PCIe"]
-    g [label="the SSD stores them in flash memory\nfsync returned after 1.64 s for 64 MiB"]
+    g [label="the SSD stores them in flash memory\nfsync took 1.6 to 2.1 s for 64 MiB"]
     e -> f -> g
   }
   a -> b

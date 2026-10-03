@@ -101,7 +101,7 @@ String.length("hellö")   #=> 5
 
 <Diagram name="basic-types/uth-length" caption="byte_size reads one stored number. String.length walks every byte." />
 
-The same holds for lists and tuples: on a million elements, `length/1` took about 21 ms and `tuple_size/1` under a microsecond.
+The same holds for lists and tuples: on a million elements, `length/1` took 8 to 21 ms (two runs) and `tuple_size/1` under a microsecond.
 
 </UnderTheHood>
 

@@ -3,7 +3,7 @@ digraph queue {
   q [label="<f>front: [2, 3] | rear: [5, 4]"]
   node [shape=box]
   in [label="in(6): put 6 on the front of the rear list\none cons, nothing is copied"]
-  out [label="out: take from the front list\nwhen it is empty, reverse the rear list once"]
+  out [label="out: take from the front list\nwhen it runs out, refill it from the rear,\nturning the order around"]
   note [label="amortized O(1) for both (the Erlang docs)" class=hl]
   in -> q:f
   q:f -> out

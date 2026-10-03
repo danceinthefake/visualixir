@@ -100,7 +100,7 @@ can make clients time out. GenServers, coming up, make the client/server split e
 
 <UnderTheHood>
 
-**What `Agent.get` sends.** Tracing the agent process with `:erlang.trace/3` showed that one `Agent.get/2` is two messages. The agent receives `{:"$gen_call", {caller, alias}, {:get, fun}}`, and sends back the reply. The `fun` is inside the first message, so, as with any message, it is copied into the agent's mailbox, with whatever it captured. Then the agent runs it against its own state, which is what "everything inside the function runs in the agent" means.
+**What `Agent.get` sends.** Tracing the agent process with `:erlang.trace/3` showed that one `Agent.get/2` is two messages. The agent receives `{:"$gen_call", {caller, alias}, {:get, fun}}`, and sends back the reply. The `fun` is inside the first message, so, as with any message, it is copied into the agent's mailbox, with whatever it captured. Then the agent runs it against its own state, which is the chapter's point that everything inside the function happens in the agent.
 
 <Diagram name="agents/uth-messages" caption="One Agent.get is two messages: the function goes to the agent, the reply comes back." />
 

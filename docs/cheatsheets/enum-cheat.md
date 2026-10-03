@@ -164,7 +164,7 @@ Indexing into a list in a loop is discouraged: lists are linked lists.
 
 <UnderTheHood>
 
-**Why indexing a list in a loop is slow.** A list is linked cells, so `Enum.at(list, n)` has to follow `n` pointers from the front. On a list of a million integers (about 16 MB of cells), `Enum.at(list, 0)` took 3 microseconds and `Enum.at(list, 999_999)` took 2,377 microseconds. `elem(tuple, 999_999)` on the same data as a tuple took under a microsecond, one load at a fixed offset. Doing the slow lookup once per element in a loop makes the whole loop quadratic.
+**Why indexing a list in a loop is slow.** A list is linked cells, so `Enum.at(list, n)` has to follow `n` pointers from the front. On a list of a million integers (about 16 MB of cells), `Enum.at(list, 0)` took 2 to 3 microseconds and `Enum.at(list, 999_999)` took about 2 milliseconds (1.7 and 2.4 ms in two runs). `elem(tuple, 999_999)` on the same data as a tuple took under a microsecond, one load at a fixed offset. Doing the slow lookup once per element in a loop makes the whole loop quadratic.
 
 <Diagram name="enum-cheat/uth-at" caption="Indexing a list walks its cells. Indexing a tuple is one load." />
 
