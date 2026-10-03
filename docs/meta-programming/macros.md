@@ -45,7 +45,9 @@ Only the *special forms* (see `Kernel.SpecialForms`) can't be overridden.
 
 <UnderTheHood>
 
-**What a macro call becomes.** I compiled the chapter's `unless` both ways and read the caller with `:beam_disasm`. For the macro, the caller holds the expansion already: a `select_val` on the condition, and a call to `IO.puts` only on the path that needs it. There is no call to the macro's module at all, because the macro ran while the caller was being compiled. For the function, the caller first calls `IO.puts`, since arguments are evaluated before the call, then builds the keyword list and calls `fun_unless/2`. That is the difference the chapter describes, as machine instructions: a macro changes the code that is compiled, a function receives values at runtime.
+**What a macro call becomes.** We compiled the chapter's `unless` both ways and read the caller with `:beam_disasm`. For the macro, the caller holds the expansion already: a `select_val` on the condition, and a call to `IO.puts` only on the path that needs it. There is no call to the macro's module at all, because the macro ran while the caller was being compiled.
+
+For the function, the caller first calls `IO.puts`, since arguments are evaluated before the call, then builds the keyword list and calls `fun_unless/2`. That is the difference the chapter describes, as machine instructions: a macro changes the code that is compiled, a function receives values at runtime.
 
 <Diagram name="macros/uth-expansion" caption="A macro leaves its result in the caller. A function is called with already-evaluated arguments." />
 

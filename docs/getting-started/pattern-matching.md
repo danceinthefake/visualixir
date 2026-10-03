@@ -133,7 +133,9 @@ Destructuring is one of the foundations of recursion in Elixir, and it applies t
 
 <UnderTheHood>
 
-**What the compiler turns a match into.** Matching is a handful of tests and loads. For `{:ok, v} = result` the compiled code (read with `:beam_disasm`) is `is_tagged_tuple`, which checks "a tuple of this size whose first element is `:ok`", then `get_tuple_element`, which loads element 1 into a register. There is no `test_heap` or `put_*` instruction: matching doesn't allocate and doesn't copy, and `v` is the same word that was already inside `result`. For `[head | tail]` it is `is_nonempty_list` and `get_hd` (the tail comes the same way). If a test fails, the code jumps to the next clause, or raises `MatchError`.
+**In short:** a match only checks the shape of the data and reads values that are already there. It builds nothing new. **What the compiler turns a match into.** Matching is a handful of tests and loads. For `{:ok, v} = result` the compiled code (read with `:beam_disasm`) is `is_tagged_tuple`, which checks "a tuple of this size whose first element is `:ok`", then `get_tuple_element`, which loads element 1 into a register.
+
+There is no `test_heap` or `put_*` instruction: matching doesn't allocate and doesn't copy, and `v` is the same word that was already inside `result`. For `[head | tail]` it is `is_nonempty_list` and `get_hd` (the tail comes the same way). If a test fails, the code jumps to the next clause, or raises `MatchError`.
 
 **Repeated variables and the pin.** Matching a tuple against `{x, x}` loads both elements, then compares them with `is_eq_exact`. The pin does the same: `^y` is an `is_eq_exact` between two registers.
 

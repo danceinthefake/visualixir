@@ -75,7 +75,7 @@ defp convert_status("redirect"), do: :redirect
 
 <UnderTheHood>
 
-**Why the limit is the problem, not memory.** Measured, creating 10,000 new atoms grew the atom table by about 34 bytes each (for short names). At that rate the table's limit of 1,048,576 atoms is only about 35 MB, so it fills long before the machine runs out of memory, as the chapter says. I started a throwaway VM with a low limit (`erl +t 20000`) and created atoms past it: the VM stopped with `no more index entries in atom_tab (max=20000)` and wrote a crash dump. Atoms are never freed, so anyone who can make your code create atoms can stop the whole node.
+**Why the limit is the problem, not memory.** Measured, creating 10,000 new atoms grew the atom table by about 34 bytes each (for short names). At that rate the table's limit of 1,048,576 atoms is only about 35 MB, so it fills long before the machine runs out of memory, as the chapter says. We started a throwaway VM with a low limit (`erl +t 20000`) and created atoms past it: the VM stopped with `no more index entries in atom_tab (max=20000)` and wrote a crash dump. Atoms are never freed, so anyone who can make your code create atoms can stop the whole node.
 
 <Diagram name="code-anti-patterns/uth-atom-limit" caption="The atom table is small and never freed, so filling it stops the VM." />
 
@@ -123,7 +123,8 @@ Pattern matching is another option: `def plot(%{x: x, y: y, z: z})` and `def plo
 
 <UnderTheHood>
 
-**Two different pieces of machine code.** I compiled `point.x` and `point[:x]` and read them with `:beam_disasm`. `point.x` is `is_map` followed by `get_map_elements`, instructions in the function itself, and a missing key falls through to the code that raises `KeyError`. `point[:x]` is `call_ext_only Access.get/2`, a call to a function that works for maps, keyword lists and other types, and returns `nil` when the key is missing. The dynamic form can do more, and that is also why it cannot tell the compiler that the key must be there.
+**In short:** `point.x` is part of your function's own code, while `point[:x]` calls another function.
+**Two different pieces of machine code.** We compiled `point.x` and `point[:x]` and read them with `:beam_disasm`. `point.x` is `is_map` followed by `get_map_elements`, instructions in the function itself, and a missing key falls through to the code that raises `KeyError`. `point[:x]` is `call_ext_only Access.get/2`, a call to a function that works for maps, keyword lists and other types, and returns `nil` when the key is missing. The dynamic form can do more, and that is also why it cannot tell the compiler that the key must be there.
 
 <Diagram name="code-anti-patterns/uth-map-access" caption="point.x is instructions in your function. point[:x] is a call to Access.get/2." />
 

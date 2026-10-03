@@ -56,6 +56,7 @@ The full list of guards is in the [Patterns and Guards](/references/patterns-and
 
 <UnderTheHood>
 
+**In short:** `case`, guards and `if` become a few quick checks and jumps, with no function calls.
 **What `case` becomes.** A `case` on literal values compiles to one `select_val` instruction, which looks the value up and jumps to the right arm, instead of testing each clause in turn. A guard such as `when is_integer(x) and x > 10` becomes two tests, `is_integer` and `is_ge 11`. No function is called, which fits the chapter's note that patterns and guards are limited to expressions the compiler can optimise. An `if` compiles to a `select_val` on the condition: `false` and `nil` take the `else` side.
 
 <Diagram name="case-cond-and-if/uth-select" caption="case, guards and if compile to tests and jumps, with no function calls." />

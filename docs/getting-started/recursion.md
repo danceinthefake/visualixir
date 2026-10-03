@@ -56,7 +56,7 @@ Math.double_each([1, 2, 3])   #=> [2, 4, 6]
 
 <UnderTheHood>
 
-**Two kinds of recursion, two machine behaviours.** In `sum_list(tail, head + accumulator)` the recursive call is the last thing the function does, a *tail call*. The compiler turns it into `call_only`, a jump back to the start, and keeps no frame. In `[head * 2 | double_each(tail)]` the call is not last, because the cons has to happen after it returns. For a function of that shape (I read `head + body(tail)`) the compiled code, with `:beam_disasm`, is `allocate`, `call`, then the work, then `deallocate`: a *stack frame* for every call that is still waiting.
+**Two kinds of recursion, two machine behaviours.** In `sum_list(tail, head + accumulator)` the recursive call is the last thing the function does, a *tail call*. The compiler turns it into `call_only`, a jump back to the start, and keeps no frame. In `[head * 2 | double_each(tail)]` the call is not last, because the cons has to happen after it returns. For a function of that shape (we read `head + body(tail)`) the compiled code, with `:beam_disasm`, is `allocate`, `call`, then the work, then `deallocate`: a *stack frame* for every call that is still waiting.
 
 <Diagram name="recursion/uth-stack" caption="A tail call is a jump. A call that must come back needs a stack frame." />
 

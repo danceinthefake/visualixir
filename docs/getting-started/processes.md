@@ -55,7 +55,11 @@ In IEx, `flush/0` prints and empties the shell's mailbox.
 
 <UnderTheHood>
 
-**Who runs your process.** By default the VM starts one *scheduler*, an OS thread, for each logical processor, which is the documented default ([`+S`](https://www.erlang.org/doc/apps/erts/erl_cmd.html); `:erlang.system_info(:schedulers)` is 16 on the machine this was written on). A scheduler runs one process at a time, taken from the front of its run queue. The VM counts *reductions*, roughly one per function call, and a process gets a fixed number per turn (`:erlang.system_info(:context_reductions)` is 4000). When they are used up it goes to the back of the queue, so one busy process can't hold a core. A process waiting in `receive` is not in a run queue and uses no CPU until a message arrives.
+**In short:** an Elixir process is just data that the VM runs on a few OS threads, and Linux in turn runs those threads on the CPU's cores. A message copies its data from one process to another.
+
+**Who runs your process.** By default the VM starts one *scheduler*, an OS thread, for each logical processor, which is the documented default ([`+S`](https://www.erlang.org/doc/apps/erts/erl_cmd.html); `:erlang.system_info(:schedulers)` is 16 on the machine this was written on). A scheduler runs one process at a time, taken from the front of its run queue. The VM counts *reductions*, roughly one per function call, and a process gets a fixed number per turn (`:erlang.system_info(:context_reductions)` is 4000).
+
+When they are used up it goes to the back of the queue, so one busy process can't hold a core. A process waiting in `receive` is not in a run queue and uses no CPU until a message arrives.
 
 <Diagram name="processes/uth-scheduler" caption="A scheduler takes the next ready process, and a process that has used its reductions goes to the back." />
 
@@ -76,7 +80,9 @@ big = :binary.copy("x", 10_000_000)
 
 Binaries of up to 64 bytes live on the heap and are copied like any other term. Larger ones are stored outside every heap and reference-counted ([Binary handling](https://www.erlang.org/doc/system/binaryhandling.html)). That is why a copy is cheap for a 10 MB binary and costly for a 100,000-element list. Numbers were measured with Erlang/OTP 29 on 64-bit Linux.
 
-**Below the VM: the kernel and the CPU.** The VM is an ordinary Linux program made of OS threads: 48 on this machine, of which 16 are schedulers (`erts_sched_N`), 16 dirty CPU, 10 dirty IO and 6 helpers. Spawning 20,053 Elixir processes did not add a single thread. A process is only data, a few KB of heap and a mailbox, that a scheduler thread picks up and runs for a while. So two schedulers are at work, one inside the other. The VM decides which process runs next on each of its threads. The Linux kernel decides which CPU runs each of those threads ([sched(7)](https://man7.org/linux/man-pages/man7/sched.7.html)). The VM's 4000 reductions are its own limit and are separate from Linux, which can also pause a thread whenever it chooses.
+**Below the VM: the kernel and the CPU.** The VM is an ordinary Linux program made of OS threads: 48 on this machine, of which 16 are schedulers (`erts_sched_N`), 16 dirty CPU, 10 dirty IO and 6 helpers. Spawning 20,053 Elixir processes did not add a single thread. A process is only data, a few KB of heap and a mailbox, that a scheduler thread picks up and runs for a while.
+
+So two schedulers are at work, one inside the other. The VM decides which process runs next on each of its threads. The Linux kernel decides which CPU runs each of those threads ([sched(7)](https://man7.org/linux/man-pages/man7/sched.7.html)). The VM's 4000 reductions are its own limit and are separate from Linux, which can also pause a thread whenever it chooses.
 
 <Diagram name="processes/uth-threads-cores" caption="Two schedulers: the VM picks the process, the Linux kernel picks the CPU." />
 

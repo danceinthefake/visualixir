@@ -71,7 +71,7 @@ A second `create_bucket/1` with the same name returns `{:error, {:already_starte
 
 <UnderTheHood>
 
-**What it costs to start a child.** A process is not an OS thread. It is a heap of a few hundred words and a mailbox that the VM sets up in memory. Spawning 1,000,000 processes took about 2.5 to 4 microseconds each in two measurements here (including building the list of pids), and each idle one held about 2.6 KB. That is why a `DynamicSupervisor` can start a child per bucket, or per connection, and why restarting one is cheap: a killed supervised child was running again after 150 to 200 microseconds. I didn't break down where that time goes.
+**What it costs to start a child.** A process is not an OS thread. It is a heap of a few hundred words and a mailbox that the VM sets up in memory. Spawning 1,000,000 processes took about 2.5 to 4 microseconds each in two measurements here (including building the list of pids), and each idle one held about 2.6 KB. That is why a `DynamicSupervisor` can start a child per bucket, or per connection, and why restarting one is cheap: a killed supervised child was running again after 150 to 200 microseconds. We didn't break down where that time goes.
 
 <Diagram name="dynamic-supervisor/uth-spawn" caption="Starting and restarting a process is a small amount of work for the VM." />
 

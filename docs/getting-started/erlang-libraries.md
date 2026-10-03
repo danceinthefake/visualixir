@@ -52,7 +52,7 @@ The application a module belongs to is shown under the Erlang logo in its docs s
 
 **Who does the work.** `:crypto.hash/2` is a *NIF*, a function written in C that the VM calls directly, and it calls OpenSSL (`:crypto.info_lib()` reports OpenSSL 3.6.4 here). While hashing 256 MB, the OS thread that was running was a dirty IO scheduler (`erts_dios_6`), so the normal schedulers kept running other processes.
 
-**In the hardware.** This CPU has dedicated instructions for hashing and encryption: `sha_ni` and `aes` appear in `/proc/cpuinfo`. Measured, SHA-256 ran at about 2,040 MB/s and MD5, which has no such instruction, at about 940 MB/s (the same in two runs). That is consistent with the SHA instructions being used, but I haven't confirmed that OpenSSL uses them on this build.
+**In the hardware.** This CPU has dedicated instructions for hashing and encryption: `sha_ni` and `aes` appear in `/proc/cpuinfo`. Measured, SHA-256 ran at about 2,040 MB/s and MD5, which has no such instruction, at about 940 MB/s (the same in two runs). That is consistent with the SHA instructions being used, but we haven't confirmed that OpenSSL uses them on this build.
 
 <Diagram name="erlang-libraries/uth-crypto" caption="A crypto call goes from Elixir into C code, on a dirty scheduler thread, then to the CPU." />
 
@@ -120,7 +120,9 @@ files, `:zlib` does zlib compression (`:zlib.compress/1` and `:zlib.uncompress/1
 
 <UnderTheHood>
 
-**What a queue is made of.** A queue built with `:queue.in/2` looked like `{[5, 4, 3, 2], [1]}`: one list for the rear, in reverse, and one for the front. Adding is one cons onto the rear list. Taking takes from the front, and when the front runs out the VM refills it from the rear, turning the order around as it does. After one removal from that queue it looked like `{[5, 4], [2, 3]}`: the rear list had been split rather than moved whole. Either way, every element is turned around only occasionally, which is why the Erlang docs give both operations as amortized O(1). The docs call the representation opaque, so this is an implementation detail and not something to depend on.
+**What a queue is made of.** A queue built with `:queue.in/2` looked like `{[5, 4, 3, 2], [1]}`: one list for the rear, in reverse, and one for the front. Adding is one cons onto the rear list. Taking takes from the front, and when the front runs out the VM refills it from the rear, turning the order around as it does.
+
+After one removal from that queue it looked like `{[5, 4], [2, 3]}`: the rear list had been split rather than moved whole. Either way, every element is turned around only occasionally, which is why the Erlang docs give both operations as amortized O(1). The docs call the representation opaque, so this is an implementation detail and not something to depend on.
 
 <Diagram name="erlang-libraries/uth-queue" caption="A queue is two lists. The rear is reversed into the front only when the front runs out." />
 

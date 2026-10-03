@@ -28,7 +28,9 @@ A library shouldn't impose behavior such as parallelism on its users. Let them c
 
 <UnderTheHood>
 
-**What the bottleneck looks like in numbers.** I wrote the chapter's `Calculator` both ways. With one caller making 500,000 additions, the plain function took 20 to 30 ms and `GenServer.call` about 600 ms (two runs): each call is two messages and a wait. With 16 callers at once the difference grows. The function ran in every caller, on whichever scheduler it was on, and did 8,000,000 additions in 230 to 280 ms. All callers of the GenServer queued on one mailbox and one process, which did 2,000,000 additions in 1.3 to 1.4 seconds. That is the "bottleneck" the chapter names: a process handles one message at a time, however many cores there are. A GenServer is still the right tool when you need what a process gives, such as state or serialising access, and this shows what it costs when you don't.
+**What the bottleneck looks like in numbers.** We wrote the chapter's `Calculator` both ways. With one caller making 500,000 additions, the plain function took 20 to 30 ms and `GenServer.call` about 600 ms (two runs): each call is two messages and a wait. With 16 callers at once the difference grows. The function ran in every caller, on whichever scheduler it was on, and did 8,000,000 additions in 230 to 280 ms.
+
+All callers of the GenServer queued on one mailbox and one process, which did 2,000,000 additions in 1.3 to 1.4 seconds. That is the "bottleneck" the chapter names: a process handles one message at a time, however many cores there are. A GenServer is still the right tool when you need what a process gives, such as state or serialising access, and this shows what it costs when you don't.
 
 <Diagram name="process-anti-patterns/uth-bottleneck" caption="A function runs in each caller. A GenServer makes every caller wait in one queue." />
 
@@ -85,7 +87,7 @@ Or let the receiving process fetch what it needs, or share rarely changing data 
 
 <UnderTheHood>
 
-**What the closure captures.** I built a stand-in for `conn`: a map of about 104 KB. A process spawned with `fn -> conn.remote_ip end` held 139 KB, because the closure carries the whole map and spawning copies it into the new process. A process spawned with a closure over just `ip = conn.remote_ip` held 2 KB. The closure object and the data it captured are one thing in memory, as in the Anonymous functions chapter, and it all crosses to the other process.
+**What the closure captures.** We built a stand-in for `conn`: a map of about 104 KB. A process spawned with `fn -> conn.remote_ip end` held 139 KB, because the closure carries the whole map and spawning copies it into the new process. A process spawned with a closure over just `ip = conn.remote_ip` held 2 KB. The closure object and the data it captured are one thing in memory, as in the Anonymous functions chapter, and it all crosses to the other process.
 
 <Diagram name="process-anti-patterns/uth-capture" caption="A closure is copied with everything it captured, so capture only what the process needs." />
 

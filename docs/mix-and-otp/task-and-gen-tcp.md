@@ -47,9 +47,11 @@ The options: `:binary` (binaries, not lists), `packet: :line` (one line at a tim
 
 <UnderTheHood>
 
-**What `:gen_tcp` asks the kernel for.** Tracing the echo server and a client with `strace -f -y -Y` showed, from a scheduler thread: `socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)`, `bind` to port 4747, `listen(fd, 5)` (the 5 is the queue of waiting connections, which `ss` also shows), and `epoll_ctl` registering each socket with the kernel's `epoll`. A `connect` returned `EINPROGRESS` and a `recvfrom` returned `EAGAIN` ("no data yet"): the sockets are non-blocking. The process that called `recv` simply waits, using no CPU, until `epoll` reports data, and the VM then calls `recvfrom` again and gets the line. The kernel holds the connection's state and buffers; `ss -tnm` showed a receive buffer limit of 128 KiB and a send buffer limit of about 2.5 MB.
+**In short:** your code asks the Linux kernel to do the networking, and the process just waits until the kernel says data has arrived. **What `:gen_tcp` asks the kernel for.** Tracing the echo server and a client with `strace -f -y -Y` showed, from a scheduler thread: `socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)`, `bind` to port 4747, `listen(fd, 5)` (the 5 is the queue of waiting connections, which `ss` also shows), and `epoll_ctl` registering each socket with the kernel's `epoll`.
 
-**In the hardware.** This test used the loopback interface, so no network card was involved. Over a real network the packets also pass through the network card, which is outside what I measured here.
+A `connect` returned `EINPROGRESS` and a `recvfrom` returned `EAGAIN` ("no data yet"): the sockets are non-blocking. The process that called `recv` simply waits, using no CPU, until `epoll` reports data, and the VM then calls `recvfrom` again and gets the line. The kernel holds the connection's state and buffers; `ss -tnm` showed a receive buffer limit of 128 KiB and a send buffer limit of about 2.5 MB.
+
+**In the hardware.** This test used the loopback interface, so no network card was involved. Over a real network the packets also pass through the network card, which is outside what we measured here.
 
 <Diagram name="task-and-gen-tcp/uth-socket" caption="Receiving: the process waits, the kernel's epoll reports data, and the VM reads it." />
 

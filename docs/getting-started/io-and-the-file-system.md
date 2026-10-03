@@ -54,6 +54,8 @@ files across nodes.
 
 <UnderTheHood>
 
+**In short:** a file write returns as soon as the data is in RAM. It reaches the disk later, or when you call `:file.sync`.
+
 **From your call to the disk.** `File.read!/1` and `File.write!/2` end in system calls made by an OS thread named `erts_dios_N`: one of the VM's *dirty IO schedulers*. The VM keeps these apart from the normal schedulers that run your processes, so a slow disk blocks one of them and not your processes ([dirty NIFs](https://www.erlang.org/doc/apps/erts/erl_nif.html)). This machine has 10 (`:erlang.system_info(:dirty_io_schedulers)`).
 
 <Diagram name="io-and-the-file-system/uth-syscalls" caption="The system calls a file read and a file write make, and where the data waits." />
@@ -76,7 +78,9 @@ Tracing the calls with `strace -f -y -Y` showed:
 $ strace -f -y -Y -e trace=openat,readv,writev,fsync,close elixir script.exs
 ```
 
-**Below the VM: the kernel.** Your program can't touch the disk itself. It asks the kernel with a *system call* (`writev`, `fsync`, and so on), which switches the CPU from user mode to kernel mode ([syscalls(2)](https://man7.org/linux/man-pages/man2/syscalls.2.html)). On this machine the file system is ext4. `writev` copies your data into the *page cache*, a part of RAM the kernel uses to hold file data ([page cache docs](https://docs.kernel.org/mm/page_cache.html)), marks those pages *dirty* (changed but not yet written), and returns. Measured with `/proc/meminfo`, a 256 MB `File.write!` returned after 100 to 210 ms (three runs) while "Dirty" grew by about 260 MB: the data was in RAM and nowhere else. A 64 MiB write took 15 to 46 ms in `strace -T`. The kernel writes dirty pages to the disk later, in the background. `fsync` waits until it has: 6.1 to 6.7 s for the 256 MB, after which Dirty fell back to about where it started, and 1.6 to 2.1 s for the 64 MiB. The `fsync` time depends heavily on the state of the disk. So when `File.write!` returns, the data is not yet safe on the disk. Reading works the other way round: if the data is already in the page cache the kernel copies it from RAM, and otherwise it reads the disk first.
+**Below the VM: the kernel.** Your program can't touch the disk itself. It asks the kernel with a *system call* (`writev`, `fsync`, and so on), which switches the CPU from user mode to kernel mode ([syscalls(2)](https://man7.org/linux/man-pages/man2/syscalls.2.html)). On this machine the file system is ext4. `writev` copies your data into the *page cache*, a part of RAM the kernel uses to hold file data ([page cache docs](https://docs.kernel.org/mm/page_cache.html)), marks those pages *dirty* (changed but not yet written), and returns. Measured with `/proc/meminfo`, a 256 MB `File.write!` returned after 100 to 210 ms (three runs) while "Dirty" grew by about 260 MB: the data was in RAM and nowhere else. A 64 MiB write took 15 to 46 ms in `strace -T`.
+
+The kernel writes dirty pages to the disk later, in the background. `fsync` waits until it has: 6.1 to 6.7 s for the 256 MB, after which Dirty fell back to about where it started, and 1.6 to 2.1 s for the 64 MiB. The `fsync` time depends heavily on the state of the disk. So when `File.write!` returns, the data is not yet safe on the disk. Reading works the other way round: if the data is already in the page cache the kernel copies it from RAM, and otherwise it reads the disk first.
 
 **Below the VM: the hardware.** Under ext4, this machine has three more layers (`lsblk -s`). First dm-crypt, the kernel's disk encryption, which this volume uses. Then an NVMe driver, which sends commands to the drive over PCIe. Last, the drive itself: a Toshiba KXG50ZNV512G SSD whose own controller stores the data in flash memory. `fsync` reaches all the way down: the man page says it includes "flushing a disk cache if present" and blocks "until the device reports that the transfer has completed" ([fsync(2)](https://man7.org/linux/man-pages/man2/fsync.2.html)).
 

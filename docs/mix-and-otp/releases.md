@@ -34,7 +34,7 @@ Release created at _build/prod/rel/kv
 
 <UnderTheHood>
 
-**What embedded mode changes.** I built a small release and started it in each mode as a daemon. In the default *embedded* mode, 614 modules were already loaded at boot and `Stream` was in memory before anything called it. In *interactive* mode only 159 were, and `Stream` was not loaded, so the first call to it reads `Elixir.Stream.beam` from disk, as in the Modules chapter. That read is the latency spike the chapter describes, moved to boot time.
+**What embedded mode changes.** We built a small release and started it in each mode as a daemon. In the default *embedded* mode, 614 modules were already loaded at boot and `Stream` was in memory before anything called it. In *interactive* mode only 159 were, and `Stream` was not loaded, so the first call to it reads `Elixir.Stream.beam` from disk, as in the Modules chapter. That read is the latency spike the chapter describes, moved to boot time.
 
 **What is in the directory.** The release was 21 MB: 11 MB for the VM runtime (`erts`, whose `beam.smp` alone is 10.1 MB), 9.4 MB for libraries and 599 `.beam` files. That is why it runs on a machine without Erlang or Elixir installed.
 

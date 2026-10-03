@@ -78,7 +78,9 @@ map with a `:bucket` key so it has room for subscribers, and `get_in/1`, `put_in
 
 <UnderTheHood>
 
-**Why a long mailbox hurts.** A process's mailbox is a queue in arrival order, and `receive` looks at the messages from the front until one matches. Measured, with a message that matched at the end of the mailbox: 10 messages ahead of it took under a microsecond, 10,000 took about 40 microseconds, and 1,000,000 took about 5 milliseconds (41 and 5,149 microseconds in one run, 40 and 4,919 in another). A GenServer works through its mailbox in order, so a server that gets requests faster than it handles them makes every client wait behind the queue. `GenServer.call` also gives the caller a unique alias that the reply is sent to, which tracing showed in the agent example, so a reply doesn't get mixed up with other messages.
+**Why a long mailbox hurts.** A process's mailbox is a queue in arrival order, and `receive` looks at the messages from the front until one matches. Measured, with a message that matched at the end of the mailbox: 10 messages ahead of it took under a microsecond, 10,000 took about 40 microseconds, and 1,000,000 took about 5 milliseconds (41 and 5,149 microseconds in one run, 40 and 4,919 in another).
+
+A GenServer works through its mailbox in order, so a server that gets requests faster than it handles them makes every client wait behind the queue. `GenServer.call` also gives the caller a unique alias that the reply is sent to, which tracing showed in the agent example, so a reply doesn't get mixed up with other messages.
 
 <Diagram name="genservers/uth-mailbox" caption="A receive scans the mailbox from the front, so cost grows with the messages ahead of it." />
 
