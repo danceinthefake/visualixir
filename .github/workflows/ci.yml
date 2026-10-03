@@ -69,6 +69,35 @@ jobs:
         env:
           SITE_URL: ${{ vars.SITE_URL }}
 
+  # The same pages in Firefox and WebKit (Safari's engine). Layout and search are where engines differ; axe is
+  # not browser-specific, so it stays in Chromium above. Reports only, so it does not gate the deploy: make it
+  # a requirement (add it to the deploy job's `needs`) once it has been green for a while.
+  browsers:
+    name: e2e · ${{ matrix.browser }}
+    needs: build
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, webkit]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v8
+        with:
+          name: site-dist
+          path: docs/.vitepress/dist
+      - run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
+      - run: node e2e/run.mjs site layout search
+        env:
+          BROWSER: ${{ matrix.browser }}
+          SITE_URL: ${{ vars.SITE_URL }}
+
   # What passed the build and the e2e checks goes live; pull requests never deploy. Off until the repo variable
   # DEPLOY_CLOUDFLARE is "true" and the CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secrets exist
   # (until then, deploy by hand: see README).

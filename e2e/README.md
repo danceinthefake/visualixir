@@ -28,3 +28,7 @@ That adds the twelve section-root redirects (`/getting-started` goes to its firs
 ## Not here
 
 `scripts/audit.py` (pages against the official chapters), `scripts/upstream.mjs` (has the official docs changed?) and `scripts/og.mjs` (the social image and icons) are in `scripts/`.
+
+## Other browsers
+
+`BROWSER=firefox pnpm e2e` (or `webkit`) runs the same checks in another engine. Chromium is the default. WebKit's Playwright build needs Ubuntu's system libraries, so on other Linux distributions run it in CI: the `browsers` job there does Firefox and WebKit.

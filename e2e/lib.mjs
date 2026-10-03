@@ -1,6 +1,6 @@
 // Shared helpers for the e2e checks. They run against a built site served by `vitepress preview`
 // (see e2e/run.mjs), or against any deployment with BASE_URL=https://...
-import { chromium } from "playwright";
+import { chromium, firefox, webkit } from "playwright";
 import { readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
@@ -25,8 +25,13 @@ export function pages() {
   return out;
 }
 
-// CHROMIUM=/usr/bin/chromium uses a system browser instead of Playwright's download.
-export const launch = () => chromium.launch({ executablePath: process.env.CHROMIUM || undefined });
+// BROWSER=chromium (default) | firefox | webkit. CHROMIUM=/usr/bin/chromium uses a system Chromium instead of Playwright's download.
+export const BROWSER = process.env.BROWSER || "chromium";
+export const launch = () => {
+  const type = { chromium, firefox, webkit }[BROWSER];
+  if (!type) throw new Error(`unknown BROWSER: ${BROWSER}`);
+  return type.launch({ executablePath: BROWSER === "chromium" ? process.env.CHROMIUM || undefined : undefined });
+};
 
 /** Run fn over items, n at a time. fn gets (item, index, workerId): workerId is stable per slot, so a worker can own a page. */
 export async function pool(items, n, fn) {
