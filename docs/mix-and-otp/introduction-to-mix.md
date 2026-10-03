@@ -39,11 +39,12 @@ $ mix new kv --module KV
 <UnderTheHood>
 
 **In short:** compiling turns your source into files on disk, and Mix remembers what it has already compiled.
-**What `mix compile` writes.** Compiling a new `kv` project wrote files under `_build/dev/lib/kv`: `ebin/Elixir.KV.beam` (1,592 bytes), the application file `ebin/kv.app` (164 bytes), the seven consolidated protocols in `consolidated/` (the protocol step from the Protocols chapter), and manifests in `.mix/`. A `.beam` file begins with the bytes `FOR1`, the tag of its container format. Running `mix compile` again wrote no `.beam` file: the manifest lets Mix see that nothing changed. That is why a second compile prints nothing and `recompile()` can answer `:noop`.
+
+**What `mix compile` writes.** Compiling a new `kv` project created files under `_build/dev/lib/kv`: the compiled module (`Elixir.KV.beam`, 1,592 bytes), a small description of the application (`kv.app`, 164 bytes), the seven protocols in their consolidated form (from the Protocols chapter), and bookkeeping files in `.mix/`. Running `mix compile` again wrote no `.beam` file, because Mix keeps a record of what it compiled and sees that nothing changed. That is why a second compile prints nothing and `recompile()` can answer `:noop`.
 
 <Diagram name="introduction-to-mix/uth-build" caption="Compiling turns source into .beam files on disk. A manifest lets Mix skip work." />
 
-*Sources:* `strace -f -y -e trace=openat` on `mix compile` with Elixir 1.20 / OTP 29, and `ls` of `_build`. File sizes depend on the code and the Elixir version.
+*Sources:* `strace -f -y -e trace=openat` on `mix compile` with Elixir 1.20 / OTP 29, and `ls` of `_build`. A `.beam` file starts with the bytes `FOR1`, the tag of its container format. File sizes depend on the code and the Elixir version.
 
 </UnderTheHood>
 

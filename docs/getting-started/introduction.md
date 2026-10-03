@@ -28,13 +28,13 @@ iex(2)> "hello" <> " world"
 
 <UnderTheHood>
 
-**What starts when you type `elixir`.** `elixir` is a shell script (its first line is `#!/bin/sh`). Tracing the system calls of `elixir hello.exs` showed it start `erl`, which starts `erlexec`, which starts `beam.smp`: the Erlang VM, a normal Linux program that the kernel loads with `execve`. On this machine the VM then runs as 48 OS threads.
+**What starts when you type `elixir`.** `elixir` is a small shell script. It starts `erl`, which starts `erlexec`, which starts `beam.smp`: the Erlang VM, an ordinary Linux program. On this machine the VM then runs as 48 OS threads.
 
-**Where the code comes from.** The VM itself (`beam.smp`) is a native program, but Elixir and Erlang's libraries are `.beam` files on disk, and the VM reads and loads each one it needs. For a script that only prints one line, the VM opened 213 `.beam` files, loaded 209 modules and held 12.6 MB of code in memory. `elixirc` does the reverse: it writes one `.beam` file per module (a small module with a few functions was 2,308 bytes).
+**Where the code comes from.** The VM itself is a native program, but Elixir and Erlang's libraries are `.beam` files on disk, and the VM reads and loads each one it needs. For a script that only prints one line, it opened 213 `.beam` files, loaded 209 modules and held 12.6 MB of code in memory. `elixirc` does the reverse: it writes one `.beam` file per module (a small module was 2,308 bytes).
 
 <Diagram name="introduction/uth-startup" caption="From the elixir command to your script: a launcher chain, then the VM reading .beam files." />
 
-*Sources:* `strace -f -e trace=execve,openat` on Linux with Erlang/OTP 29 and Elixir 1.20; `:code.all_loaded/0` and `:erlang.memory(:code)` for the module and code counts. The counts depend on the version and on what the script uses.
+*Sources:* `elixir` starts with `#!/bin/sh`, and the kernel starts programs with `execve`. `strace -f -e trace=execve,openat` on Linux with Erlang/OTP 29 and Elixir 1.20; `:code.all_loaded/0` and `:erlang.memory(:code)` for the module and code counts. The counts depend on the version and on what the script uses.
 
 </UnderTheHood>
 

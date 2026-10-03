@@ -47,15 +47,17 @@ The options: `:binary` (binaries, not lists), `packet: :line` (one line at a tim
 
 <UnderTheHood>
 
-**In short:** your code asks the Linux kernel to do the networking, and the process just waits until the kernel says data has arrived. **What `:gen_tcp` asks the kernel for.** Tracing the echo server and a client with `strace -f -y -Y` showed, from a scheduler thread: `socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)`, `bind` to port 4747, `listen(fd, 5)` (the 5 is the queue of waiting connections, which `ss` also shows), and `epoll_ctl` registering each socket with the kernel's `epoll`.
+**In short:** your code asks the Linux kernel to do the networking, and the process just waits until the kernel says data has arrived.
 
-A `connect` returned `EINPROGRESS` and a `recvfrom` returned `EAGAIN` ("no data yet"): the sockets are non-blocking. The process that called `recv` simply waits, using no CPU, until `epoll` reports data, and the VM then calls `recvfrom` again and gets the line. The kernel holds the connection's state and buffers; `ss -tnm` showed a receive buffer limit of 128 KiB and a send buffer limit of about 2.5 MB.
+**What `:gen_tcp` asks the kernel for.** Tracing an echo server and a client showed the VM asking the Linux kernel, one step at a time, to create a socket, attach it to port 4747, start listening (with room for 5 waiting connections) and watch it for activity. The sockets don't block: asking for data that hasn't arrived yet gets an immediate "no data yet" answer, and the process that asked just waits, using no CPU. When the kernel reports that data has arrived, the VM asks again and gets the line.
+
+The kernel keeps the connection's state and buffers: `ss -tnm` showed a receive buffer limit of 128 KiB and a send buffer limit of about 2.5 MB.
 
 **In the hardware.** This test used the loopback interface, so no network card was involved. Over a real network the packets also pass through the network card, which is outside what we measured here.
 
 <Diagram name="task-and-gen-tcp/uth-socket" caption="Receiving: the process waits, the kernel's epoll reports data, and the VM reads it." />
 
-*Sources:* `strace` and `ss` on Linux with Erlang/OTP 29. Socket call names are Linux's.
+*Sources:* `strace -f -y -Y` and `ss` on Linux with Erlang/OTP 29. The calls seen were `socket`, `bind`, `listen(fd, 5)`, `epoll_ctl` (to watch a socket), `connect` returning `EINPROGRESS` and `recvfrom` returning `EAGAIN`. Socket call names are Linux's.
 
 </UnderTheHood>
 

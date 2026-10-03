@@ -71,13 +71,13 @@ end
 
 <UnderTheHood>
 
-**What a protocol call becomes.** A call such as `Enumerable.reduce(list, acc, fun)` first asks `impl_for/1` which module handles this value, then calls that module. In a *consolidated* protocol, which `mix` builds when it compiles a project (`Protocol.consolidate/2`), `impl_for` is a few type tests and a jump. In the disassembly of a consolidated `Enumerable` it is `is_map`, `get_map_elements` (to read a struct's name), `is_atom` and `select_val`, which ends in `{:atom, Enumerable.List}`: the answer is a constant.
+**What a protocol call becomes.** A call such as `Enumerable.reduce(list, acc, fun)` first asks which module handles this kind of value, then calls that module. When `mix` compiles a project it *consolidates* each protocol, so that first step becomes a few type checks and one jump that ends in a constant: the name of the module, such as `Enumerable.List`.
 
 The [Protocol docs](https://hexdocs.pm/elixir/Protocol.html) describe a consolidated call as "equivalent to invoking two remote functions", one to identify the implementation and one to call it. Consolidation applies when "all protocol implementations are known up-front", which is why implementations defined later, for example only in tests, need care.
 
 <Diagram name="protocols/uth-dispatch" caption="A consolidated protocol decides the implementation with a few tests and a jump." />
 
-*Sources:* disassembled with `:beam_disasm` after `Protocol.consolidate/2` on Elixir 1.20. The shape of the generated code may change between Elixir versions.
+*Sources:* disassembled with `:beam_disasm` after `Protocol.consolidate/2` on Elixir 1.20. The checks are `is_map`, `get_map_elements` (to read a struct's name), `is_atom` and `select_val`. The shape of the generated code may change between Elixir versions.
 
 </UnderTheHood>
 

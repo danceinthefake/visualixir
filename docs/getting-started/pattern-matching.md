@@ -133,15 +133,17 @@ Destructuring is one of the foundations of recursion in Elixir, and it applies t
 
 <UnderTheHood>
 
-**In short:** a match only checks the shape of the data and reads values that are already there. It builds nothing new. **What the compiler turns a match into.** Matching is a handful of tests and loads. For `{:ok, v} = result` the compiled code (read with `:beam_disasm`) is `is_tagged_tuple`, which checks "a tuple of this size whose first element is `:ok`", then `get_tuple_element`, which loads element 1 into a register.
+**In short:** a match only checks the shape of the data and reads values that are already there. It builds nothing new.
+
+**What the compiler turns a match into.** A match is a few checks followed by reads. For `{:ok, v} = result` the compiled code asks "is this a tuple of the right size whose first element is `:ok`?" and then loads element 1 into a register. Nothing is allocated and nothing is copied: `v` is the same value that was already inside `result`. For `[head | tail]` it checks that the list isn't empty and loads the head, and the tail comes the same way. If a check fails, the code jumps to the next clause, or raises `MatchError`.
 
 There is no `test_heap` or `put_*` instruction: matching doesn't allocate and doesn't copy, and `v` is the same word that was already inside `result`. For `[head | tail]` it is `is_nonempty_list` and `get_hd` (the tail comes the same way). If a test fails, the code jumps to the next clause, or raises `MatchError`.
 
-**Repeated variables and the pin.** Matching a tuple against `{x, x}` loads both elements, then compares them with `is_eq_exact`. The pin does the same: `^y` is an `is_eq_exact` between two registers.
+**Repeated variables and the pin.** Matching a tuple against `{x, x}` loads both elements and compares them. The pin works the same way: `^y` compares two values that are already there.
 
 <Diagram name="pattern-matching/uth-match" caption="A match is a few tests, then loads from the existing data." />
 
-*Sources:* instructions read with `:beam_disasm` on Erlang/OTP 29 and Elixir 1.20. The instruction names are the VM's.
+*Sources:* instructions read with `:beam_disasm` on Erlang/OTP 29 and Elixir 1.20. The instructions are `is_tagged_tuple` and `get_tuple_element`, `is_nonempty_list` and `get_hd`, and `is_eq_exact` for repeated variables and the pin. There is no `test_heap` or `put_*` instruction, the ones that build data.
 
 </UnderTheHood>
 

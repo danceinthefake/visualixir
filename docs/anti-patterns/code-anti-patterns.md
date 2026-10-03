@@ -124,11 +124,12 @@ Pattern matching is another option: `def plot(%{x: x, y: y, z: z})` and `def plo
 <UnderTheHood>
 
 **In short:** `point.x` is part of your function's own code, while `point[:x]` calls another function.
-**Two different pieces of machine code.** We compiled `point.x` and `point[:x]` and read them with `:beam_disasm`. `point.x` is `is_map` followed by `get_map_elements`, instructions in the function itself, and a missing key falls through to the code that raises `KeyError`. `point[:x]` is `call_ext_only Access.get/2`, a call to a function that works for maps, keyword lists and other types, and returns `nil` when the key is missing. The dynamic form can do more, and that is also why it cannot tell the compiler that the key must be there.
+
+**Two different pieces of machine code.** We compiled `point.x` and `point[:x]` and read the result. `point.x` becomes checks and a load inside your own function, and a missing key goes straight to the code that raises `KeyError`. `point[:x]` becomes a call to `Access.get/2`, a function that works for maps, keyword lists and other types and returns `nil` when the key is missing. The dynamic form can do more, and that is also why it cannot tell the compiler that the key must be there.
 
 <Diagram name="code-anti-patterns/uth-map-access" caption="point.x is instructions in your function. point[:x] is a call to Access.get/2." />
 
-*Sources:* disassembled with `:beam_disasm` on Elixir 1.20 / OTP 29.
+*Sources:* disassembled with `:beam_disasm` on Elixir 1.20 / OTP 29. `point.x` is `is_map` and `get_map_elements`, and `point[:x]` is `call_ext_only` to `Access.get/2`.
 
 </UnderTheHood>
 
