@@ -61,7 +61,10 @@ for (const kind of ["desktop", "phone"]) {
     if (phone) {
       await t.tap();
       await page.waitForTimeout(100);
-      await page.touchscreen.tap(5, 700);
+      // the page margin, at a height the card does not cover (a card can sit anywhere, and a tap on it is not "elsewhere")
+      const b = await card.boundingBox();
+      const y = [120, 400, 650, 780].find((y) => !b || y < b.y - 8 || y > b.y + b.height + 8);
+      await page.touchscreen.tap(5, y);
       await page.waitForTimeout(100);
       if (await shown()) failures.push(`${path} [phone]: a tap elsewhere did not close the card`);
     }
