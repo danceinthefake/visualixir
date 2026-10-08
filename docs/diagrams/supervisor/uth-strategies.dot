@@ -1,0 +1,22 @@
+digraph uth_strategies {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_all {
+    label="one_for_all\nB crashed: pids changed for A, B, C"
+    a3 [label="A new pid"]
+    b3 [label="B new pid" class=hl]
+    c3 [label="C new pid"]
+  }
+  subgraph cluster_rest {
+    label="rest_for_one\npids changed for B, C"
+    a2 [label="A same pid" class=dim]
+    b2 [label="B new pid" class=hl]
+    c2 [label="C new pid"]
+  }
+  subgraph cluster_one {
+    label="one_for_one\npid changed for B only"
+    a1 [label="A same pid" class=dim]
+    b1 [label="B new pid" class=hl]
+    c1 [label="C same pid" class=dim]
+  }
+}

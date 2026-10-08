@@ -1,0 +1,17 @@
+digraph signals {
+  rankdir=TB
+  node [shape=box]
+  e [label="exit signal arrives with a reason" class=hl]
+  k [label=":kill\nunconditional: process exits with :killed\neven if trapping"]
+  n [label="not trapping exits"]
+  t [label="trapping exits"]
+  n1 [label=":normal: ignored\n(unless sent to yourself)"]
+  n2 [label="any other reason:\nprocess exits with that reason"]
+  t1 [label="becomes a message in the mailbox:\n{:EXIT, from, reason}"]
+  e -> k
+  e -> n
+  e -> t
+  n -> n1
+  n -> n2
+  t -> t1
+}

@@ -1,0 +1,11 @@
+digraph alias {
+  rankdir=LR
+  node [shape=box]
+  cl [label="client\nal = Process.alias()"]
+  sv [label="server"]
+  cl -> sv [label=" {:ping, al}"]
+  sv -> cl [label=" send(al, :pong)\ndelivered" style=dashed]
+  un [label="Process.unalias(al)" class=hl]
+  cl -> un [label=" later" style=dotted]
+  sv -> un [label=" send(al, :pong)\nnothing happens" style=dashed class=dim]
+}

@@ -1,0 +1,13 @@
+digraph timers {
+  rankdir=LR
+  node [shape=box]
+  sa [label="Process.send_after(dest, msg, 1000)" class=hl]
+  ref [label="timer reference"]
+  rd [label="read_timer(ref)\nms left, or false"]
+  cn [label="cancel_timer(ref)\nms left, or false"]
+  dl [label="after 1000 ms:\nmsg delivered to dest"]
+  sa -> ref
+  ref -> rd
+  ref -> cn
+  sa -> dl [style=dashed label=" if not cancelled"]
+}

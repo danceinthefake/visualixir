@@ -1,0 +1,15 @@
+digraph shutdown {
+  rankdir=TB
+  node [shape=box]
+  s [label="supervisor shuts down:\nchildren stop in reverse order" class=hl]
+  sig [label="Process.exit(child, :shutdown)"]
+  nt [label="child not trapping exits:\nends immediately"]
+  tr [label="child traps exits:\nterminate/2 runs, child has\nthe :shutdown time (default 5000 ms)"]
+  ok [label="child ends in time"]
+  kill [label="Process.exit(child, :kill)\nunconditional" class=hl]
+  s -> sig
+  sig -> nt
+  sig -> tr
+  tr -> ok [label=" in time"]
+  tr -> kill [label=" too slow"]
+}

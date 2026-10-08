@@ -1,0 +1,17 @@
+digraph linkmon {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_link {
+    label="link: bidirectional"
+    l1 [label="pid1"]
+    l2 [label="pid2"]
+    l1 -> l2 [dir=both label=" exit signals both ways"]
+  }
+  subgraph cluster_mon {
+    label="monitor: one way"
+    m1 [label="watcher"]
+    m2 [label="watched"]
+    m1 -> m2 [label=" Process.monitor"]
+    m2 -> m1 [label=" {:DOWN, ref, :process, object, reason}" style=dashed]
+  }
+}

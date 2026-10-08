@@ -166,6 +166,8 @@ export default defineConfig({
             { text: "Task", link: "/modules/task" },
             { text: "Registry", link: "/modules/registry" },
             { text: "ExUnit", link: "/modules/exunit" },
+            { text: "Supervisor", link: "/modules/supervisor" },
+            { text: "Process", link: "/modules/process" },
             { text: "IEx", link: "/modules/iex" },
           ],
         },

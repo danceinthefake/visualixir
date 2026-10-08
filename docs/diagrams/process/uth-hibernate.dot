@@ -1,0 +1,8 @@
+digraph uth_hibernate {
+  rankdir=LR
+  node [shape=box]
+  w [label="after work, waiting\n1,573,960 bytes\nheap 75,113 words"]
+  h [label="after work, hibernated\n824 bytes\nheap 7 words" class=hl]
+  f [label="fresh process\n2,632 bytes\nheap 233 words"]
+  w -> h [label=" Process.hibernate" style=dashed]
+}

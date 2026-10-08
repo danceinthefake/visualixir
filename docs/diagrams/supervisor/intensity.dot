@@ -1,0 +1,13 @@
+digraph intensity {
+  rankdir=LR
+  node [shape=box]
+  c [label="child crashes\nrestart 1, 2, 3 ..." ]
+  win [label="more than max_restarts (3)\nwithin max_seconds (5)?" class=hl]
+  ok [label="keep restarting"]
+  die [label="supervisor exits\nwith reason :shutdown"]
+  up [label="its own parent decides:\nrestart it if :permanent"]
+  c -> win
+  win -> ok [label=" no"]
+  win -> die [label=" yes"]
+  die -> up
+}

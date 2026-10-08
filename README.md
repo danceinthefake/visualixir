@@ -26,7 +26,7 @@ docs/                          VitePress root
   anti-patterns/*.md           the Anti-patterns guide
   cheatsheets/*.md             cheatsheets
   references/*.md              reference pages
-  modules/*.md                 one page per module (Task, Registry, ExUnit, IEx)
+  modules/*.md                 one page per module (Task, Registry, ExUnit, Supervisor, Process, IEx)
   diagrams/<page>/<name>.dot   Graphviz source; make renders the .svg beside it
   .vitepress/theme/            Diagram.vue inlines SVG, diagram.css repaints it from --bless-* tokens
 Makefile                       .dot -> .svg, shared defaults live in DOT_FLAGS
@@ -69,7 +69,7 @@ pnpm upstream:diff <slug>      # what changed in one chapter
 pnpm upstream:update           # accept the fetched chapters as the new snapshot, after you have updated the pages
 ```
 
-Pages under `docs/modules/` follow the **module documentation** (Task, Registry, ExUnit, IEx), which isn't in the guide index. Their sources are listed in `MODULES` in `scripts/upstream.mjs`, and `upstream/<slug>.md` holds those sources joined in order. A new module page needs an entry there.
+Pages under `docs/modules/` follow the **module documentation** (Task, Registry, ExUnit, Supervisor, Process, IEx), which isn't in the guide index. Their sources are listed in `MODULES` in `scripts/upstream.mjs`, and `upstream/<slug>.md` holds those sources joined in order. A new module page needs an entry there.
 
 It also reports chapters that appeared in the official index with no page here, and pages whose chapter is gone. A weekly workflow (`.github/workflows/upstream.yml`) runs the check and opens an issue when something changed.
 

@@ -14,5 +14,13 @@
     "Elixir.KV.beam",
     "Elixir.KV.Bucket.beam"
   ],
-  "diagram_numbers": ["12345", "1_048_576"]
+  "diagram_numbers": [
+    "12345",
+    "1_048_576"
+  ],
+  "refs": [
+    "Process.hibernate",
+    "Process.info",
+    "Process.unlink"
+  ]
 }

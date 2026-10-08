@@ -1,0 +1,15 @@
+digraph restart {
+  rankdir=TB
+  node [shape=box]
+  x [label="child terminates" class=hl]
+  perm [label=":permanent\nalways restarted"]
+  temp [label=":temporary\nnever restarted"]
+  tr [label=":transient\nrestarted only if abnormal"]
+  x -> perm
+  x -> temp
+  x -> tr
+  tr -> r1 [label=" :normal, :shutdown,\n{:shutdown, term}"]
+  tr -> r2 [label=" any other reason"]
+  r1 [label="not restarted" shape=box class=dim]
+  r2 [label="restarted"]
+}

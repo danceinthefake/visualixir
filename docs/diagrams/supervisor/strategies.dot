@@ -1,0 +1,22 @@
+digraph strategies {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_all {
+    label="one_for_all"
+    a3 [label="A restarted"]
+    b3 [label="B crashed, restarted" class=hl]
+    c3 [label="C restarted"]
+  }
+  subgraph cluster_rest {
+    label="rest_for_one"
+    a2 [label="A untouched" class=dim]
+    b2 [label="B crashed, restarted" class=hl]
+    c2 [label="C restarted\n(started after B)"]
+  }
+  subgraph cluster_one {
+    label="one_for_one"
+    a1 [label="A untouched" class=dim]
+    b1 [label="B crashed, restarted" class=hl]
+    c1 [label="C untouched" class=dim]
+  }
+}

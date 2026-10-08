@@ -42,6 +42,8 @@ const MODULES = {
   registry: [`${BASE}/Registry.md`],
   exunit: [`${HEX}/ex_unit/ExUnit.md`, `${HEX}/ex_unit/ExUnit.Case.md`, `${HEX}/ex_unit/ExUnit.Callbacks.md`],
   iex: [`${HEX}/iex/IEx.md`],
+  supervisor: [`${BASE}/Supervisor.md`],
+  process: [`${BASE}/Process.md`],
 };
 
 const args = process.argv.slice(2);
