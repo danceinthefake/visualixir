@@ -46,8 +46,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: site, layout, search
-            tasks: site layout search
+          - name: site, layout, search, diagrams
+            tasks: site layout search diagrams
           - name: axe desktop
             tasks: axe
           - name: axe phone
@@ -93,7 +93,7 @@ jobs:
           name: site-dist
           path: docs/.vitepress/dist
       - run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
-      - run: node e2e/run.mjs site layout search
+      - run: node e2e/run.mjs site layout search diagrams
         env:
           BROWSER: ${{ matrix.browser }}
           SITE_URL: ${{ vars.SITE_URL }}
