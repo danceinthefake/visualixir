@@ -1,0 +1,11 @@
+digraph supervised {
+  rankdir=TB
+  node [shape=box]
+  sup [label="Task.Supervisor" class=hl]
+  sc [label="start_child\nfire and forget\nthe caller never hears of it"]
+  an [label="async + await\nthe result is wanted\ntask fails: the caller fails too"]
+  nl [label="async_nolink + yield + shutdown\nresult or reason wanted\ntask fails: the caller gets the reason"]
+  sup -> sc
+  sup -> an
+  sup -> nl
+}

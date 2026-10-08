@@ -1,0 +1,13 @@
+digraph dotiex {
+  rankdir=TB
+  node [shape=box]
+  a [label="configured path\n(--dot-iex, dot_iex)"]
+  b [label="./.iex.exs\nin the working directory"]
+  c [label="$IEX_HOME/.iex.exs\nIEX_HOME defaults to ~"]
+  l [label="the first one found is evaluated line by line,\nas if typed in the shell" class=hl]
+  a -> b [label=" none?"]
+  b -> c [label=" none?"]
+  a -> l [style=dashed]
+  b -> l [style=dashed]
+  c -> l [style=dashed]
+}

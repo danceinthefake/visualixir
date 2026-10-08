@@ -31,6 +31,17 @@ const SECTIONS = {
   "anti-patterns": "Anti-patterns",
   cheatsheets: "Cheatsheets",
   references: "References",
+  modules: null, // module docs, not in the guide index: see MODULES
+};
+
+// Pages under docs/modules/ follow module documentation, not a guide chapter. Their snapshot upstream/<slug>.md
+// is the sources below joined in order, each after a "<!-- source: url -->" line.
+const HEX = "https://hexdocs.pm";
+const MODULES = {
+  task: [`${BASE}/Task.md`, `${BASE}/Task.Supervisor.md`],
+  registry: [`${BASE}/Registry.md`],
+  exunit: [`${HEX}/ex_unit/ExUnit.md`, `${HEX}/ex_unit/ExUnit.Case.md`, `${HEX}/ex_unit/ExUnit.Callbacks.md`],
+  iex: [`${HEX}/iex/IEx.md`],
 };
 
 const args = process.argv.slice(2);
@@ -67,7 +78,13 @@ async function pool(items, n, fn) {
 }
 
 const from = opt("--from");
-const fetchChapter = async (slug) => (from ? readFileSync(join(from, `${slug}.md`), "utf8") : get(`${BASE}/${slug}.md`));
+const fetchChapter = async (slug) => {
+  if (from) return readFileSync(join(from, `${slug}.md`), "utf8");
+  if (!MODULES[slug]) return get(`${BASE}/${slug}.md`);
+  const parts = await Promise.all(MODULES[slug].map(async (u) => `<!-- source: ${u} -->\n${await get(u)}`));
+  return parts.join("\n");
+};
+const link = (slug) => (MODULES[slug] ?? [`${BASE}/${slug}.md`])[0].replace(/\.md$/, ".html");
 
 // the official index, to spot chapters we have no page for (or pages whose chapter is gone)
 function parseIndex(txt) {
@@ -98,6 +115,7 @@ try { index = parseIndex(from && existsSync(join(from, "llms.txt")) ? readFileSy
 const added = [], gone = [];
 if (index) {
   for (const [dir, title] of Object.entries(SECTIONS)) {
+    if (!title) continue;
     const up = index[title] ?? [];
     const ours = pages.filter((p) => p.dir === dir).map((p) => p.slug);
     for (const s of up) if (!ours.includes(s)) added.push({ dir, slug: s });
@@ -156,7 +174,7 @@ if (flag("--json")) console.log(JSON.stringify(report, null, 2));
 else if (flag("--markdown")) {
   const snapText = `the snapshot of ${report.snapshot?.date ?? "?"} (Elixir ${report.snapshot?.elixir ?? "?"})`;
   const L = [drift || errors.length ? `The official Elixir docs changed since ${snapText}.` : `In sync with the official Elixir docs: nothing changed since ${snapText}.`, ""];
-  if (report.changed.length) { L.push(`### Changed chapters (${report.changed.length})`, "", ...report.changed.map((c) => `- [\`${c.slug}\`](${BASE}/${c.slug}.html) (${c.section}): ${c.lines} lines`), ""); }
+  if (report.changed.length) { L.push(`### Changed chapters (${report.changed.length})`, "", ...report.changed.map((c) => `- [\`${c.slug}\`](${link(c.slug)}) (${c.section}): ${c.lines} lines`), ""); }
   if (report.newChapters.length) L.push("### New chapters with no page here", "", ...report.newChapters.map((c) => `- \`${c.slug}\` in ${c.dir}`), "");
   if (report.removedChapters.length) L.push("### Pages whose chapter is gone upstream", "", ...report.removedChapters.map((c) => `- \`${c.dir}/${c.slug}\``), "");
   if (report.errors.length) L.push("### Could not fetch", "", ...report.errors.map((e) => `- \`${e.slug}\`: ${e.error}`), "");

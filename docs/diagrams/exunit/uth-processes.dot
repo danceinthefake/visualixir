@@ -1,0 +1,22 @@
+digraph processes {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_mod {
+    label="one test module"
+    sa [label="setup_all\nits own process"]
+    subgraph cluster_t1 {
+      label="test one"
+      t1 [label="one process:\nsetup, then the test\n(ctx.test_pid is this process)" class=hl]
+      o1 [label="on_exit callbacks\nanother process"]
+      t1 -> o1 [label=" after exit"]
+    }
+    subgraph cluster_t2 {
+      label="test two"
+      t2 [label="a different process:\nsetup, then the test" class=hl]
+      o2 [label="on_exit callbacks\nanother process"]
+      t2 -> o2
+    }
+    sa -> t1 [style=dashed label=" before"]
+    o1 -> t2 [style=dashed label=" then the next test"]
+  }
+}

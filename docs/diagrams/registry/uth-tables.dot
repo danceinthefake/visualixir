@@ -1,0 +1,14 @@
+digraph tables {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_part {
+    label="partition process (owns the two tables)"
+    keys [label="key table: set\n\"k\" -> {pid, value}\nread and write concurrency"]
+    pids [label="pid table: duplicate_bag\npid -> key"]
+  }
+  meta [label="table named after the registry\nset: the registry's layout\nread concurrency" class=hl]
+  caller [label="caller process"]
+  caller -> keys [label=" lookup: no message sent" style=dashed]
+  caller -> keys [label=" register: writes" style=dashed class=dim]
+  caller -> pids [label=" register: writes" style=dashed class=dim]
+}

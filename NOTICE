@@ -10,7 +10,7 @@ Visualixir contains two kinds of material under two licences.
 2. CONTENT, licensed under the Apache License 2.0 (see LICENSES/Apache-2.0.txt)
    (the verbatim copies of the official chapters in upstream/ are Apache-2.0 as well)
    The documentation pages under docs/getting-started, docs/mix-and-otp,
-   docs/meta-programming, docs/anti-patterns, docs/cheatsheets and docs/references,
+   docs/meta-programming, docs/anti-patterns, docs/cheatsheets, docs/references and docs/modules,
    and the diagrams under docs/diagrams (the .dot sources and the generated .svg files).
 
    This content is derived from the Elixir documentation:

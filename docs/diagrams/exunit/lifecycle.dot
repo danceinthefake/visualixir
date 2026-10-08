@@ -1,0 +1,13 @@
+digraph lifecycle {
+  rankdir=TB
+  node [shape=box]
+  s [label="1. test process is spawned"]
+  su [label="2. setup callbacks run, in order of appearance"]
+  t [label="3. the test itself runs" class=hl]
+  e [label="4. test process exits with reason :shutdown"]
+  sp [label="5. supervised processes stop, synchronously"]
+  oe [label="6. on_exit callbacks run, in a separate process"]
+  s -> su -> t -> e -> sp -> oe
+  sa [label="setup_all\nonce per module, before any test\nin its own process" class=dim]
+  sa -> s [style=dashed label=" before the first test"]
+}

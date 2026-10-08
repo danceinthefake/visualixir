@@ -25,7 +25,7 @@ import collections, glob, json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC, DOCS = f"{ROOT}/upstream", f"{ROOT}/docs"
-SECTIONS = ["getting-started", "mix-and-otp", "meta-programming", "anti-patterns", "cheatsheets", "references"]
+SECTIONS = ["getting-started", "mix-and-otp", "meta-programming", "anti-patterns", "cheatsheets", "references", "modules"]
 ALLOW = json.load(open(f"{ROOT}/scripts/audit-allow.json"))
 
 def norm(t):

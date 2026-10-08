@@ -1,0 +1,16 @@
+digraph break {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_file {
+    label="on disk"
+    f [label="Elixir.URI.beam\n54,764 bytes"]
+  }
+  subgraph cluster_mem {
+    label="in the VM's memory"
+    o [label="URI, original\nmd5 = A"]
+    n [label="URI, instrumented\nmd5 = B, different from A" class=hl]
+  }
+  f -> o [label=" loaded from here"]
+  o -> n [label=" IEx.break!(URI, :parse, 1)\nreplaces it" style=dashed]
+  n -> o [label=" remove_breaks\nmd5 = A again" style=dashed]
+}

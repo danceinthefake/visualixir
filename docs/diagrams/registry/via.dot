@@ -1,0 +1,12 @@
+digraph via {
+  rankdir=LR
+  node [shape=box]
+  name [label="{:via, Registry,\n{MyApp.Registry, \"agent\"}}" class=hl]
+  reg [label="Registry\nMyApp.Registry"]
+  pid [label="Agent process"]
+  call [label="Agent.get(name, ...)"]
+  call -> name [label=" name instead of pid"]
+  name -> reg [label=" looks up the key"]
+  reg -> pid [label=" its pid"]
+  call -> pid [label=" message goes here" style=dashed]
+}

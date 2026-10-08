@@ -16,6 +16,7 @@ const sections: Record<string, string> = {
   "anti-patterns": "Anti-patterns",
   cheatsheets: "Cheatsheets",
   references: "References",
+  modules: "Modules",
 };
 
 // When the official chapters were last taken (upstream/SNAPSHOT.json, written by scripts/upstream.mjs).
@@ -107,6 +108,7 @@ export default defineConfig({
       { text: "Anti-patterns", link: "/anti-patterns/what-anti-patterns" },
       { text: "Cheatsheets", link: "/cheatsheets/enum-cheat" },
       { text: "References", link: "/references/compatibility-and-deprecations" },
+      { text: "Modules", link: "/modules/task" },
     ],
     sidebar: {
       "/getting-started/": [
@@ -154,6 +156,17 @@ export default defineConfig({
             { text: "Software Bill of Materials", link: "/references/sbom" },
             { text: "Typespecs reference", link: "/references/typespecs" },
             { text: "Unicode syntax", link: "/references/unicode-syntax" },
+          ],
+        },
+      ],
+      "/modules/": [
+        {
+          text: "Modules",
+          items: [
+            { text: "Task", link: "/modules/task" },
+            { text: "Registry", link: "/modules/registry" },
+            { text: "ExUnit", link: "/modules/exunit" },
+            { text: "IEx", link: "/modules/iex" },
           ],
         },
       ],

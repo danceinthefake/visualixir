@@ -17,6 +17,7 @@ path = [
   "docs/anti-patterns/**",
   "docs/cheatsheets/**",
   "docs/references/**",
+  "docs/modules/**",
   "docs/diagrams/**",
 ]
 precedence = "override"

@@ -1,0 +1,14 @@
+digraph async {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_b {
+    label="module B (async: true)\nruns at the same time as module A"
+    b1 [label="test b1"]
+  }
+  subgraph cluster_a {
+    label="module A (async: true)\nits tests run one after another"
+    a1 [label="test a1"]
+    a2 [label="test a2"]
+    a1 -> a2 [label=" then"]
+  }
+}

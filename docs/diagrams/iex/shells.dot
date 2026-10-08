@@ -1,0 +1,12 @@
+digraph shells {
+  rankdir=LR
+  node [shape=box]
+  ug [label="Ctrl+G\nUser switch command" class=hl]
+  s1 [label="shell 1\nhello = :world"]
+  s2 [label="shell 2\nhello is undefined" ]
+  r [label="remote shell\non another node"]
+  ug -> s1 [label=" c 1"]
+  ug -> s2 [label=" s iex, then c"]
+  ug -> r [label=" r 'foo@HOST' 'Elixir.IEx'"]
+  s1 -> s2 [label=" shells are isolated:\nno shared variables" style=dashed class=dim]
+}

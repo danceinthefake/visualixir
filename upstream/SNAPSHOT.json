@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-30",
+  "date": "2026-10-08",
   "elixir": "1.20",
   "source": "https://elixir.hexdocs.pm",
   "files": {
@@ -55,6 +55,10 @@
     "sbom": "ed6b6fd60c05da6ae8d8bc39d76e54faf5f63a77b7af3585c352e44c5dbe6a49",
     "syntax-reference": "afeae1683f5b5aa0244ef765278c3afa7e4ab7a5c3ccdb87dadcec8959136bb8",
     "typespecs": "94d974698c9eff0b851ecbb8a9754c062a81d74a864836bb4ef1b2c988baf291",
-    "unicode-syntax": "d8038ddd4d92890f136d0106003d5fd7994fb453e570d2a6ca7ddec43fa4d10c"
+    "unicode-syntax": "d8038ddd4d92890f136d0106003d5fd7994fb453e570d2a6ca7ddec43fa4d10c",
+    "exunit": "720242a55c4f5d7e349d74ce9926b93b3323f36b2b063e32026c98af1df1a283",
+    "iex": "1570cdb406d0ac4b8db62ba5f7ee00a4b7efd00372dea1a07fd24213324caa95",
+    "registry": "9ee9297cb96fb0a87a2ce264407ed4d98e15e06b8e838ca1cabc178d55e5b5e4",
+    "task": "fe7226ff413c1f8699be0fcd7821646cd3a0969776c6cbd660092149f7dc7001"
   }
 }

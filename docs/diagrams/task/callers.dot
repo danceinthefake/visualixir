@@ -1,0 +1,11 @@
+digraph callers {
+  rankdir=LR
+  node [shape=box]
+  code [label="your code" class=hl]
+  sup [label="supervisor"]
+  task [label="task"]
+  code -> sup [label=" calls"]
+  sup -> task [label=" spawns"]
+  task -> sup [label=" $ancestors" style=dashed]
+  task -> code [label=" $callers" style=dashed]
+}

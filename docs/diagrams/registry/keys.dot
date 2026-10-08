@@ -1,0 +1,23 @@
+digraph keys {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_dup {
+    label="keys: :duplicate"
+    k2 [label="\"hello\"" class=hl]
+    p3 [label="pid C"]
+    p4 [label="pid D"]
+    p5 [label="pid E"]
+    k2 -> p3
+    k2 -> p4
+    k2 -> p5
+  }
+  subgraph cluster_uni {
+    label="keys: :unique"
+    k1 [label="\"agent\"" class=hl]
+    p1 [label="pid A"]
+    p2 [label="pid B"]
+    k1 -> p1
+    k3 [label="\"other\""]
+    k3 -> p2
+  }
+}

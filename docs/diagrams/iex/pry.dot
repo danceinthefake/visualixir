@@ -1,0 +1,17 @@
+digraph pry {
+  rankdir=TB
+  node [shape=box]
+  dbg [label="dbg(...) with --dbg pry\nor IEx.pry()\nneeds a code change"]
+  br [label="IEx.break!(Mod, :fun, arity)\nno code change"]
+  ask [label="IEx asks permission to pry" class=hl]
+  sess [label="the running process becomes the\nevaluator of IEx commands"]
+  n [label="n / next: next line or pipe step"]
+  c [label="continue: run on, stay in the process"]
+  rs [label="respawn: new shell,\nfree the pried process"]
+  dbg -> ask
+  br -> ask
+  ask -> sess [label=" yes"]
+  sess -> n
+  sess -> c
+  sess -> rs
+}

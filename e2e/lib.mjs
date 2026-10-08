@@ -15,6 +15,7 @@ export const SECTIONS = {
   "anti-patterns": "what-anti-patterns",
   cheatsheets: "enum-cheat",
   references: "compatibility-and-deprecations",
+  modules: "task",
 };
 
 /** "/" plus every content page, taken from the source tree. */

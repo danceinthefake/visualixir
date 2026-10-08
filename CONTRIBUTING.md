@@ -9,7 +9,7 @@ Questions about Elixir itself belong in the [Elixir forum](https://elixirforum.c
 ## Ground rules
 
 - **The official chapter is the source of truth.** Pages follow `upstream/<slug>.md` (a snapshot of
-  the official chapters). Don't add claims that aren't in it. Link back to the official chapter on every page.
+  the official chapters; for pages under `docs/modules/`, the module docs). Don't add claims that aren't in it. Link back to the official chapter on every page.
 - **English only.**
 - **Don't hardcode counts** of pages or diagrams. The home page computes them.
 - Diagrams explain, they don't decorate. If a sentence says it better, skip the diagram.

@@ -1,0 +1,11 @@
+digraph async_await {
+  rankdir=LR
+  node [shape=box]
+  caller [label="caller\nTask.async(fun)" class=hl]
+  task [label="task process\nruns fun"]
+  caller -> task [label=" spawns; linked and monitored"]
+  task -> caller [label=" {ref, result}" style=dashed]
+  task -> caller [label=" {:DOWN, ref, :process, pid, reason}" style=dashed class=dim]
+  aw [label="Task.await(task)\nreads {ref, result}"]
+  caller -> aw [label=" later"]
+}

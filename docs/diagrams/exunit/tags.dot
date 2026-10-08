@@ -1,0 +1,14 @@
+digraph tags {
+  rankdir=LR
+  node [shape=box]
+  tag [label="@tag cd: \"fixtures\"\n@moduletag :external" class=hl]
+  ctx [label="context\n(a map)"]
+  setup [label="setup callback\nreads context[:cd]"]
+  test [label="test body\nreceives context"]
+  filt [label="filters\nexclude / include\n--include external:true"]
+  tag -> ctx [label=" merged in"]
+  ctx -> setup
+  setup -> ctx [label=" returns more keys\n(:ok, map, keyword)" style=dashed]
+  ctx -> test
+  tag -> filt [label=" decide whether the test runs"]
+}

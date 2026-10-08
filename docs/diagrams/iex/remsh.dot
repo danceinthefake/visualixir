@@ -1,0 +1,15 @@
+digraph remsh {
+  rankdir=LR
+  node [shape=box]
+  subgraph cluster_baz {
+    label="node baz@HOST"
+    sh [label="your terminal\nthe shell you type in"]
+  }
+  subgraph cluster_foo {
+    label="node foo@HOST"
+    ev [label="evaluator\nruns your code here" class=hl]
+    hello [label="Hello.world/0\ndefined only on foo"]
+  }
+  sh -> ev [label=" iex --sname baz --remsh foo@HOST"]
+  ev -> hello [label=" Hello.world()"]
+}

@@ -1,0 +1,21 @@
+digraph timeouts {
+  rankdir=TB
+  node [shape=box]
+  t [label="async task is running"]
+  aw [label="Task.await(task, 5000)"]
+  y [label="Task.yield(task, 5000)"]
+  ok [label="{:ok, reply}"]
+  ex [label="caller exits\n(linked task exits too)" class=hl]
+  nil [label="nil\nmonitor stays active"]
+  sd [label="Task.shutdown(task)\nunlinks, stops it, checks for a late reply"]
+  ig [label="Task.ignore(task)\nleave it running, forget the reply"]
+  t -> aw
+  t -> y
+  aw -> ok [label=" reply in time"]
+  aw -> ex [label=" timeout"]
+  y -> ok [label=" reply in time"]
+  y -> nil [label=" timeout"]
+  nil -> y [label=" ask again" style=dashed class=dim]
+  nil -> sd [label=" give up: stop it"]
+  nil -> ig [label=" give up: keep it"]
+}
