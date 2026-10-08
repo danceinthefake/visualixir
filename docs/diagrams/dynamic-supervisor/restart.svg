@@ -23,7 +23,7 @@
 <text xml:space="preserve" text-anchor="middle" x="408.38" y="-44.7" font-family="Roboto" font-size="14.00">name :shopping</text>
 </g>
 <!-- sup&#45;&gt;p1 -->
-<g id="edge1" class="edge">
+<g id="step1" class="edge">
 <title>sup&#45;&gt;p1</title>
 <path fill="none" stroke="#333333" d="M153.71,-93.22C201.35,-89.69 263.94,-84.09 319,-76 321.06,-75.7 323.14,-75.38 325.24,-75.04"/>
 <polygon fill="#333333" stroke="#333333" points="325.82,-78.5 335.1,-73.38 324.65,-71.59 325.82,-78.5"/>
@@ -37,14 +37,14 @@
 <text xml:space="preserve" text-anchor="middle" x="408.38" y="-124.7" font-family="Roboto" font-size="14.00">name :shopping</text>
 </g>
 <!-- sup&#45;&gt;p2 -->
-<g id="edge4" class="edge">
+<g id="step4" class="edge">
 <title>sup&#45;&gt;p2</title>
 <path fill="none" stroke="#333333" d="M153.71,-110.54C159.64,-111.41 165.54,-112.24 171.25,-113 222.39,-119.8 279.96,-125.92 325.45,-130.41"/>
 <polygon fill="#333333" stroke="#333333" points="324.94,-133.88 335.23,-131.37 325.62,-126.91 324.94,-133.88"/>
 <text xml:space="preserve" text-anchor="middle" x="245.12" y="-133.55" font-family="Roboto" font-size="14.00"> 4. starts a replacement</text>
 </g>
 <!-- p1&#45;&gt;sup -->
-<g id="edge3" class="edge dim">
+<g id="step3" class="edge dim">
 <title>p1&#45;&gt;sup</title>
 <path fill="none" stroke="#333333" stroke-dasharray="5,2" d="M336.52,-48.66C289.18,-44.45 225.81,-42.76 171.25,-54.75 155.49,-58.21 139.22,-64.6 124.76,-71.42"/>
 <polygon fill="#333333" stroke="#333333" points="123.36,-68.21 115.94,-75.76 126.45,-74.49 123.36,-68.21"/>
@@ -57,7 +57,7 @@
 <text xml:space="preserve" text-anchor="middle" x="76.62" y="-13.32" font-family="Roboto" font-size="14.00">Process.exit(pid, :kill)</text>
 </g>
 <!-- kill&#45;&gt;p1 -->
-<g id="edge2" class="edge bad">
+<g id="step2" class="edge bad">
 <title>kill&#45;&gt;p1</title>
 <path fill="none" stroke="#333333" stroke-dasharray="5,2" d="M152.42,-10.35C200.53,-7.36 264.09,-7.01 319,-18.75 331.95,-21.52 345.31,-26.31 357.6,-31.61"/>
 <polygon fill="#333333" stroke="#333333" points="356.16,-34.8 366.71,-35.74 359.05,-28.42 356.16,-34.8"/>

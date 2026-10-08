@@ -1,3 +1,7 @@
+---
+source: https://elixir.hexdocs.pm/Process.html
+---
+
 # Process
 
 Source: [Elixir docs, Process](https://elixir.hexdocs.pm/Process.html).
@@ -55,7 +59,7 @@ end
 
 After `Process.unalias(source_alias)`, a second ping gets no response, because the `:pong` goes to a deactivated alias.
 
-<Diagram name="process/alias" caption="Late replies to a deactivated alias are dropped." />
+<Diagram steps name="process/alias" caption="Late replies to a deactivated alias are dropped." />
 
 ## Names, labels and the dictionary
 

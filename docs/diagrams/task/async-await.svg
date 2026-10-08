@@ -23,7 +23,7 @@
 <text xml:space="preserve" text-anchor="middle" x="429" y="-87.95" font-family="Roboto" font-size="14.00">runs fun</text>
 </g>
 <!-- caller&#45;&gt;task -->
-<g id="edge1" class="edge">
+<g id="step1" class="edge">
 <title>caller&#45;&gt;task</title>
 <path fill="none" stroke="#333333" d="M91.86,-102.81C104.09,-109.45 118.33,-115.89 132.25,-119.25 226.22,-141.93 253.7,-130.15 349.75,-119.25 356.23,-118.51 362.95,-117.45 369.61,-116.19"/>
 <polygon fill="#333333" stroke="#333333" points="370.13,-119.66 379.23,-114.24 368.73,-112.8 370.13,-119.66"/>
@@ -37,21 +37,21 @@
 <text xml:space="preserve" text-anchor="middle" x="429" y="-7.95" font-family="Roboto" font-size="14.00">reads {ref, result}</text>
 </g>
 <!-- caller&#45;&gt;aw -->
-<g id="edge4" class="edge">
+<g id="step4" class="edge">
 <title>caller&#45;&gt;aw</title>
 <path fill="none" stroke="#333333" d="M81.89,-59.52C95.56,-48.46 113.67,-36.1 132.25,-30 205.61,-5.91 294.78,-7.1 355.91,-12.18"/>
 <polygon fill="#333333" stroke="#333333" points="355.59,-15.66 365.86,-13.07 356.21,-8.69 355.59,-15.66"/>
-<text xml:space="preserve" text-anchor="middle" x="241" y="-33.95" font-family="Roboto" font-size="14.00"> later</text>
+<text xml:space="preserve" text-anchor="middle" x="241" y="-33.95" font-family="Roboto" font-size="14.00"> later: Task.await</text>
 </g>
 <!-- task&#45;&gt;caller -->
-<g id="edge2" class="edge">
+<g id="step2" class="edge">
 <title>task&#45;&gt;caller</title>
 <path fill="none" stroke="#333333" stroke-dasharray="5,2" d="M380.54,-98.68C315.96,-95.19 200.01,-88.92 126.18,-84.93"/>
 <polygon fill="#333333" stroke="#333333" points="126.39,-81.44 116.22,-84.39 126.01,-88.43 126.39,-81.44"/>
 <text xml:space="preserve" text-anchor="middle" x="241" y="-100.88" font-family="Roboto" font-size="14.00"> {ref, result}</text>
 </g>
 <!-- task&#45;&gt;caller -->
-<g id="edge3" class="edge dim">
+<g id="step3" class="edge dim">
 <title>task&#45;&gt;caller</title>
 <path fill="none" stroke="#333333" stroke-dasharray="5,2" d="M391.02,-79.52C378.37,-73.22 363.84,-67.18 349.75,-64 255.46,-42.7 228.29,-52.97 132.25,-64 130.08,-64.25 127.89,-64.54 125.68,-64.86"/>
 <polygon fill="#333333" stroke="#333333" points="125.33,-61.37 116.04,-66.47 126.48,-68.27 125.33,-61.37"/>

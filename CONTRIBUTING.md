@@ -42,6 +42,10 @@ An unavoidable false positive goes in `scripts/audit-allow.json`, after you've c
 2. Run `make` (needs `dot`). The `.svg` files are generated **and committed**.
 3. Reference it in the page: `<Diagram name="<page>/<name>" caption="..." />`.
 
+Every diagram can be enlarged (a dialog with zoom). A diagram that shows a sequence can also be **stepped through**: give its arrows
+`id=step1`, `id=step2`, ... in the `.dot` file (Graphviz does not keep declaration order) and write `<Diagram steps name="..." caption="..." />`.
+The label of each arrow is read out as the step, so make it say what happens.
+
 Colours come from `docs/.vitepress/theme/diagram.css`, not from the `.dot` file. Use the classes
 `hl`, `bad` and `dim`. Keep text readable on a phone: wide left-to-right diagrams shrink, so prefer
 top-to-bottom. Graphviz stacks sibling clusters in reverse declaration order, so declare the one you want

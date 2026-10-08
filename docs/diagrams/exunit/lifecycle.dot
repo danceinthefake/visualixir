@@ -7,7 +7,11 @@ digraph lifecycle {
   e [label="4. test process exits with reason :shutdown"]
   sp [label="5. supervised processes stop, synchronously"]
   oe [label="6. on_exit callbacks run, in a separate process"]
-  s -> su -> t -> e -> sp -> oe
+  s -> su [id=step2]
+  su -> t [id=step3]
+  t -> e [id=step4]
+  e -> sp [id=step5]
+  sp -> oe [id=step6]
   sa [label="setup_all\nonce per module, before any test\nin its own process" class=dim]
-  sa -> s [style=dashed label=" before the first test"]
+  sa -> s [id=step1 style=dashed label=" before the first test"]
 }

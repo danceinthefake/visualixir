@@ -3,10 +3,11 @@
 import { computed } from "vue";
 import { useData } from "vitepress";
 
-const { page, theme } = useData();
+const { page, theme, frontmatter } = useData();
 const snap = computed(() => theme.value.snapshot as { date: string; elixir?: string } | undefined);
 const slug = computed(() => page.value.relativePath.replace(/\.md$/, "").split("/").pop());
-const url = computed(() => `https://elixir.hexdocs.pm/${slug.value}.html`);
+// module pages say where their docs are in the front matter; guide chapters live at <slug>.html
+const url = computed(() => (frontmatter.value.source as string | undefined) ?? `https://elixir.hexdocs.pm/${slug.value}.html`);
 </script>
 
 <template>

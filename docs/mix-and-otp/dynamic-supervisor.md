@@ -32,7 +32,7 @@ Process.exit(pid, :kill)
 Process.whereis(:shopping)    #=> #PID<0.50.0>   (a new pid)
 ```
 
-<Diagram name="dynamic-supervisor/restart" caption="Kill the bucket and the supervisor starts a new one under the same name." />
+<Diagram steps name="dynamic-supervisor/restart" caption="Kill the bucket and the supervisor starts a new one under the same name." />
 
 ## Dynamic supervisors
 

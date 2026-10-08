@@ -1,3 +1,7 @@
+---
+source: https://elixir.hexdocs.pm/Task.html
+---
+
 # Task
 
 Source: [Elixir docs, Task](https://elixir.hexdocs.pm/Task.html) and [Task.Supervisor](https://elixir.hexdocs.pm/Task.Supervisor.html).
@@ -18,7 +22,7 @@ A task started with `async` can be awaited by its caller process, and only by it
 `Task.async/1` creates a new process that is **linked and monitored** by the caller. When the action finishes, a message with the result goes to the caller. `Task.await/2`
 reads it.
 
-<Diagram name="task/async-await" caption="The task sends one reply message. A monitor also delivers a :DOWN message." />
+<Diagram steps name="task/async-await" caption="The task sends one reply message. A monitor also delivers a :DOWN message." />
 
 Two things to keep in mind:
 

@@ -22,7 +22,7 @@
 <text xml:space="preserve" text-anchor="middle" x="295.88" y="-50.33" font-family="Roboto" font-size="14.00">server</text>
 </g>
 <!-- cl&#45;&gt;sv -->
-<g id="edge1" class="edge">
+<g id="step1" class="edge">
 <title>cl&#45;&gt;sv</title>
 <path fill="none" stroke="#333333" d="M111.3,-56.59C124.81,-62.47 140.09,-68.03 154.75,-71 196.57,-79.46 208.73,-78.38 250.75,-71 253.07,-70.59 255.43,-70.07 257.79,-69.47"/>
 <polygon fill="#333333" stroke="#333333" points="258.68,-72.86 267.24,-66.62 256.65,-66.16 258.68,-72.86"/>
@@ -35,14 +35,14 @@
 <text xml:space="preserve" text-anchor="middle" x="530.12" y="-13.32" font-family="Roboto" font-size="14.00">Process.unalias(al)</text>
 </g>
 <!-- cl&#45;&gt;un -->
-<g id="edge3" class="edge">
+<g id="step3" class="edge">
 <title>cl&#45;&gt;un</title>
 <path fill="none" stroke="#333333" stroke-dasharray="1,5" d="M136.88,-23.46C142.92,-22.57 148.94,-21.74 154.75,-21 205.22,-14.6 217.93,-13.03 268.75,-10.75 329.54,-8.02 398.37,-10.17 449.99,-12.81"/>
 <polygon fill="#333333" stroke="#333333" points="449.71,-16.3 459.88,-13.34 450.08,-9.31 449.71,-16.3"/>
 <text xml:space="preserve" text-anchor="middle" x="295.88" y="-14.7" font-family="Roboto" font-size="14.00"> later</text>
 </g>
 <!-- sv&#45;&gt;cl -->
-<g id="edge2" class="edge">
+<g id="step2" class="edge">
 <title>sv&#45;&gt;cl</title>
 <path fill="none" stroke="#333333" stroke-dasharray="5,2" d="M268.59,-39.08C262.89,-36.36 256.77,-33.95 250.75,-32.5 217.74,-24.57 180.38,-23.76 148.17,-25.48"/>
 <polygon fill="#333333" stroke="#333333" points="148.28,-21.97 138.52,-26.09 148.72,-28.96 148.28,-21.97"/>
@@ -50,7 +50,7 @@
 <text xml:space="preserve" text-anchor="middle" x="202.75" y="-36.45" font-family="Roboto" font-size="14.00">delivered</text>
 </g>
 <!-- sv&#45;&gt;un -->
-<g id="edge4" class="edge dim">
+<g id="step4" class="edge dim">
 <title>sv&#45;&gt;un</title>
 <path fill="none" stroke="#333333" stroke-dasharray="5,2" d="M323.07,-50.83C353.73,-45.94 405.96,-37.62 450.16,-30.58"/>
 <polygon fill="#333333" stroke="#333333" points="450.68,-34.04 460,-29.01 449.58,-27.13 450.68,-34.04"/>

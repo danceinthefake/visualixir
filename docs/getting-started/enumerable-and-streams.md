@@ -34,7 +34,7 @@ odd? = fn x -> rem(x, 2) != 0 end
 # same as: Enum.sum(Enum.filter(Enum.map(1..100_000, &(&1 * 3)), odd?))
 ```
 
-<Diagram name="enumerable-and-streams/pipe" caption="Each result becomes the first argument of the next call." />
+<Diagram steps name="enumerable-and-streams/pipe" caption="Each result becomes the first argument of the next call." />
 
 ## Streams
 

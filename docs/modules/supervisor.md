@@ -1,3 +1,7 @@
+---
+source: https://elixir.hexdocs.pm/Supervisor.html
+---
+
 # Supervisor
 
 Source: [Elixir docs, Supervisor](https://elixir.hexdocs.pm/Supervisor.html).

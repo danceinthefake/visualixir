@@ -1,3 +1,7 @@
+---
+source: https://elixir.hexdocs.pm/Registry.html
+---
+
 # Registry
 
 Source: [Elixir docs, Registry](https://elixir.hexdocs.pm/Registry.html).
@@ -81,7 +85,7 @@ end)
 #=> :ok
 ```
 
-<Diagram name="registry/dispatch" caption="The callback runs in the caller. The registered processes only hear from it if the callback contacts them." />
+<Diagram steps name="registry/dispatch" caption="The callback runs in the caller. The registered processes only hear from it if the callback contacts them." />
 
 Dispatching runs in the process that calls `dispatch/3`, serially, or concurrently across partitions with spawned tasks. If dispatching fails because of a bad registration, it always fails and the registered process is not notified,
 so wrap the callback in `try`/`catch` and log the error.

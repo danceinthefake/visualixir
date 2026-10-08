@@ -5,7 +5,7 @@ digraph pipe {
   b [label="Enum.map(&(&1 * 3))"]
   c [label="Enum.filter(odd?)"]
   d [label="Enum.sum()"]
-  a -> b [label=" becomes the\l first argument\l"]
-  b -> c
-  c -> d
+  a -> b [id=step1 label=" becomes the\l first argument\l"]
+  b -> c [id=step2]
+  c -> d [id=step3]
 }

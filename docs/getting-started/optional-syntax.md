@@ -16,7 +16,7 @@ end
 
 Now take the conveniences away, one at a time:
 
-<Diagram name="optional-syntax/walkthrough" caption="Each step undoes one convenience. The last line is what the compiler sees." />
+<Diagram steps name="optional-syntax/walkthrough" caption="Each step undoes one convenience. The last line is what the compiler sees." />
 
 1. `do`-`end` blocks are keywords: `if variable?, do: Call.this(), else: Call.that()`
 2. A keyword list as the last argument needs no square brackets.

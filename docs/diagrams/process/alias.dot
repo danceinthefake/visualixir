@@ -3,9 +3,9 @@ digraph alias {
   node [shape=box]
   cl [label="client\nal = Process.alias()"]
   sv [label="server"]
-  cl -> sv [label=" {:ping, al}"]
-  sv -> cl [label=" send(al, :pong)\ndelivered" style=dashed]
+  cl -> sv [id=step1 label=" {:ping, al}"]
+  sv -> cl [id=step2 label=" send(al, :pong)\ndelivered" style=dashed]
   un [label="Process.unalias(al)" class=hl]
-  cl -> un [label=" later" style=dotted]
-  sv -> un [label=" send(al, :pong)\nnothing happens" style=dashed class=dim]
+  cl -> un [id=step3 label=" later" style=dotted]
+  sv -> un [id=step4 label=" send(al, :pong)\nnothing happens" style=dashed class=dim]
 }

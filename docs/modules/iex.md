@@ -1,3 +1,7 @@
+---
+source: https://hexdocs.pm/iex/IEx.html
+---
+
 # IEx
 
 Source: [Elixir docs, IEx](https://hexdocs.pm/iex/IEx.html).

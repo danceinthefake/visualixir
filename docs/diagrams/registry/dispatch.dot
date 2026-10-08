@@ -6,8 +6,8 @@ digraph dispatch {
     e [label="\"hello\" -> [{pid A, v1}, {pid B, v2}]"]
   }
   caller [label="caller\nRegistry.dispatch(reg, \"hello\", fun)" class=hl]
-  caller -> e [label=" 1. reads the entries"]
-  e -> caller [label=" 2. [{pid, value}, ...]"]
-  caller -> a [label=" 3. fun runs in the caller:\napply(...) or send(pid, msg)" style=dashed]
+  caller -> e [id=step1 label=" 1. reads the entries"]
+  e -> caller [id=step2 label=" 2. [{pid, value}, ...]"]
+  caller -> a [id=step3 label=" 3. fun runs in the caller:\napply(...) or send(pid, msg)" style=dashed]
   a [label="registered processes\nnot involved unless fun contacts them"]
 }

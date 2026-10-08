@@ -1,3 +1,7 @@
+---
+source: https://hexdocs.pm/ex_unit/ExUnit.html
+---
+
 # ExUnit
 
 Source: [Elixir docs, ExUnit](https://hexdocs.pm/ex_unit/ExUnit.html), [ExUnit.Case](https://hexdocs.pm/ex_unit/ExUnit.Case.html) and [ExUnit.Callbacks](https://hexdocs.pm/ex_unit/ExUnit.Callbacks.html).
@@ -36,7 +40,7 @@ Parameterized tests run concurrently if `async: true` is also given, but abuse c
 a `{module, function}` tuple, or a list of those, and run in order of appearance. They can return `:ok`, a keyword list or map, or `{:ok, keyword_or_map}`. What they return is merged into the **context**, which every later callback and the test receives.
 Anything else from `setup_all` makes all tests fail. A bad return from `setup` fails that test.
 
-<Diagram name="exunit/lifecycle" caption="The life cycle of one test process." />
+<Diagram steps name="exunit/lifecycle" caption="The life cycle of one test process." />
 
 `start_supervised/2` starts a process under a supervisor linked to the test process. The supervisor and its children are guaranteed to terminate before any `on_exit/2` callback runs. The started process is not linked to the test,
 so a crash does not necessarily fail it. Use `start_link_supervised!/2` for a crash that must fail the test. `on_exit/2` registers a callback, often to undo what a setup did. A registered `on_exit/2` callback always runs,

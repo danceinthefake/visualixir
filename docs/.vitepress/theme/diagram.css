@@ -35,3 +35,38 @@
     mask-image: linear-gradient(to right, transparent, #000 32px, #000 calc(100% - 32px), transparent);
   }
 }
+
+/* Enlarge button, top right of every diagram. */
+.diagram { position: relative; }
+.diagram__enlarge, .diagram__steps button, .diagram-dialog__bar button {
+  font: inherit; color: var(--bless-color-text); background: var(--bless-color-surface-2);
+  border: 1px solid var(--bless-color-border); cursor: pointer; line-height: 1;
+}
+.diagram__enlarge { position: absolute; top: 0; right: 0; z-index: 1; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; }
+.diagram__enlarge:hover, .diagram__steps button:hover:not(:disabled), .diagram-dialog__bar button:hover { border-color: var(--bless-color-accent); }
+.diagram__enlarge:focus-visible, .diagram__steps button:focus-visible, .diagram-dialog__bar button:focus-visible,
+.diagram-dialog__body:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 2px; }
+
+/* Step through: the arrows already shown stay normal, the current one is accented, the rest fade. */
+.diagram .is-stepping .edge[id^="step"] { opacity: 0.35; }
+.diagram .is-stepping .edge.step-seen, .diagram .is-stepping .edge.step-now { opacity: 1; }
+.diagram .step-now path { stroke: var(--bless-color-accent); stroke-width: 2.5; }
+.diagram .step-now polygon { fill: var(--bless-color-accent); stroke: var(--bless-color-accent); }
+.diagram .step-now text { fill: var(--bless-color-accent-text); font-weight: 700; }
+.diagram__steps { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; margin-top: 8px; }
+.diagram__steps button { padding: 0 14px; min-height: 44px; }
+.diagram__steps button:disabled { opacity: 0.5; cursor: default; }
+.diagram__step { flex-basis: 100%; margin: 4px 0 0; font-size: 0.9375rem; color: var(--bless-color-text); }
+
+/* The dialog. */
+.diagram-dialog { width: min(96vw, 1400px); max-height: 92vh; padding: 0; border: 1px solid var(--bless-color-border);
+  background: var(--bless-color-surface-1, var(--vp-c-bg)); color: var(--bless-color-text); }
+.diagram-dialog::backdrop { background: rgb(0 0 0 / 0.6); }
+.diagram-dialog__bar { position: sticky; top: 0; z-index: 1; display: flex; gap: 8px; padding: 8px; background: var(--vp-c-bg); border-bottom: 1px solid var(--bless-color-border); }
+.diagram-dialog__bar button { min-width: 44px; min-height: 44px; padding: 0 14px; }
+.diagram-dialog__close { margin-inline-start: auto; }
+.diagram-dialog__body { overflow: auto; max-height: calc(92vh - 62px); padding: 16px; text-align: center; }
+.diagram-dialog__body svg { max-width: 100%; height: auto; }
+.diagram .diagram__enlarge svg { max-width: none; height: 16px; zoom: 1; }
+.diagram > .diagram__steps { overflow: visible; }
+@media (max-width: 640px) { .diagram .diagram-dialog__body svg { zoom: 1; } }

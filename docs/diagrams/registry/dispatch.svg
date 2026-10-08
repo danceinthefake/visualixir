@@ -27,14 +27,14 @@
 <text xml:space="preserve" text-anchor="middle" x="499.38" y="-20.7" font-family="Roboto" font-size="14.00">Registry.dispatch(reg, &quot;hello&quot;, fun)</text>
 </g>
 <!-- e&#45;&gt;caller -->
-<g id="edge2" class="edge">
+<g id="step2" class="edge">
 <title>e&#45;&gt;caller</title>
 <path fill="none" stroke="#333333" d="M227.97,-34C273.87,-34 328,-34 375.72,-34"/>
 <polygon fill="#333333" stroke="#333333" points="375.56,-37.5 385.56,-34 375.56,-30.5 375.56,-37.5"/>
 <text xml:space="preserve" text-anchor="middle" x="307.62" y="-37.95" font-family="Roboto" font-size="14.00"> 2. [{pid, value}, ...]</text>
 </g>
 <!-- caller&#45;&gt;e -->
-<g id="edge1" class="edge">
+<g id="step1" class="edge">
 <title>caller&#45;&gt;e</title>
 <path fill="none" stroke="#333333" d="M387.07,-16.32C381.14,-15.71 375.25,-15.18 369.5,-14.75 314.65,-10.68 300.58,-10.48 245.75,-14.75 243.66,-14.91 241.55,-15.09 239.43,-15.28"/>
 <polygon fill="#333333" stroke="#333333" points="239.09,-11.8 229.49,-16.28 239.79,-18.76 239.09,-11.8"/>
@@ -48,7 +48,7 @@
 <text xml:space="preserve" text-anchor="middle" x="941" y="-20.7" font-family="Roboto" font-size="14.00">not involved unless fun contacts them</text>
 </g>
 <!-- caller&#45;&gt;a -->
-<g id="edge3" class="edge">
+<g id="step3" class="edge">
 <title>caller&#45;&gt;a</title>
 <path fill="none" stroke="#333333" stroke-dasharray="5,2" d="M611.6,-34C669.43,-34 740.65,-34 801.97,-34"/>
 <polygon fill="#333333" stroke="#333333" points="801.79,-37.5 811.79,-34 801.79,-30.5 801.79,-37.5"/>
