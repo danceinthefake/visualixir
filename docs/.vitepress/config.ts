@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitepress";
+import glossaryPlugin from "./glossary-plugin";
 
 const base = process.env.DOCS_BASE ?? "/";
 // Origin the site is served from, e.g. https://visualixir.example.com (no trailing slash).
@@ -98,7 +99,10 @@ export default defineConfig({
     ],
   ],
   // Higher-contrast code themes: the default github themes miss 4.5:1 on comments and keywords.
-  markdown: { theme: { light: "github-light-high-contrast", dark: "github-dark-high-contrast" } },
+  markdown: {
+    theme: { light: "github-light-high-contrast", dark: "github-dark-high-contrast" },
+    config: (md) => md.use(glossaryPlugin),
+  },
   vite: { ssr: { noExternal: ["blessing-ui"] } },
   themeConfig: {
     nav: [
@@ -109,6 +113,7 @@ export default defineConfig({
       { text: "Cheatsheets", link: "/cheatsheets/enum-cheat" },
       { text: "References", link: "/references/compatibility-and-deprecations" },
       { text: "Modules", link: "/modules/task" },
+      { text: "Glossary", link: "/glossary" },
     ],
     sidebar: {
       "/getting-started/": [
@@ -157,6 +162,12 @@ export default defineConfig({
             { text: "Typespecs reference", link: "/references/typespecs" },
             { text: "Unicode syntax", link: "/references/unicode-syntax" },
           ],
+        },
+      ],
+      "/glossary": [
+        {
+          text: "Glossary",
+          items: [{ text: "All terms", link: "/glossary" }],
         },
       ],
       "/modules/": [

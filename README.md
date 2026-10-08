@@ -55,6 +55,10 @@ Icons and the social image are in `docs/public/` (`favicon.svg`, `favicon-32.png
 
 CI runs the audit and the build on every push, then the e2e checks (three jobs in parallel), and deploys only if they pass. Set `CHROMIUM=/usr/bin/chromium` to use a system browser locally instead of Playwright's download.
 
+## Reader aids
+
+Every diagram opens in an **Enlarge** dialog with zoom, and a diagram that shows a sequence can be **stepped through** one arrow at a time. The first mention of a term on a page has a dotted underline: hover, focus or tap it for a short definition from the official docs, and the [glossary](docs/glossary.md) lists them all (`docs/.vitepress/glossary.json`).
+
 ## "Under the hood" sections
 
 Some pages end a section with a collapsed **Under the hood** panel: what the construct does in memory, on the CPU or on storage, down to the kernel and the hardware. It is our own explanation, not derived from the official chapters, and says so in its title. Every claim is cited to the Erlang/OTP docs or a man page, or measured (Elixir 1.20 / OTP 29, 64-bit Linux). The rules for writing one are in [CONTRIBUTING.md](CONTRIBUTING.md).

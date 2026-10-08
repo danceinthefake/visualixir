@@ -20,7 +20,7 @@ export const SECTIONS = {
 
 /** "/" plus every content page, taken from the source tree. */
 export function pages() {
-  const out = ["/"];
+  const out = ["/", "/glossary"];
   for (const dir of Object.keys(SECTIONS))
     for (const f of readdirSync(docs + dir).filter((f) => f.endsWith(".md")).sort()) out.push(`/${dir}/${f.slice(0, -3)}`);
   return out;

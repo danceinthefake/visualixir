@@ -1,0 +1,429 @@
+{
+  "_why": "Terms shown with a hover card (see glossary-plugin.ts) and listed on /glossary. Each definition is a paraphrase of the official docs: 'source' is the upstream/ chapter and 'phrase' a sentence fragment from it that must still be there (scripts/audit.py checks). 'match' are the words that get the card (first one on a page, in running text only). 'in' limits a term to pages whose path starts with one of these, for words that are also ordinary English.",
+  "terms": [
+    {
+      "id": "process",
+      "term": "Process",
+      "match": [
+        "processes",
+        "process"
+      ],
+      "in": [
+        "getting-started/processes",
+        "mix-and-otp/",
+        "modules/",
+        "anti-patterns/process-anti-patterns"
+      ],
+      "definition": "Elixir's unit of concurrency: code always runs inside one. Processes are isolated, run concurrently and talk by passing messages. They are not operating system processes, and are lightweight enough to run in the hundreds of thousands.",
+      "page": "/getting-started/processes",
+      "source": "processes",
+      "phrase": "Processes are isolated from each other, run concurrent to one another and communicate via message passing"
+    },
+    {
+      "id": "pid",
+      "term": "PID",
+      "match": [
+        "PID",
+        "PIDs",
+        "pid",
+        "pids"
+      ],
+      "in": [
+        "getting-started/processes",
+        "mix-and-otp/",
+        "modules/"
+      ],
+      "definition": "A process identifier. It is what `spawn/1` returns and what `send/2` takes to reach that process.",
+      "page": "/getting-started/processes",
+      "source": "processes",
+      "phrase": "PID"
+    },
+    {
+      "id": "mailbox",
+      "term": "Mailbox",
+      "match": [
+        "mailbox"
+      ],
+      "definition": "Where the messages sent to a process wait. `receive/1` searches it for a message that matches a pattern. Sending does not block: the sender puts the message in the mailbox and carries on.",
+      "page": "/getting-started/processes",
+      "source": "processes",
+      "phrase": "the message is stored in the process mailbox"
+    },
+    {
+      "id": "link",
+      "term": "Link",
+      "match": [
+        "linked",
+        "links",
+        "link",
+        "linking"
+      ],
+      "in": [
+        "getting-started/processes",
+        "mix-and-otp/genservers",
+        "mix-and-otp/supervisor",
+        "mix-and-otp/dynamic",
+        "modules/"
+      ],
+      "definition": "A relationship between two processes for the case of failure: if one fails, the other receives an exit signal. Without a link, a failure in one process never crashes another.",
+      "page": "/getting-started/processes",
+      "source": "processes",
+      "phrase": "If we want the failure in one process to propagate to another one, we should link them"
+    },
+    {
+      "id": "monitor",
+      "term": "Monitor",
+      "match": [
+        "monitored",
+        "monitors",
+        "monitoring",
+        "monitor"
+      ],
+      "in": [
+        "mix-and-otp/",
+        "modules/"
+      ],
+      "definition": "A one-way way to track when a process dies, without tying exit signals together. When the monitored process ends, the watcher gets a message, whatever the reason.",
+      "page": "/mix-and-otp/genservers",
+      "source": "genservers",
+      "phrase": "If we simply want to track when a process dies, without tying their exit signals to each other, a better solution is to use monitors"
+    },
+    {
+      "id": "exit-signal",
+      "term": "Exit signal",
+      "match": [
+        "exit signals",
+        "exit signal"
+      ],
+      "definition": "The message a process sends along its links when it ends. A linked process that isn't trapping exits ends too, unless the reason is `:normal`.",
+      "page": "/getting-started/processes",
+      "source": "processes",
+      "phrase": "EXIT signal"
+    },
+    {
+      "id": "trap-exits",
+      "term": "Trapping exits",
+      "match": [
+        "trapping exits",
+        "trap exits",
+        "traps exits",
+        "trap_exit"
+      ],
+      "definition": "Setting `Process.flag(:trap_exit, true)` so exit signals arrive as ordinary messages instead of ending the process. Supervisors do this to survive their children.",
+      "page": "/mix-and-otp/genservers",
+      "source": "genservers",
+      "phrase": "supervisors trap exits from links"
+    },
+    {
+      "id": "supervisor",
+      "term": "Supervisor",
+      "match": [
+        "supervisors",
+        "supervisor"
+      ],
+      "definition": "A process that detects when its children die and starts new ones in their place. Processes are often linked to a supervisor for this.",
+      "page": "/mix-and-otp/supervisor-and-application",
+      "source": "processes",
+      "phrase": "supervisors which will detect when a process dies and start a new process in its place"
+    },
+    {
+      "id": "supervision-tree",
+      "term": "Supervision tree",
+      "match": [
+        "supervision trees",
+        "supervision tree"
+      ],
+      "definition": "Supervisors whose children can be supervisors themselves, so the processes of an application form a tree.",
+      "page": "/mix-and-otp/supervisor-and-application",
+      "source": "supervisor-and-application",
+      "phrase": "giving us supervision trees"
+    },
+    {
+      "id": "child-spec",
+      "term": "Child specification",
+      "match": [
+        "child specifications",
+        "child specification",
+        "child spec"
+      ],
+      "definition": "A map that tells a supervisor how to start, shut down and restart one child. It is usually written as `{module, options}` or just the module name.",
+      "page": "/modules/supervisor",
+      "source": "supervisor",
+      "phrase": "The child specification describes how the supervisor starts, shuts down,"
+    },
+    {
+      "id": "genserver",
+      "term": "GenServer",
+      "match": [
+        "GenServer",
+        "GenServers"
+      ],
+      "definition": "A \"generic server\": a process that holds state and offers synchronous (call) and asynchronous (cast) requests, plus code reloading and more.",
+      "page": "/mix-and-otp/genservers",
+      "source": "agents",
+      "phrase": "\"Generic servers\" (processes) that encapsulate state"
+    },
+    {
+      "id": "agent",
+      "term": "Agent",
+      "match": [
+        "Agent",
+        "agents",
+        "agent"
+      ],
+      "in": [
+        "mix-and-otp/",
+        "modules/"
+      ],
+      "definition": "A simple wrapper around state: a process you read and update by passing functions.",
+      "page": "/mix-and-otp/agents",
+      "source": "agents",
+      "phrase": "Simple wrappers around state"
+    },
+    {
+      "id": "task",
+      "term": "Task",
+      "match": [
+        "Task",
+        "Tasks",
+        "tasks"
+      ],
+      "in": [
+        "mix-and-otp/",
+        "modules/"
+      ],
+      "definition": "An asynchronous computation: spawn it now and read its result later.",
+      "page": "/modules/task",
+      "source": "agents",
+      "phrase": "Asynchronous units of computation that allow spawning a process"
+    },
+    {
+      "id": "otp",
+      "term": "OTP",
+      "match": [
+        "OTP"
+      ],
+      "definition": "Open Telecom Platform: the set of libraries that ships with Erlang, used to build robust, fault-tolerant applications. It includes supervision trees and event managers.",
+      "page": "/mix-and-otp/introduction-to-mix",
+      "source": "introduction-to-mix",
+      "phrase": "is a set of libraries that ships with Erlang"
+    },
+    {
+      "id": "application",
+      "term": "Application",
+      "match": [
+        "applications",
+        "application"
+      ],
+      "in": [
+        "mix-and-otp/"
+      ],
+      "definition": "Every Elixir project is an application, and so is Elixir itself (`:elixir`) and parts of it such as `:ex_unit`.",
+      "page": "/mix-and-otp/supervisor-and-application",
+      "source": "supervisor-and-application",
+      "phrase": "Every Elixir project is an application"
+    },
+    {
+      "id": "node",
+      "term": "Node",
+      "match": [
+        "nodes",
+        "node"
+      ],
+      "in": [
+        "mix-and-otp/config-and-distribution",
+        "modules/"
+      ],
+      "definition": "A running Erlang VM that can connect to others. Processes are location transparent: sending a message works the same whether the recipient is on this node or another.",
+      "page": "/mix-and-otp/config-and-distribution",
+      "source": "config-and-distribution",
+      "phrase": "location transparent"
+    },
+    {
+      "id": "ets",
+      "term": "ETS",
+      "match": [
+        "ETS"
+      ],
+      "definition": "Erlang Term Storage: the `:ets` and `:dets` modules store large data structures in memory or on disk.",
+      "page": "/getting-started/erlang-libraries",
+      "source": "erlang-libraries",
+      "phrase": "Erlang Term Storage (ETS)"
+    },
+    {
+      "id": "ast",
+      "term": "AST",
+      "match": [
+        "abstract syntax tree",
+        "AST"
+      ],
+      "definition": "Abstract Syntax Tree. Elixir represents code as nested tuples shaped like a tree, and calls them quoted expressions.",
+      "page": "/meta-programming/quote-and-unquote",
+      "source": "quote-and-unquote",
+      "phrase": "Abstract Syntax Tree"
+    },
+    {
+      "id": "quoted-expression",
+      "term": "Quoted expression",
+      "match": [
+        "quoted expressions",
+        "quoted expression"
+      ],
+      "definition": "Elixir's name for the AST: code represented as nested tuples, which `quote` produces and `unquote` splices into.",
+      "page": "/meta-programming/quote-and-unquote",
+      "source": "quote-and-unquote",
+      "phrase": "Elixir calls them *quoted expressions*"
+    },
+    {
+      "id": "macro",
+      "term": "Macro",
+      "match": [
+        "macros",
+        "macro"
+      ],
+      "in": [
+        "meta-programming/",
+        "anti-patterns/macro-anti-patterns",
+        "getting-started/alias-require-and-import"
+      ],
+      "definition": "Code that receives quoted expressions and transforms them into something else. Macros are harder to write than functions, and it is bad style to use them when they aren't needed.",
+      "page": "/meta-programming/macros",
+      "source": "macros",
+      "phrase": "receiving quoted expressions and transforming them into something else"
+    },
+    {
+      "id": "hygiene",
+      "term": "Macro hygiene",
+      "match": [
+        "hygiene",
+        "hygienic"
+      ],
+      "definition": "Macros have \"late resolution\": a variable defined inside a `quote` won't conflict with one in the code where the macro is expanded.",
+      "page": "/meta-programming/macros",
+      "source": "macros",
+      "phrase": "a variable defined inside a quote won't conflict"
+    },
+    {
+      "id": "sigil",
+      "term": "Sigil",
+      "match": [
+        "sigils",
+        "sigil"
+      ],
+      "definition": "A custom textual representation. It starts with `~`, then a letter and a delimiter, with optional modifiers after the last delimiter. You can define your own.",
+      "page": "/getting-started/sigils",
+      "source": "sigils",
+      "phrase": "Sigils start with the tilde"
+    },
+    {
+      "id": "charlist",
+      "term": "Charlist",
+      "match": [
+        "charlists",
+        "charlist"
+      ],
+      "definition": "A list of code points, written `~c\"like this\"`, mostly used for interoperability with Erlang.",
+      "page": "/getting-started/binaries-strings-and-charlists",
+      "source": "binaries-strings-and-charlists",
+      "phrase": "which are often used for interoperability with Erlang"
+    },
+    {
+      "id": "binary",
+      "term": "Binary",
+      "match": [
+        "binaries",
+        "binary"
+      ],
+      "in": [
+        "getting-started/binaries-strings-and-charlists",
+        "getting-started/basic-types",
+        "getting-started/io-and-the-file-system"
+      ],
+      "definition": "A bitstring whose number of bits is divisible by 8. Every binary is a bitstring, but not every bitstring is a binary.",
+      "page": "/getting-started/binaries-strings-and-charlists",
+      "source": "binaries-strings-and-charlists",
+      "phrase": "A binary is a bitstring where the number of bits is divisible by 8"
+    },
+    {
+      "id": "protocol",
+      "term": "Protocol",
+      "match": [
+        "protocols",
+        "protocol"
+      ],
+      "in": [
+        "getting-started/",
+        "anti-patterns/",
+        "references/"
+      ],
+      "definition": "A mechanism for polymorphism: behaviour varies with the data type, dispatching on the type of the first argument. Anyone can implement a protocol, at any time.",
+      "page": "/getting-started/protocols",
+      "source": "protocols",
+      "phrase": "dispatching will always be based on the data type of the first input"
+    },
+    {
+      "id": "guard",
+      "term": "Guard",
+      "match": [
+        "guards",
+        "guard"
+      ],
+      "in": [
+        "getting-started/",
+        "references/patterns-and-guards"
+      ],
+      "definition": "An extra condition on a clause, written after `when`. A clause only matches if the pattern matches and the guard is true.",
+      "page": "/getting-started/case-cond-and-if",
+      "source": "case-cond-and-if",
+      "phrase": "Clauses also allow extra conditions to be specified via guards"
+    },
+    {
+      "id": "doctest",
+      "term": "Doctest",
+      "match": [
+        "doctests",
+        "doctest"
+      ],
+      "definition": "An example in a documentation string, written with an `iex>` prompt and the expected result on the next line, checked as a test so documentation stays accurate.",
+      "page": "/mix-and-otp/docs-tests-and-with",
+      "source": "docs-tests-and-with",
+      "phrase": "Doctests are specified by an indentation of four spaces followed by the"
+    },
+    {
+      "id": "struct",
+      "term": "Struct",
+      "match": [
+        "structs",
+        "struct"
+      ],
+      "definition": "An extension built on top of maps that adds compile-time checks and default values.",
+      "page": "/getting-started/structs",
+      "source": "structs",
+      "phrase": "Structs are extensions built on top of maps that provide compile-time checks and default values"
+    },
+    {
+      "id": "pipe",
+      "term": "Pipe operator",
+      "match": [
+        "pipe operator",
+        "pipeline"
+      ],
+      "definition": "`|>` takes the result of the expression on its left and passes it as the first argument of the call on its right, to highlight the data being transformed.",
+      "page": "/getting-started/enumerable-and-streams",
+      "source": "enumerable-and-streams",
+      "phrase": "passes it as the first argument to the function call on its right side"
+    },
+    {
+      "id": "comprehension",
+      "term": "Comprehension",
+      "match": [
+        "comprehensions",
+        "comprehension"
+      ],
+      "definition": "Syntactic sugar for looping over an enumerable, filtering and mapping, grouped into the `for` special form.",
+      "page": "/getting-started/comprehensions",
+      "source": "comprehensions",
+      "phrase": "Comprehensions are syntactic sugar"
+    }
+  ]
+}

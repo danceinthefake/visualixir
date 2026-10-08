@@ -11,7 +11,7 @@ const url = computed(() => (frontmatter.value.source as string | undefined) ?? `
 </script>
 
 <template>
-  <p v-if="snap" class="doc-notice">
+  <p v-if="snap && frontmatter.notice !== false" class="doc-notice">
     A condensed, illustrated version of the
     <a :href="url" rel="noopener">official Elixir page</a>, taken from the docs of
     <time :datetime="snap.date">{{ snap.date }}</time><template v-if="snap.elixir"> (Elixir {{ snap.elixir }})</template>.

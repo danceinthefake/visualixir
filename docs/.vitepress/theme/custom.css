@@ -49,3 +49,22 @@
 .under-the-hood .bless-collapsible__inner { min-width: 0; font-size: inherit; line-height: inherit; }
 .under-the-hood .bless-collapsible__inner > :first-child { margin-top: 0; }
 .under-the-hood .bless-collapsible[open] > .bless-collapsible__summary { border-bottom: 1px solid var(--vp-c-divider); margin-bottom: 12px; }
+
+/* Glossary: a dotted underline on a term, and a small card. */
+.gloss__term { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: help; text-decoration: underline dotted; text-underline-offset: 3px; }
+.gloss__term:hover { text-decoration-style: solid; }
+.gloss__term:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 2px; }
+.gloss__card { position: fixed; inset: auto; margin: 0; width: max-content; max-width: min(24rem, calc(100vw - 16px)); padding: 12px 14px;
+  background: var(--vp-c-bg-elv); color: var(--vp-c-text-1); border: 1px solid var(--vp-c-brand-1); box-shadow: var(--vp-shadow-3);
+  font-size: 0.9375rem; font-weight: 400; line-height: 1.55; text-align: start; }
+.gloss__card:popover-open { display: block; }
+.gloss__name { display: block; margin-bottom: 2px; }
+.gloss__def { display: block; }
+.gloss__links { display: block; margin-top: 8px; font-size: 0.875rem; }
+.gloss__links a { text-decoration: underline; }
+.glossary__item { margin: 0 0 20px; }
+.glossary dt { position: relative; font-weight: 600; font-size: 1.0625rem; }
+.glossary dd { margin: 4px 0 0; }
+.glossary__more { margin-inline-start: 6px; font-size: 0.875rem; }
+.glossary .header-anchor { position: absolute; margin-inline-start: -1em; opacity: 0; }
+.glossary dt:hover .header-anchor, .glossary .header-anchor:focus { opacity: 1; }

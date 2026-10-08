@@ -23,12 +23,14 @@ await pool(list, 8, async (path) => {
   if (!/<meta property="og:title"/.test(html)) failures.push(`${path}: no og:title`);
   const notice = /class="doc-notice"/.test(html);
   if (home && notice) failures.push(`${path}: the snapshot note must not be on the home page`);
-  if (!home && !notice) failures.push(`${path}: no snapshot note`);
+  const own = path === "/glossary"; // our own page: no official chapter behind it
+  if (own && notice) failures.push(`${path}: the snapshot note must not be on our own glossary`);
+  if (!home && !own && !notice) failures.push(`${path}: no snapshot note`);
   // diagrams: one image each, named, with no Graphviz noise, already in the server-rendered HTML
-  const figs = (html.match(/<figure class="diagram">/g) ?? []).length;
+  const figs = (html.match(/<figure class="diagram[ "]/g) ?? []).length;
   const imgs = (html.match(/<div role="img"/g) ?? []).length;
   if (figs !== imgs) failures.push(`${path}: ${figs} diagrams but ${imgs} role=img`);
-  if (/<figure class="diagram">[\s\S]*?(<title>|<\?xml|<!DOCTYPE)/.test(html)) failures.push(`${path}: Graphviz title/prolog left in a diagram`);
+  if (/<figure class="diagram[ "][^>]*>[\s\S]*?(<title>|<\?xml|<!DOCTYPE)/.test(html)) failures.push(`${path}: Graphviz title/prolog left in a diagram`);
   if (/Missing diagram:/.test(html)) failures.push(`${path}: a diagram is missing`);
   if (site) {
     const url = site + (home ? "/" : path);

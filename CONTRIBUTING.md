@@ -36,6 +36,12 @@ pnpm audit:pages
 
 An unavoidable false positive goes in `scripts/audit-allow.json`, after you've checked it against the chapter.
 
+## The glossary
+
+`docs/.vitepress/glossary.json` holds the terms that get a hover card on their first mention in a page (and the `/glossary` page). A definition is a short
+paraphrase of the official docs, and every entry names the chapter (`source`) and a sentence fragment from it (`phrase`) that supports it, which `pnpm audit:pages` checks.
+`match` lists the words that trigger the card, and `in` limits a word that is also ordinary English to the pages where it means the term.
+
 ## Changing or adding a diagram
 
 1. Edit or add `docs/diagrams/<page>/<name>.dot`.

@@ -14,6 +14,7 @@ pnpm exec playwright install chromium   # once, or use a system browser: CHROMIU
 | `site` | all 54 pages return 200 with one description, a title, an `<h1>`, the snapshot note (not on the home page), and every diagram a named `role="img"` with no Graphviz `<title>`/prolog; 404 page; icons, `og.png` (1200×630), `robots.txt`; canonical and `og:image` when `SITE_URL` is set; sitemap size |
 | `layout` | at 390px and 320px: no page scrolls sideways, diagram text stays at least 10px, a diagram that scrolls sideways is keyboard-focusable |
 | `diagrams` | every page's first diagram opens in the Enlarge dialog, zooms, closes on Escape and returns focus; every `<Diagram steps>` highlights one arrow per step, announces it and resets; axe passes with a dialog open and a diagram half-stepped |
+| `glossary` | every term card opens on hover, Enter and tap, stays on screen, closes on Escape or a tap elsewhere, and links to a term that is on `/glossary`; axe passes with a card open |
 | `search` | ten real queries put the right section in the top three; Ctrl+K opens and focuses the box, Enter opens a result, Escape closes |
 | `axe` | axe-core on every page, light and dark, desktop (1200px): no violations |
 | `axe-phone` | the same at 390px, which also catches scrollable regions without keyboard access |

@@ -9,6 +9,7 @@ Checks what a page SAYS is supported by its own chapter, and reports what it DRO
   results   `#=> value` annotations
   numbers   numeric literals (1_048_576, 0x1F, v1.17)
   diagrams  the same refs and numbers in the labels of docs/diagrams/**/*.dot
+  glossary  every definition in docs/.vitepress/glossary.json names a sentence that is still in its chapter
 
 <UnderTheHood> blocks are Visualixir's own explanations, not derived from the chapters, so they are
 skipped, along with the diagrams that only appear inside them (those are checked by hand against
@@ -103,6 +104,18 @@ for f in sorted(glob.glob(f"{DOCS}/diagrams/*/*.dot")):
         if r not in anysrc: add("diagram_refs", where, r)
     for n in sorted(set(NUM.findall(labels))):
         if n not in anysrc: add("diagram_numbers", where, n)
+
+# glossary: each definition rests on a sentence of the chapter it names, and points at a page that exists
+gloss = json.load(open(f"{DOCS}/.vitepress/glossary.json"))["terms"]
+ids = set()
+for t in gloss:
+    where = f"glossary/{t['id']}"
+    if t["id"] in ids: findings["glossary"].append((where, "duplicate id"))
+    ids.add(t["id"])
+    text = re.sub(r"\s+", " ", src.get(t["source"], ""))
+    if t["source"] not in src: findings["glossary"].append((where, f"no upstream/{t['source']}.md"))
+    elif t["phrase"] not in text: findings["glossary"].append((where, f"not in upstream/{t['source']}.md: {t['phrase']}"))
+    if not os.path.exists(f"{DOCS}{t['page']}.md"): findings["glossary"].append((where, f"no page {t['page']}"))
 
 n = sum(len(v) for v in findings.values())
 print(f"audited {len(dropped)} pages and {len(glob.glob(f'{DOCS}/diagrams/*/*.dot'))} diagrams against upstream/")

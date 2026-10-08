@@ -9,6 +9,8 @@ import "./custom.css";
 import Diagram from "./Diagram.vue";
 import DocNotice from "./DocNotice.vue";
 import UnderTheHood from "./UnderTheHood.vue";
+import GlossTerm from "./GlossTerm.vue";
+import GlossaryList from "./GlossaryList.vue";
 
 export default {
   extends: DefaultTheme,
@@ -45,5 +47,7 @@ export default {
   enhanceApp({ app }) {
     app.component("Diagram", Diagram);
     app.component("UnderTheHood", UnderTheHood);
+    app.component("GlossTerm", GlossTerm);
+    app.component("GlossaryList", GlossaryList);
   },
 } satisfies Theme;
