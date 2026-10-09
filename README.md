@@ -57,7 +57,7 @@ CI runs the audit and the build on every push, then the e2e checks (three jobs i
 
 ## Reader aids
 
-Every diagram opens in an **Enlarge** dialog with zoom, and a diagram that shows a sequence can be **stepped through** one arrow at a time. The first mention of a term on a page has a dotted underline: hover, focus or tap it for a short definition from the official docs, and the [glossary](docs/glossary.md) lists them all (`docs/.vitepress/glossary.json`). Pages show what to **read first** and which pages are **related** (`docs/.vitepress/related.json`), and a page with several "Under the hood" sections gets Open all, Close all and an "always open" choice that is remembered in the browser.
+Every diagram opens in an **Enlarge** dialog with zoom, and a diagram that shows a sequence can be **stepped through** one arrow at a time. The first mention of a term on a page has a dotted underline: hover, focus or tap it for a short definition from the official docs, and the [glossary](docs/glossary.md) lists them all (`docs/.vitepress/glossary.json`). Pages show what to **read first** and which pages are **related** (`docs/.vitepress/related.json`), and key pages end with **Check yourself** questions whose answers come from the official docs (`docs/.vitepress/quiz.json`). A page with several "Under the hood" sections gets Open all, Close all and an "always open" choice that is remembered in the browser.
 
 ## "Under the hood" sections
 

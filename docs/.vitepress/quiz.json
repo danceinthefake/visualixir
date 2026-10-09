@@ -1,0 +1,99 @@
+{
+  "_why": "Questions shown at the end of a page (CheckYourself.vue). Each answer rests on a sentence of the official docs: 'source' is the upstream/ chapter and 'phrase' a fragment of it that must still be there (scripts/audit.py checks). Write answers from the docs, not from memory.",
+  "pages": {
+    "getting-started/processes": [
+      { "q": "A process crashes and nothing is linked to it. What happens to the process that started it?",
+        "a": "Nothing: it keeps running. Processes are isolated, so a failure only propagates to another process if you link them.",
+        "source": "processes", "phrase": "That's because processes are isolated. If we want the failure in one process to propagate to another one, we should link them" },
+      { "q": "Does `send/2` wait for the recipient to read the message?",
+        "a": "No. It puts the message in the recipient's mailbox and carries on. A process can even send messages to itself.",
+        "source": "processes", "phrase": "does not block on `send/2`, it puts the message in the recipient's mailbox and continues" }
+    ],
+    "getting-started/lists-and-tuples": [
+      { "q": "Why is getting a tuple's size, or an element by index, a fast operation?",
+        "a": "Tuples store their elements contiguously in memory.",
+        "source": "lists-and-tuples", "phrase": "Tuples store elements contiguously in memory" },
+      { "q": "What does `list ++ [4]` do to `list`?",
+        "a": "Nothing: list operators never modify the existing list. They return a new one, because Elixir data structures are immutable.",
+        "source": "lists-and-tuples", "phrase": "List operators never modify the existing list" }
+    ],
+    "getting-started/pattern-matching": [
+      { "q": "What does the pin operator `^` do in a pattern?",
+        "a": "It matches against the value a variable is already bound to, instead of binding the variable again.",
+        "source": "pattern-matching", "phrase": "used to access previously bound values" },
+      { "q": "What happens when the two sides of `=` don't match?",
+        "a": "A `MatchError` is raised.",
+        "source": "pattern-matching", "phrase": "MatchError" }
+    ],
+    "getting-started/structs": [
+      { "q": "What are structs built on, and what do they add?",
+        "a": "They are extensions built on top of maps. They add compile-time checks and default values.",
+        "source": "structs", "phrase": "Structs are extensions built on top of maps that provide compile-time checks and default values" }
+    ],
+    "getting-started/protocols": [
+      { "q": "What decides which implementation of a protocol runs?",
+        "a": "The data type of the first argument.",
+        "source": "protocols", "phrase": "dispatching will always be based on the data type of the first input" }
+    ],
+    "getting-started/enumerable-and-streams": [
+      { "q": "What is the difference between `Enum` and `Stream`?",
+        "a": "`Enum` is eager. `Stream` supports lazy operations: streams are lazy, composable enumerables.",
+        "source": "enumerable-and-streams", "phrase": "Streams are lazy, composable enumerables" }
+    ],
+    "getting-started/binaries-strings-and-charlists": [
+      { "q": "What makes a bitstring a binary?",
+        "a": "Its number of bits is divisible by 8. Every binary is a bitstring, but not every bitstring is a binary.",
+        "source": "binaries-strings-and-charlists", "phrase": "A binary is a bitstring where the number of bits is divisible by 8" }
+    ],
+    "mix-and-otp/genservers": [
+      { "q": "What is the difference between a call and a cast?",
+        "a": "A call is synchronous: the server must send a response back, and the client waits for it. A cast is asynchronous: the server sends no response and the client does not wait.",
+        "source": "genservers", "phrase": "Calls are synchronous and the server **must** send a response back to such requests" },
+      { "q": "When would you use a monitor instead of a link?",
+        "a": "When you only want to know that a process died, without tying your exit signals to its. A monitored process's death arrives as a message, whatever the reason.",
+        "source": "genservers", "phrase": "If we simply want to track when a process dies, without tying their exit signals to each other, a better solution is to use monitors" }
+    ],
+    "meta-programming/macros": [
+      { "q": "What does a macro receive, and what does it return?",
+        "a": "It receives quoted expressions and transforms them into something else.",
+        "source": "macros", "phrase": "receiving quoted expressions and transforming them into something else" },
+      { "q": "What does macro hygiene guarantee?",
+        "a": "A variable defined inside a `quote` won't conflict with a variable defined in the context where the macro is expanded.",
+        "source": "macros", "phrase": "a variable defined inside a quote won't conflict with a variable defined in the context where that macro is expanded" }
+    ],
+    "modules/task": [
+      { "q": "You start a task with `Task.async/1`. Must you await it?",
+        "a": "Yes. A reply is always sent, so you must await it. If you don't expect one, use `Task.start_link/1`.",
+        "source": "task", "phrase": "you **must await** a reply as they are *always* sent" },
+      { "q": "What is a task's default `:restart` under a supervisor?",
+        "a": "`:temporary`: it is not restarted, even if it crashes. This differs from `GenServer`, `Agent` and `Supervisor`.",
+        "source": "task", "phrase": "a Task has a default `:restart` of `:temporary`" }
+    ],
+    "modules/supervisor": [
+      { "q": "What do `:one_for_all` and `:rest_for_one` restart when a child terminates?",
+        "a": "`:one_for_all` terminates all the other children and restarts all of them, the terminated one included. `:rest_for_one` terminates and restarts the terminated child and the children started after it.",
+        "source": "supervisor", "phrase": "all other child processes are terminated and then all child processes (including the terminated one) are restarted" },
+      { "q": "What happens to a supervisor that exceeds its restart limit?",
+        "a": "It exits with reason `:shutdown`. Its own parent then decides whether to restart it, which a `:permanent` child spec does.",
+        "source": "supervisor", "phrase": "the supervisor that reaches maximum restart intensity will exit with `:shutdown` reason" }
+    ],
+    "modules/registry": [
+      { "q": "Which registries can be used with `{:via, Registry, ...}`?",
+        "a": "Only registries with unique keys.",
+        "source": "registry", "phrase": "Only registries with unique keys can be used in `:via`" }
+    ],
+    "modules/process": [
+      { "q": "Can a process that traps exits ignore `Process.exit(pid, :kill)`?",
+        "a": "No. `:kill` is an untrappable exit signal: the process exits unconditionally with reason `:killed`.",
+        "source": "process", "phrase": "an untrappable exit signal is sent to `pid` which will unconditionally exit with reason `:killed`" }
+    ],
+    "modules/exunit": [
+      { "q": "With `async: true`, do the tests inside one module run at the same time?",
+        "a": "No. The module's tests run concurrently with tests in other modules, but the tests within a module still run serially.",
+        "source": "exunit", "phrase": "individual tests within each test module are still run serially" },
+      { "q": "In which process do `setup` callbacks run?",
+        "a": "In the same process as the test itself. `setup_all` callbacks run in a separate process per module, and `on_exit` callbacks always run in a separate process.",
+        "source": "exunit", "phrase": "all `setup` callbacks run in the same process as the test itself" }
+    ]
+  }
+}

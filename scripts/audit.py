@@ -9,6 +9,7 @@ Checks what a page SAYS is supported by its own chapter, and reports what it DRO
   results   `#=> value` annotations
   numbers   numeric literals (1_048_576, 0x1F, v1.17)
   diagrams  the same refs and numbers in the labels of docs/diagrams/**/*.dot
+  quiz      every answer in docs/.vitepress/quiz.json names a sentence that is still in its chapter
   related   every page named in related.json exists
   glossary  every definition in docs/.vitepress/glossary.json names a sentence that is still in its chapter
 
@@ -123,6 +124,15 @@ rel = json.load(open(f"{DOCS}/.vitepress/related.json"))["pages"]
 for k, v in rel.items():
     for p in [k] + v.get("first", []) + v.get("related", []):
         if not os.path.exists(f"{DOCS}/{p}.md"): findings["related"].append((f"related/{k}", f"no page {p}"))
+
+# quiz: every answer rests on a sentence of the chapter it names
+quiz = json.load(open(f"{DOCS}/.vitepress/quiz.json"))["pages"]
+for pg, qs in quiz.items():
+    if not os.path.exists(f"{DOCS}/{pg}.md"): findings["quiz"].append((f"quiz/{pg}", "no such page"))
+    for x in qs:
+        text = re.sub(r"\s+", " ", src.get(x["source"], ""))
+        if x["source"] not in src: findings["quiz"].append((f"quiz/{pg}", f"no upstream/{x['source']}.md"))
+        elif x["phrase"] not in text: findings["quiz"].append((f"quiz/{pg}", f"not in upstream/{x['source']}.md: {x['phrase']}"))
 
 n = sum(len(v) for v in findings.values())
 print(f"audited {len(dropped)} pages and {len(glob.glob(f'{DOCS}/diagrams/*/*.dot'))} diagrams against upstream/")

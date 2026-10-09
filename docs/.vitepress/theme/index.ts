@@ -12,6 +12,7 @@ import UnderTheHood from "./UnderTheHood.vue";
 import GlossTerm from "./GlossTerm.vue";
 import GlossaryList from "./GlossaryList.vue";
 import PageTools from "./PageTools.vue";
+import CheckYourself from "./CheckYourself.vue";
 import RelatedPages from "./RelatedPages.vue";
 
 export default {
@@ -52,5 +53,6 @@ export default {
     app.component("GlossTerm", GlossTerm);
     app.component("GlossaryList", GlossaryList);
     app.component("PageTools", PageTools);
+    app.component("CheckYourself", CheckYourself);
   },
 } satisfies Theme;
