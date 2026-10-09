@@ -424,6 +424,103 @@
       "page": "/getting-started/comprehensions",
       "source": "comprehensions",
       "phrase": "Comprehensions are syntactic sugar"
+    },
+    {
+      "id": "keyword-list",
+      "term": "Keyword list",
+      "match": [
+        "keyword lists",
+        "keyword list"
+      ],
+      "definition": "A list of two-element tuples whose first element, the key, is an atom. Keys keep the order you gave and can repeat. Mostly used for optional arguments to functions.",
+      "page": "/getting-started/keywords-and-maps",
+      "source": "keywords-and-maps",
+      "phrase": "they are lists consisting of 2-item tuples where the first element (the key) is an atom"
+    },
+    {
+      "id": "tuple",
+      "term": "Tuple",
+      "match": [
+        "tuples",
+        "tuple"
+      ],
+      "definition": "A fixed collection written with curly brackets that can hold any value. Its elements are stored contiguously in memory, so reading one by index or getting the size is fast.",
+      "page": "/getting-started/lists-and-tuples",
+      "source": "lists-and-tuples",
+      "phrase": "Tuples store elements contiguously in memory"
+    },
+    {
+      "id": "atom",
+      "term": "Atom",
+      "match": [
+        "atoms",
+        "atom"
+      ],
+      "definition": "A constant whose value is its own name, such as `:ok`. Two atoms are equal if their names are equal.",
+      "page": "/getting-started/basic-types",
+      "source": "basic-types",
+      "phrase": "An atom is a constant whose value is its own name"
+    },
+    {
+      "id": "pattern-matching",
+      "term": "Pattern matching",
+      "match": [
+        "pattern matching",
+        "pattern match",
+        "pattern matches",
+        "match operator"
+      ],
+      "definition": "The `=` operator is the match operator. Besides matching simple values, it destructures complex data such as tuples, binding variables to the parts.",
+      "page": "/getting-started/pattern-matching",
+      "source": "pattern-matching",
+      "phrase": "The match operator is not only used to match against simple values, but it is also useful for destructuring more complex data types"
+    },
+    {
+      "id": "immutability",
+      "term": "Immutability",
+      "match": [
+        "immutability",
+        "immutable"
+      ],
+      "definition": "Data structures are never changed in place: operations return new ones. You can pass data around knowing no one will mutate it in memory, only transform it.",
+      "page": "/getting-started/lists-and-tuples",
+      "source": "lists-and-tuples",
+      "phrase": "One advantage of immutability is that it leads to clearer code"
+    },
+    {
+      "id": "callback",
+      "term": "Callback",
+      "match": [
+        "callbacks",
+        "callback"
+      ],
+      "in": [
+        "mix-and-otp/genservers",
+        "mix-and-otp/agents",
+        "mix-and-otp/dynamic-supervisor",
+        "mix-and-otp/supervisor-and-application",
+        "modules/supervisor"
+      ],
+      "definition": "A function your module defines that a process behaviour calls under specific conditions, such as `init/1` or `handle_call/3` for a GenServer.",
+      "page": "/mix-and-otp/genservers",
+      "source": "genservers",
+      "phrase": "A GenServer is a process that invokes a limited set of functions under specific conditions"
+    },
+    {
+      "id": "behaviour",
+      "term": "Behaviour",
+      "match": [
+        "behaviours",
+        "behaviour"
+      ],
+      "in": [
+        "modules/supervisor",
+        "mix-and-otp/supervisor-and-application"
+      ],
+      "definition": "A module such as `GenServer` or `Supervisor` that defines the callbacks your module implements so it can run as that kind of process. Your module declares it with `@behaviour`, or with `use`.",
+      "page": "/mix-and-otp/genservers",
+      "source": "supervisor",
+      "phrase": "A behaviour module for implementing supervisors"
     }
   ]
 }
