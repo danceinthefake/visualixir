@@ -31,6 +31,7 @@ for (const kind of ["desktop", "phone"]) {
     // all card links point at real terms
     for (const href of await page.locator(".gloss__card a[href*='/glossary#']").evaluateAll((a) => a.map((x) => x.getAttribute("href"))))
       if (!known.has(href.split("#")[1])) failures.push(`${path}: a card links to ${href}, which is not on /glossary`);
+      else used.add(href.split("#")[1]);
     const t = terms.first();
     await t.scrollIntoViewIfNeeded();
     const card = t.locator("xpath=following-sibling::span[@popover]");
@@ -43,7 +44,6 @@ for (const kind of ["desktop", "phone"]) {
     if (phone) await t.tap(); else await t.hover();
     try { await card.waitFor({ state: "visible", timeout: 2000 }); } catch { failures.push(`${path} [${kind}]: the card did not open`); return; }
     cards++;
-    used.add(await card.locator("a[href*='/glossary#']").getAttribute("href"));
     if (!(await inside())) failures.push(`${path} [${kind}]: the card is not inside the screen`);
     if (!((await card.innerText()).trim().length > 40)) failures.push(`${path} [${kind}]: the card is empty`);
     if (!phone) {
@@ -87,7 +87,8 @@ for (const scheme of ["light", "dark"]) {
   await c.close();
 }
 await browser.close();
-const unused = [...known].filter((id) => !used.has(`/glossary#${id}`) && ![...used].some((u) => u?.endsWith(`#${id}`)));
+const unused = [...known].filter((id) => !used.has(id));
+if (unused.length) failures.push(`terms no page triggers a card for: ${unused.join(", ")}`);
 if (cards < 20) failures.push(`only ${cards} cards were exercised`);
-console.log(`glossary: ${cards} cards on desktop and phone, ${used.size}/${known.size} terms shown as a first card (${BASE})`);
+console.log(`glossary: ${cards} cards on desktop and phone, ${used.size}/${known.size} terms have a card somewhere (${BASE})`);
 finish("glossary", failures);
