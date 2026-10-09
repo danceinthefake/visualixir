@@ -15,6 +15,7 @@ pnpm exec playwright install chromium   # once, or use a system browser: CHROMIU
 | `layout` | at 390px and 320px: no page scrolls sideways, diagram text stays at least 10px, a diagram that scrolls sideways is keyboard-focusable |
 | `diagrams` | every page's first diagram opens in the Enlarge dialog, zooms, closes on Escape and returns focus; every `<Diagram steps>` highlights one arrow per step, announces it and resets; axe passes with a dialog open and a diagram half-stepped |
 | `glossary` | every term card opens on hover, Enter and tap, stays on screen, closes on Escape or a tap elsewhere, and links to a term that is on `/glossary`; axe passes with a card open |
+| `pagetools` | each page shows the "Read first" and "Related pages" links that `related.json` lists, all to real pages; on a page with several Under the hood sections Open all, Close all and "Always open them" work and are remembered |
 | `search` | ten real queries put the right section in the top three; Ctrl+K opens and focuses the box, Enter opens a result, Escape closes |
 | `axe` | axe-core on every page, light and dark, desktop (1200px): no violations |
 | `axe-phone` | the same at 390px, which also catches scrollable regions without keyboard access |

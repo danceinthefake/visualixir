@@ -11,6 +11,8 @@ import DocNotice from "./DocNotice.vue";
 import UnderTheHood from "./UnderTheHood.vue";
 import GlossTerm from "./GlossTerm.vue";
 import GlossaryList from "./GlossaryList.vue";
+import PageTools from "./PageTools.vue";
+import RelatedPages from "./RelatedPages.vue";
 
 export default {
   extends: DefaultTheme,
@@ -42,12 +44,13 @@ export default {
         { immediate: true, flush: "post" },
       );
     }
-    return h(DefaultTheme.Layout, null, { "doc-footer-before": () => h(DocNotice) });
+    return h(DefaultTheme.Layout, null, { "doc-footer-before": () => [h(RelatedPages), h(DocNotice)] });
   },
   enhanceApp({ app }) {
     app.component("Diagram", Diagram);
     app.component("UnderTheHood", UnderTheHood);
     app.component("GlossTerm", GlossTerm);
     app.component("GlossaryList", GlossaryList);
+    app.component("PageTools", PageTools);
   },
 } satisfies Theme;

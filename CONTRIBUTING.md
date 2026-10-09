@@ -36,6 +36,11 @@ pnpm audit:pages
 
 An unavoidable false positive goes in `scripts/audit-allow.json`, after you've checked it against the chapter.
 
+## Reading order and related pages
+
+`docs/.vitepress/related.json` says, per page, what to read first and which pages cover the same ground. A new page needs an entry (the `pagetools` e2e check fails without one),
+and `pnpm audit:pages` checks that every path exists.
+
 ## The glossary
 
 `docs/.vitepress/glossary.json` holds the terms that get a hover card on their first mention in a page (and the `/glossary` page). A definition is a short

@@ -9,6 +9,7 @@ Checks what a page SAYS is supported by its own chapter, and reports what it DRO
   results   `#=> value` annotations
   numbers   numeric literals (1_048_576, 0x1F, v1.17)
   diagrams  the same refs and numbers in the labels of docs/diagrams/**/*.dot
+  related   every page named in related.json exists
   glossary  every definition in docs/.vitepress/glossary.json names a sentence that is still in its chapter
 
 <UnderTheHood> blocks are Visualixir's own explanations, not derived from the chapters, so they are
@@ -116,6 +117,12 @@ for t in gloss:
     if t["source"] not in src: findings["glossary"].append((where, f"no upstream/{t['source']}.md"))
     elif t["phrase"] not in text: findings["glossary"].append((where, f"not in upstream/{t['source']}.md: {t['phrase']}"))
     if not os.path.exists(f"{DOCS}{t['page']}.md"): findings["glossary"].append((where, f"no page {t['page']}"))
+
+# related pages: every path in related.json is a page
+rel = json.load(open(f"{DOCS}/.vitepress/related.json"))["pages"]
+for k, v in rel.items():
+    for p in [k] + v.get("first", []) + v.get("related", []):
+        if not os.path.exists(f"{DOCS}/{p}.md"): findings["related"].append((f"related/{k}", f"no page {p}"))
 
 n = sum(len(v) for v in findings.values())
 print(f"audited {len(dropped)} pages and {len(glob.glob(f'{DOCS}/diagrams/*/*.dot'))} diagrams against upstream/")

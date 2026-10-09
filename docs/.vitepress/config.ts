@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitepress";
 import glossaryPlugin from "./glossary-plugin";
+import pageToolsPlugin from "./page-tools-plugin";
 
 const base = process.env.DOCS_BASE ?? "/";
 // Origin the site is served from, e.g. https://visualixir.example.com (no trailing slash).
@@ -101,7 +102,7 @@ export default defineConfig({
   // Higher-contrast code themes: the default github themes miss 4.5:1 on comments and keywords.
   markdown: {
     theme: { light: "github-light-high-contrast", dark: "github-dark-high-contrast" },
-    config: (md) => md.use(glossaryPlugin),
+    config: (md) => md.use(glossaryPlugin).use(pageToolsPlugin),
   },
   vite: { ssr: { noExternal: ["blessing-ui"] } },
   themeConfig: {

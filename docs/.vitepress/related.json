@@ -1,0 +1,487 @@
+{
+  "_why": "Shown on each page: 'first' are pages worth reading before it, 'related' are pages that cover the same ground from another side. Keys and values are page paths without .md. scripts/audit.py checks that they exist.",
+  "pages": {
+    "getting-started/basic-types": {
+      "related": [
+        "getting-started/lists-and-tuples",
+        "getting-started/binaries-strings-and-charlists"
+      ]
+    },
+    "getting-started/lists-and-tuples": {
+      "first": [
+        "getting-started/basic-types"
+      ],
+      "related": [
+        "getting-started/keywords-and-maps",
+        "getting-started/recursion"
+      ]
+    },
+    "getting-started/pattern-matching": {
+      "first": [
+        "getting-started/lists-and-tuples"
+      ],
+      "related": [
+        "getting-started/case-cond-and-if",
+        "references/patterns-and-guards"
+      ]
+    },
+    "getting-started/case-cond-and-if": {
+      "first": [
+        "getting-started/pattern-matching"
+      ],
+      "related": [
+        "references/patterns-and-guards"
+      ]
+    },
+    "getting-started/anonymous-functions": {
+      "first": [
+        "getting-started/pattern-matching"
+      ],
+      "related": [
+        "getting-started/modules-and-functions",
+        "getting-started/enumerable-and-streams"
+      ]
+    },
+    "getting-started/binaries-strings-and-charlists": {
+      "first": [
+        "getting-started/basic-types"
+      ],
+      "related": [
+        "getting-started/sigils",
+        "references/unicode-syntax"
+      ]
+    },
+    "getting-started/keywords-and-maps": {
+      "first": [
+        "getting-started/lists-and-tuples"
+      ],
+      "related": [
+        "getting-started/structs",
+        "getting-started/optional-syntax"
+      ]
+    },
+    "getting-started/modules-and-functions": {
+      "first": [
+        "getting-started/anonymous-functions"
+      ],
+      "related": [
+        "getting-started/alias-require-and-import",
+        "getting-started/module-attributes"
+      ]
+    },
+    "getting-started/alias-require-and-import": {
+      "first": [
+        "getting-started/modules-and-functions"
+      ],
+      "related": [
+        "meta-programming/macros"
+      ]
+    },
+    "getting-started/module-attributes": {
+      "first": [
+        "getting-started/modules-and-functions"
+      ],
+      "related": [
+        "getting-started/writing-documentation",
+        "getting-started/structs"
+      ]
+    },
+    "getting-started/structs": {
+      "first": [
+        "getting-started/keywords-and-maps",
+        "getting-started/module-attributes"
+      ],
+      "related": [
+        "getting-started/protocols"
+      ]
+    },
+    "getting-started/recursion": {
+      "first": [
+        "getting-started/lists-and-tuples",
+        "getting-started/pattern-matching"
+      ],
+      "related": [
+        "getting-started/enumerable-and-streams",
+        "getting-started/comprehensions"
+      ]
+    },
+    "getting-started/enumerable-and-streams": {
+      "first": [
+        "getting-started/recursion"
+      ],
+      "related": [
+        "getting-started/comprehensions",
+        "cheatsheets/enum-cheat"
+      ]
+    },
+    "getting-started/comprehensions": {
+      "first": [
+        "getting-started/enumerable-and-streams"
+      ],
+      "related": [
+        "cheatsheets/enum-cheat"
+      ]
+    },
+    "getting-started/protocols": {
+      "first": [
+        "getting-started/structs"
+      ],
+      "related": [
+        "getting-started/enumerable-and-streams"
+      ]
+    },
+    "getting-started/sigils": {
+      "first": [
+        "getting-started/binaries-strings-and-charlists"
+      ],
+      "related": [
+        "meta-programming/macros"
+      ]
+    },
+    "getting-started/try-catch-and-rescue": {
+      "first": [
+        "getting-started/pattern-matching"
+      ],
+      "related": [
+        "getting-started/processes"
+      ]
+    },
+    "getting-started/processes": {
+      "first": [
+        "getting-started/anonymous-functions",
+        "getting-started/pattern-matching"
+      ],
+      "related": [
+        "modules/process",
+        "mix-and-otp/agents",
+        "modules/task",
+        "anti-patterns/process-anti-patterns"
+      ]
+    },
+    "getting-started/io-and-the-file-system": {
+      "first": [
+        "getting-started/processes"
+      ],
+      "related": [
+        "getting-started/binaries-strings-and-charlists"
+      ]
+    },
+    "getting-started/writing-documentation": {
+      "first": [
+        "getting-started/module-attributes"
+      ],
+      "related": [
+        "mix-and-otp/docs-tests-and-with"
+      ]
+    },
+    "getting-started/optional-syntax": {
+      "first": [
+        "getting-started/keywords-and-maps"
+      ],
+      "related": [
+        "references/syntax-reference"
+      ]
+    },
+    "getting-started/erlang-libraries": {
+      "related": [
+        "modules/registry",
+        "mix-and-otp/config-and-distribution"
+      ]
+    },
+    "getting-started/debugging": {
+      "first": [
+        "getting-started/processes"
+      ],
+      "related": [
+        "modules/iex",
+        "modules/exunit"
+      ]
+    },
+    "mix-and-otp/introduction-to-mix": {
+      "first": [
+        "getting-started/modules-and-functions"
+      ],
+      "related": [
+        "modules/exunit",
+        "mix-and-otp/agents"
+      ]
+    },
+    "mix-and-otp/agents": {
+      "first": [
+        "getting-started/processes",
+        "mix-and-otp/introduction-to-mix"
+      ],
+      "related": [
+        "modules/process",
+        "mix-and-otp/genservers",
+        "modules/task"
+      ]
+    },
+    "mix-and-otp/genservers": {
+      "first": [
+        "mix-and-otp/agents"
+      ],
+      "related": [
+        "modules/process",
+        "modules/supervisor",
+        "anti-patterns/process-anti-patterns"
+      ]
+    },
+    "mix-and-otp/supervisor-and-application": {
+      "first": [
+        "mix-and-otp/genservers"
+      ],
+      "related": [
+        "modules/supervisor",
+        "mix-and-otp/dynamic-supervisor",
+        "modules/registry"
+      ]
+    },
+    "mix-and-otp/dynamic-supervisor": {
+      "first": [
+        "mix-and-otp/supervisor-and-application"
+      ],
+      "related": [
+        "modules/supervisor",
+        "modules/registry",
+        "modules/task"
+      ]
+    },
+    "mix-and-otp/task-and-gen-tcp": {
+      "first": [
+        "mix-and-otp/dynamic-supervisor"
+      ],
+      "related": [
+        "modules/task"
+      ]
+    },
+    "mix-and-otp/docs-tests-and-with": {
+      "first": [
+        "mix-and-otp/introduction-to-mix"
+      ],
+      "related": [
+        "modules/exunit",
+        "getting-started/writing-documentation"
+      ]
+    },
+    "mix-and-otp/config-and-distribution": {
+      "first": [
+        "mix-and-otp/task-and-gen-tcp"
+      ],
+      "related": [
+        "mix-and-otp/releases",
+        "modules/iex"
+      ]
+    },
+    "mix-and-otp/releases": {
+      "first": [
+        "mix-and-otp/config-and-distribution"
+      ],
+      "related": [
+        "mix-and-otp/supervisor-and-application"
+      ]
+    },
+    "meta-programming/quote-and-unquote": {
+      "first": [
+        "getting-started/lists-and-tuples"
+      ],
+      "related": [
+        "meta-programming/macros"
+      ]
+    },
+    "meta-programming/macros": {
+      "first": [
+        "meta-programming/quote-and-unquote"
+      ],
+      "related": [
+        "meta-programming/domain-specific-languages",
+        "anti-patterns/macro-anti-patterns"
+      ]
+    },
+    "meta-programming/domain-specific-languages": {
+      "first": [
+        "meta-programming/macros"
+      ],
+      "related": [
+        "anti-patterns/macro-anti-patterns"
+      ]
+    },
+    "anti-patterns/code-anti-patterns": {
+      "related": [
+        "anti-patterns/design-anti-patterns",
+        "anti-patterns/process-anti-patterns",
+        "anti-patterns/macro-anti-patterns"
+      ]
+    },
+    "anti-patterns/design-anti-patterns": {
+      "related": [
+        "anti-patterns/code-anti-patterns",
+        "anti-patterns/process-anti-patterns"
+      ]
+    },
+    "anti-patterns/process-anti-patterns": {
+      "first": [
+        "getting-started/processes",
+        "mix-and-otp/genservers"
+      ],
+      "related": [
+        "modules/process",
+        "modules/supervisor"
+      ]
+    },
+    "anti-patterns/macro-anti-patterns": {
+      "first": [
+        "meta-programming/macros"
+      ],
+      "related": [
+        "anti-patterns/code-anti-patterns"
+      ]
+    },
+    "modules/task": {
+      "first": [
+        "getting-started/processes",
+        "mix-and-otp/agents"
+      ],
+      "related": [
+        "modules/supervisor",
+        "modules/registry",
+        "mix-and-otp/task-and-gen-tcp",
+        "mix-and-otp/genservers"
+      ]
+    },
+    "modules/registry": {
+      "first": [
+        "mix-and-otp/supervisor-and-application"
+      ],
+      "related": [
+        "mix-and-otp/dynamic-supervisor",
+        "mix-and-otp/genservers"
+      ]
+    },
+    "modules/exunit": {
+      "first": [
+        "mix-and-otp/docs-tests-and-with"
+      ],
+      "related": [
+        "mix-and-otp/introduction-to-mix",
+        "modules/iex"
+      ]
+    },
+    "modules/supervisor": {
+      "first": [
+        "mix-and-otp/supervisor-and-application"
+      ],
+      "related": [
+        "mix-and-otp/dynamic-supervisor",
+        "modules/process",
+        "mix-and-otp/genservers"
+      ]
+    },
+    "modules/process": {
+      "first": [
+        "getting-started/processes"
+      ],
+      "related": [
+        "mix-and-otp/genservers",
+        "modules/task",
+        "modules/supervisor"
+      ]
+    },
+    "modules/iex": {
+      "first": [
+        "getting-started/debugging"
+      ],
+      "related": [
+        "modules/exunit",
+        "mix-and-otp/config-and-distribution"
+      ]
+    },
+    "references/typespecs": {
+      "related": [
+        "references/gradual-set-theoretic-types",
+        "cheatsheets/types-cheat"
+      ]
+    },
+    "references/gradual-set-theoretic-types": {
+      "related": [
+        "cheatsheets/types-cheat",
+        "references/typespecs"
+      ]
+    },
+    "cheatsheets/types-cheat": {
+      "first": [
+        "references/gradual-set-theoretic-types"
+      ]
+    },
+    "cheatsheets/enum-cheat": {
+      "first": [
+        "getting-started/enumerable-and-streams"
+      ],
+      "related": [
+        "getting-started/comprehensions"
+      ]
+    },
+    "references/patterns-and-guards": {
+      "first": [
+        "getting-started/pattern-matching"
+      ],
+      "related": [
+        "getting-started/case-cond-and-if"
+      ]
+    },
+    "references/syntax-reference": {
+      "related": [
+        "getting-started/optional-syntax",
+        "references/operators"
+      ]
+    },
+    "references/operators": {
+      "related": [
+        "references/syntax-reference"
+      ]
+    },
+    "references/naming-conventions": {
+      "related": [
+        "references/library-guidelines"
+      ]
+    },
+    "references/library-guidelines": {
+      "related": [
+        "references/naming-conventions",
+        "references/compatibility-and-deprecations"
+      ]
+    },
+    "getting-started/introduction": {
+      "related": [
+        "getting-started/basic-types",
+        "mix-and-otp/introduction-to-mix"
+      ]
+    },
+    "anti-patterns/what-anti-patterns": {
+      "related": [
+        "anti-patterns/code-anti-patterns",
+        "anti-patterns/design-anti-patterns",
+        "anti-patterns/process-anti-patterns",
+        "anti-patterns/macro-anti-patterns"
+      ]
+    },
+    "references/compatibility-and-deprecations": {
+      "related": [
+        "references/library-guidelines",
+        "references/gradual-set-theoretic-types"
+      ]
+    },
+    "references/sbom": {
+      "related": [
+        "mix-and-otp/releases",
+        "references/library-guidelines"
+      ]
+    },
+    "references/unicode-syntax": {
+      "related": [
+        "getting-started/binaries-strings-and-charlists",
+        "references/syntax-reference"
+      ]
+    }
+  }
+}

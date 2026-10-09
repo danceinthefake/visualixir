@@ -68,3 +68,15 @@
 .glossary__more { margin-inline-start: 6px; font-size: 0.875rem; }
 .glossary .header-anchor { position: absolute; margin-inline-start: -1em; opacity: 0; }
 .glossary dt:hover .header-anchor, .glossary .header-anchor:focus { opacity: 1; }
+
+/* Under the title: what to read first, and the Under the hood controls. */
+.page-tools { margin: 0 0 24px; font-size: 0.9375rem; color: var(--vp-c-text-2); }
+.page-tools p { margin: 0 0 8px; }
+.page-tools__hood { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.page-tools__hood button { font: inherit; color: var(--vp-c-text-1); background: var(--vp-c-bg-soft); border: 1px solid var(--vp-c-divider); padding: 0 12px; min-height: 36px; cursor: pointer; }
+.page-tools__hood button:hover { border-color: var(--vp-c-brand-1); }
+.page-tools__hood button:focus-visible, .page-tools__hood input:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 2px; }
+.page-tools__hood label { display: inline-flex; gap: 6px; align-items: center; min-height: 36px; }
+.related-pages { margin: 2.5rem 0 0; padding-top: 1rem; border-top: 1px solid var(--vp-c-divider); }
+.related-pages h2 { margin: 0 0 8px; padding: 0; border: 0; font-size: 1.0625rem; letter-spacing: normal; }
+.related-pages ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 20px; }
