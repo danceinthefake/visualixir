@@ -13,6 +13,10 @@ for (const width of [390, 320]) {
     const page = workers[worker];
     await open(page, path);
     await openAll(page); // diagrams in collapsibles must scroll and stay readable too
+    // a slow machine may not have measured the diagrams yet (they gain tabindex when they overflow): give it a moment
+    await page
+      .waitForFunction(() => ![...document.querySelectorAll("figure.diagram > div[role=img]")].some((e) => e.scrollWidth > e.clientWidth && e.getAttribute("tabindex") !== "0"), null, { timeout: 3000 })
+      .catch(() => {});
     const r = await page.evaluate(() => {
       const vw = innerWidth;
       const wide = [...document.querySelectorAll(".vp-doc *")]
@@ -24,7 +28,7 @@ for (const width of [390, 320]) {
         .map((s) => (s.viewBox.baseVal.width ? (s.getBoundingClientRect().width / s.viewBox.baseVal.width) * 18.7 : 99))
         .filter((px) => px < 10)
         .map((px) => px.toFixed(1));
-      const unfocusable = [...document.querySelectorAll("figure.diagram > div")]
+      const unfocusable = [...document.querySelectorAll("figure.diagram > div[role=img]")]
         .filter((e) => e.scrollWidth > e.clientWidth && e.getAttribute("tabindex") !== "0").length;
       return { page: document.documentElement.scrollWidth > vw + 1, wide, tiny, unfocusable };
     });
