@@ -1,18 +1,18 @@
 name: Diagram problem
-description: A diagram is wrong, confusing, unreadable on a phone, or has bad contrast.
+description: A diagram is wrong, confusing, unreadable on a phone, or has low contrast.
 labels: [diagram]
 body:
   - type: input
     id: page
     attributes:
       label: Page and diagram
-      description: Link to the page and say which diagram.
+      description: Give the link to the page. Say which diagram.
     validations:
       required: true
   - type: textarea
     id: problem
     attributes:
-      label: What's wrong
+      label: What is wrong
     validations:
       required: true
   - type: input

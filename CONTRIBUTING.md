@@ -1,23 +1,35 @@
 # Contributing
 
-Visualixir explains the official Elixir docs with diagrams. The most useful contribution is
-**a report that something is wrong**: a page that says something the official chapter doesn't, leaves
-out something it should keep, or a diagram that misleads. Open an issue using the *Inaccuracy* form.
+Visualixir explains the official Elixir docs with diagrams. The most useful contribution is a report that something is wrong. For example, a page can say something that the official chapter does not say. A page can omit something that the chapter says. A diagram can mislead. Open an issue with the *Inaccuracy* form.
 
-Questions about Elixir itself belong in the [Elixir forum](https://elixirforum.com), not here.
+Questions about Elixir itself belong in the [Elixir forum](https://elixirforum.com).
 
 ## Ground rules
 
-- **The official chapter is the source of truth.** Pages follow `upstream/<slug>.md` (a snapshot of
-  the official chapters; for pages under `docs/modules/`, the module docs). Don't add claims that aren't in it. Link back to the official chapter on every page.
-- **English only.**
-- **Don't hardcode counts** of pages or diagrams. The home page computes them.
-- Diagrams explain, they don't decorate. If a sentence says it better, skip the diagram.
+- The official chapter is the source of truth. Pages follow `upstream/<slug>.md`, a snapshot of the official chapters. For pages under `docs/modules/`, the snapshot holds the module docs.
+- Do not add a claim that the snapshot does not contain.
+- Link back to the official chapter on every page.
+- Write in English only.
+- Do not hardcode counts of pages or diagrams. The home page computes them.
+- A diagram must explain. If a sentence explains better, do not add the diagram.
+
+## Writing standard
+
+All prose follows ASD-STE100 (Simplified Technical English), Issue 9. This applies to pages, README files, commit messages, pull request descriptions, and code comments. The main rules:
+
+- In procedures, use the imperative mood. Write one instruction per sentence and 20 words at most.
+- In descriptions, use simple tenses and the active voice. Write 25 words at most per sentence.
+- Put the condition before the command: "If the build fails, read the log."
+- Use the modals can, will, and must. Do not use `should`, `may`, `might`, `could`, or `would`.
+- Do not use contractions, semicolons, or em-dashes.
+- Define a concept term at its first use. Do not define product names.
+- Use American spelling.
+
+Do not change code, identifiers, commands, file paths, quoted errors, or text that quotes the official docs. When you change a page, convert the prose that you touch. No tool can guarantee compliance. The official dictionary is free at asd-ste100.org.
 
 ## Setup
 
-[mise](https://mise.jdx.dev) installs Node and pnpm from `mise.toml`. You also need
-[Graphviz](https://graphviz.org) (`dot`) to rebuild diagrams.
+[mise](https://mise.jdx.dev) installs Node and pnpm from `mise.toml`. You also need [Graphviz](https://graphviz.org) (`dot`) to rebuild diagrams.
 
 ```sh
 mise install
@@ -27,45 +39,35 @@ pnpm dev        # http://localhost:5173
 
 ## Changing a page
 
-Pages are Markdown in `docs/<section>/`. Run the audit before you commit. It checks every function name,
-string, result and number in code against the official chapters:
+Pages are Markdown files in `docs/<section>/`. Before you commit, run the audit. It compares every function name, string, result, and number in the code with the official chapters.
 
 ```sh
 pnpm audit:pages
 ```
 
-An unavoidable false positive goes in `scripts/audit-allow.json`, after you've checked it against the chapter.
+If a false positive is unavoidable, add it to `scripts/audit-allow.json`. First compare it with the chapter.
 
 ## Reading order and related pages
 
-`docs/.vitepress/related.json` says, per page, what to read first and which pages cover the same ground. A new page needs an entry (the `pagetools` e2e check fails without one),
-and `pnpm audit:pages` checks that every path exists.
+The file `docs/.vitepress/related.json` lists, for each page, what to read first and which pages cover the same topic. A new page needs an entry. If the entry is missing, the `pagetools` e2e check fails. The command `pnpm audit:pages` makes sure that every path exists.
 
 ## Check-yourself questions
 
-`docs/.vitepress/quiz.json` holds the questions at the end of a page. Write the answer from the official docs: every entry names the chapter (`source`) and a sentence fragment (`phrase`) it rests on,
-and `pnpm audit:pages` checks that the sentence is still there. Ask what the docs state, not trivia.
+The file `docs/.vitepress/quiz.json` holds the questions at the end of a page. Write the answer from the official docs. Each entry names the chapter (`source`) and a sentence fragment (`phrase`) that supports the answer. The command `pnpm audit:pages` makes sure that the sentence is still in the chapter. Ask about what the docs state. Do not ask trivia.
 
 ## The glossary
 
-`docs/.vitepress/glossary.json` holds the terms that get a hover card on their first mention in a page (and the `/glossary` page). A definition is a short
-paraphrase of the official docs, and every entry names the chapter (`source`) and a sentence fragment from it (`phrase`) that supports it, which `pnpm audit:pages` checks.
-`match` lists the words that trigger the card, and `in` limits a word that is also ordinary English to the pages where it means the term.
+The file `docs/.vitepress/glossary.json` holds the terms that get a hover card at their first mention on a page. The `/glossary` page lists the same terms. A definition is a short paraphrase of the official docs. Each entry names the chapter (`source`) and a sentence fragment (`phrase`) that supports it. The command `pnpm audit:pages` checks the fragment. The `match` field lists the words that trigger the card. The `in` field limits an ordinary English word to the pages where it means the term.
 
 ## Changing or adding a diagram
 
 1. Edit or add `docs/diagrams/<page>/<name>.dot`.
-2. Run `make` (needs `dot`). The `.svg` files are generated **and committed**.
-3. Reference it in the page: `<Diagram name="<page>/<name>" caption="..." />`.
+2. Run `make`. This needs `dot`. The command generates the `.svg` files and you must commit them.
+3. Reference the diagram in the page: `<Diagram name="<page>/<name>" caption="..." />`.
 
-Every diagram can be enlarged (a dialog with zoom). A diagram that shows a sequence can also be **stepped through**: give its arrows
-`id=step1`, `id=step2`, ... in the `.dot` file (Graphviz does not keep declaration order) and write `<Diagram steps name="..." caption="..." />`.
-The label of each arrow is read out as the step, so make it say what happens.
+Every diagram can open in a dialog with zoom. A diagram that shows a sequence can also run step by step. To do this, give its arrows `id=step1`, `id=step2`, and so on in the `.dot` file. Graphviz does not keep the declaration order. Then write `<Diagram steps name="..." caption="..." />`. The page reads the label of each arrow as the step, so make the label say what happens.
 
-Colours come from `docs/.vitepress/theme/diagram.css`, not from the `.dot` file. Use the classes
-`hl`, `bad` and `dim`. Keep text readable on a phone: wide left-to-right diagrams shrink, so prefer
-top-to-bottom. Graphviz stacks sibling clusters in reverse declaration order, so declare the one you want
-first (the problem) *last* in a left-to-right layout. Look at the rendered result.
+Colors come from `docs/.vitepress/theme/diagram.css`, not from the `.dot` file. Use the classes `hl`, `bad`, and `dim`. Keep the text readable on a phone. Wide left-to-right diagrams shrink, so prefer top-to-bottom. Graphviz stacks sibling clusters in reverse declaration order. In a left-to-right layout, declare the cluster that you want first (the problem) last. Look at the rendered result.
 
 ## Before you open a pull request
 
@@ -75,36 +77,29 @@ pnpm run build:site
 pnpm e2e          # every page, phone layout, search, and axe (light/dark, desktop/phone)
 ```
 
-CI runs the same checks and blocks the deploy if one fails. Run `pnpm assets` only if you change
-`favicon.svg` or `scripts/og.html`.
+CI runs the same checks. If one fails, CI blocks the deploy. If you change `favicon.svg` or `scripts/og.html`, run `pnpm assets`.
 
-Keep a pull request to one thing. Describe the change from the reader's side first (what they'll see
-differently), then the mechanics.
+Keep a pull request to one change. In the description, state first what the reader will see differently. Then state the mechanics.
 
 ## "Under the hood" sections
 
-A page may have one optional collapsed section explaining what a construct does in memory, on the CPU or on
-storage: `<UnderTheHood> ... </UnderTheHood>`. It is our own explanation, not derived from the official
-chapters, and says so in its title. The rules are stricter than for the rest of the page:
+A page can have one optional collapsed section. It explains what a construct does in memory, on the CPU, or on storage: `<UnderTheHood> ... </UnderTheHood>`. This section is our own explanation. It does not come from the official chapters, and its title says so. The rules are stricter than for the rest of the page.
 
-- **Every claim is cited or demonstrated.** Cite the Erlang/OTP docs (or the BEAM Book, or a man page), or show a
-  snippet you ran and its output. Quote numbers you measured, and say the platform and OTP version.
-- **Report timings as ranges, from at least two runs.** They drift by tens of percent between runs (a repeat of mine moved `Enum.at` from 2.4 to 1.7 ms and a restart from 199 to 146 microseconds). Sizes in words are exact and reproduce.
-- **Prefer measurement to memory.** The Erlang memory guide's size table is from OTP 19 and is off by a word
-  for tuples and lists. Check with `:erts_debug.flat_size/1`, `:erlang.process_info/2`, `:beam_disasm`, or `strace -f -y -Y`.
-- **No section is better than an invented one.** If a construct has no memory, CPU or storage story, leave it out.
-- Name their diagrams `uth-<name>.dot` so licensing (MIT, original work) is picked up by one glob in `REUSE.toml`.
-- The audit (`pnpm audit:pages`) skips these sections and the diagrams used only in them, so nothing checks them
-  for you. Review them by hand.
+- Cite or demonstrate every claim. Cite the Erlang/OTP docs, the BEAM Book, or a man page. Alternatively, show a snippet that you ran and its output. State the platform and the OTP version for each number that you measured.
+- Report timings as ranges from at least two runs. Timings change by tens of percent between runs. In one repeat, `Enum.at` moved from 2.4 to 1.7 ms and a restart moved from 199 to 146 microseconds. Sizes in words are exact and repeat.
+- Measure. Do not rely on memory. The size table in the Erlang memory guide is from OTP 19. It is wrong by one word for tuples and lists. Use `:erts_debug.flat_size/1`, `:erlang.process_info/2`, `:beam_disasm`, or `strace -f -y -Y`.
+- If a construct has no memory, CPU, or storage story, do not add a section.
+- Name the diagrams `uth-<name>.dot`. One glob in `REUSE.toml` then applies the MIT license (original work).
+- The audit (`pnpm audit:pages`) skips these sections and the diagrams that only they use. Review them by hand.
 
 ## When the official docs change
 
-A weekly workflow opens an `upstream-drift` issue when the official chapters change. To handle it:
-`pnpm upstream:diff <slug>`, update the page, then `pnpm upstream:update`.
+When the official chapters change, a weekly workflow opens an `upstream-drift` issue. To handle the issue, do these steps:
+
+1. Run `pnpm upstream:diff <slug>`.
+2. Update the page.
+3. Run `pnpm upstream:update`.
 
 ## Licensing
 
-Site code is MIT. Pages and diagrams derived from the Elixir documentation are Apache-2.0
-(see `NOTICE` and `REUSE.toml`). By contributing you agree your change is licensed under the terms that
-apply to the files it touches. A new content section under `docs/<section>/` must be added to the
-content globs in `REUSE.toml`.
+Site code is MIT. Pages and diagrams that come from the Elixir documentation are Apache-2.0 (see `NOTICE` and `REUSE.toml`). When you contribute, you agree that your change has the license that applies to the files it touches. Add a new content section under `docs/<section>/` to the content globs in `REUSE.toml`.

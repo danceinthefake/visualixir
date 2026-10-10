@@ -1,14 +1,15 @@
 ## Impact
 
-What will a reader see differently?
+Describe what the reader will see differently.
 
 ## Change
 
-What changed and why.
+Describe what changed and why.
 
-## Checked
+## Checks
 
-- [ ] `pnpm audit:pages`
-- [ ] `pnpm run build:site` and `pnpm e2e`
-- [ ] Matches the official chapter (link it if the page changed)
-- [ ] Rebuilt and committed the `.svg` if a `.dot` changed
+- [ ] I ran `pnpm audit:pages`.
+- [ ] I ran `pnpm run build:site` and `pnpm e2e`.
+- [ ] The page matches the official chapter. Link the chapter if the page changed.
+- [ ] I rebuilt and committed the `.svg` file if a `.dot` file changed.
+- [ ] The new prose follows ASD-STE100 (see CLAUDE.md).

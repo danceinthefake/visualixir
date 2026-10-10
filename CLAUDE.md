@@ -1,6 +1,18 @@
 # visualixir
 
-Visualixir is a VitePress site of Graphviz diagrams that explain the official Elixir docs. See README.md. All prose follows ASD-STE100 (see the root CLAUDE.md).
+Visualixir is a VitePress site of Graphviz diagrams that explain the official Elixir docs. See README.md.
+
+# Writing standard
+
+The reference for all prose is ASD-STE100 (Simplified Technical English), Issue 9. The rules are in the global `~/.claude/CLAUDE.md`. The `simple-english` plugin implements them. Use its Strict mode for documents.
+
+- The rules apply to every prose file in this repository: CLAUDE.md, README.md, CONTRIBUTING.md, `e2e/README.md`, the files in `.github/`, the text of the `docs/` pages, commit messages, pull request descriptions, and code comments.
+- Write new prose in STE. When you change a page, convert the prose that you touch. Do not rewrite a page that you do not change.
+- Do not change code, identifiers, commands, file paths, quoted errors, product names, or text that quotes the official Elixir docs.
+- Before you commit prose, search it for contractions, `should`, `may`, `might`, `could`, `would`, semicolons, and em-dashes.
+- No tool can guarantee compliance. The official dictionary is free at asd-ste100.org.
+
+# Rules for this repository
 
 - Use pnpm as the package manager. Use mise for tool versions (`mise.toml`).
 - Diagram sources are `.dot` files in `docs/diagrams/`. The command `make` generates the `.svg` files. Commit them.
@@ -12,5 +24,5 @@ Visualixir is a VitePress site of Graphviz diagrams that explain the official El
 - When you add a content section in `docs/<section>/`, add it to the content globs in REUSE.toml. If a page comes from a chapter whose source header names Plataformatec (or 2025), add it to the matching annotation.
 - Do not hardcode page or diagram counts. The home tagline computes them at build time (docs/.vitepress/config.ts). The file og.png has no counts on purpose.
 - Before you commit a page or diagram change, run `pnpm audit:pages`.
-- Before you push a site change, run `pnpm run build:site`, then `pnpm e2e`. CI runs both and blocks the deploy if one fails.
+- Before you push a site change, run `pnpm run build:site`, then `pnpm e2e`. CI runs both. If one fails, CI blocks the deploy.
 - An "Under the hood" section (`<UnderTheHood>`) is our own text. It does not come from the official chapters. Cite each claim to the Erlang/OTP docs or a man page, or measure it and state the platform. Name each diagram `uth-<name>.dot`. The audit skips these sections, so review them by hand. If you cannot support a story, skip the section. See CONTRIBUTING.md.
