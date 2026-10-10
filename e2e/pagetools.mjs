@@ -21,7 +21,7 @@ await pool(list, workers.length, async (path, _i, worker) => {
   if (first !== (e.first ?? []).length) failures.push(`${path}: ${first} read-first links, related.json has ${(e.first ?? []).length}`);
   for (const href of await page.locator("nav.related-pages a, .page-tools__first a").evaluateAll((a) => a.map((x) => x.getAttribute("href"))))
     if (!list.includes(href)) failures.push(`${path}: a link goes to ${href}, which is not a page`);
-  if (!want && path !== "/glossary" && !Object.hasOwn(rel, path.slice(1))) failures.push(`${path}: not in related.json`);
+  if (!want && path !== "/glossary" && path !== "/paths" && !Object.hasOwn(rel, path.slice(1))) failures.push(`${path}: not in related.json`);
 });
 
 // the controls, on a page with several Under the hood sections

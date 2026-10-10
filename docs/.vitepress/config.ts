@@ -112,10 +112,16 @@ export default defineConfig({
       { text: "Mix & OTP", link: "/mix-and-otp/introduction-to-mix" },
       { text: "Meta-programming", link: "/meta-programming/quote-and-unquote" },
       { text: "Anti-patterns", link: "/anti-patterns/what-anti-patterns" },
-      { text: "Cheatsheets", link: "/cheatsheets/enum-cheat" },
-      { text: "References", link: "/references/compatibility-and-deprecations" },
       { text: "Modules", link: "/modules/task" },
-      { text: "Glossary", link: "/glossary" },
+      { text: "Paths", link: "/paths" },
+      {
+        text: "More",
+        items: [
+          { text: "Cheatsheets", link: "/cheatsheets/enum-cheat" },
+          { text: "References", link: "/references/compatibility-and-deprecations" },
+          { text: "Glossary", link: "/glossary" },
+        ],
+      },
     ],
     sidebar: {
       "/getting-started/": [
@@ -164,6 +170,12 @@ export default defineConfig({
             { text: "Typespecs reference", link: "/references/typespecs" },
             { text: "Unicode syntax", link: "/references/unicode-syntax" },
           ],
+        },
+      ],
+      "/paths": [
+        {
+          text: "Reading paths",
+          items: [{ text: "All paths", link: "/paths" }],
         },
       ],
       "/glossary": [

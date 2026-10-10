@@ -91,3 +91,19 @@
 .check__item > summary:hover { text-decoration: underline; }
 .check__item > summary:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 2px; }
 .check__answer { margin: 6px 0 4px; padding: 8px 12px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1); line-height: 1.6; }
+
+/* Reading progress: a tick after the title of a page marked as read (sidebar), the toggle at the end of a page, and /paths. */
+.VPSidebar a.link.is-read .text::after { content: " ✓" / " (read)"; color: var(--vp-c-brand-1); font-weight: 600; }
+.read-toggle { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 2rem 0 0; }
+.read-toggle button, .paths__reset button { font: inherit; color: var(--vp-c-text-1); background: var(--vp-c-bg-soft); border: 1px solid var(--vp-c-divider); padding: 0 16px; min-height: 44px; cursor: pointer; }
+.read-toggle button[aria-pressed="true"] { border-color: var(--vp-c-brand-1); color: var(--vp-c-brand-1); font-weight: 600; }
+.read-toggle button:hover, .paths__reset button:hover { border-color: var(--vp-c-brand-1); }
+.read-toggle button:focus-visible, .paths__reset button:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 2px; }
+.read-toggle__paths { font-size: 0.9375rem; }
+.paths__track { margin: 0 0 2rem; }
+.paths__blurb { margin: 0 0 6px; color: var(--vp-c-text-2); }
+.paths__progress { margin: 0 0 8px; display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; }
+.paths__count { font-weight: 600; }
+.paths__steps { margin: 0; padding-inline-start: 1.6em; }
+.paths__steps li.is-read a { color: var(--vp-c-text-2); }
+.paths__tick { color: var(--vp-c-brand-1); font-weight: 600; }

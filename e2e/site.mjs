@@ -23,8 +23,8 @@ await pool(list, 8, async (path) => {
   if (!/<meta property="og:title"/.test(html)) failures.push(`${path}: no og:title`);
   const notice = /class="doc-notice"/.test(html);
   if (home && notice) failures.push(`${path}: the snapshot note must not be on the home page`);
-  const own = path === "/glossary"; // our own page: no official chapter behind it
-  if (own && notice) failures.push(`${path}: the snapshot note must not be on our own glossary`);
+  const own = path === "/glossary" || path === "/paths"; // our own page: no official chapter behind it
+  if (own && notice) failures.push(`${path}: the snapshot note must not be on a page of our own`);
   if (!home && !own && !notice) failures.push(`${path}: no snapshot note`);
   // diagrams: one image each, named, with no Graphviz noise, already in the server-rendered HTML
   const figs = (html.match(/<figure class="diagram[ "]/g) ?? []).length;

@@ -9,6 +9,7 @@ Checks what a page SAYS is supported by its own chapter, and reports what it DRO
   results   `#=> value` annotations
   numbers   numeric literals (1_048_576, 0x1F, v1.17)
   diagrams  the same refs and numbers in the labels of docs/diagrams/**/*.dot
+  paths     every step in paths.json is a page
   quiz      every answer in docs/.vitepress/quiz.json names a sentence that is still in its chapter
   related   every page named in related.json exists
   glossary  every definition in docs/.vitepress/glossary.json names a sentence that is still in its chapter
@@ -133,6 +134,11 @@ for pg, qs in quiz.items():
         text = re.sub(r"\s+", " ", src.get(x["source"], ""))
         if x["source"] not in src: findings["quiz"].append((f"quiz/{pg}", f"no upstream/{x['source']}.md"))
         elif x["phrase"] not in text: findings["quiz"].append((f"quiz/{pg}", f"not in upstream/{x['source']}.md: {x['phrase']}"))
+
+# reading paths: every step is a page
+for t in json.load(open(f"{DOCS}/.vitepress/paths.json"))["tracks"]:
+    for st in t["steps"]:
+        if not os.path.exists(f"{DOCS}/{st}.md"): findings["paths"].append((f"paths/{t['id']}", f"no page {st}"))
 
 n = sum(len(v) for v in findings.values())
 print(f"audited {len(dropped)} pages and {len(glob.glob(f'{DOCS}/diagrams/*/*.dot'))} diagrams against upstream/")

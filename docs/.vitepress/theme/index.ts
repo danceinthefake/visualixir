@@ -13,6 +13,9 @@ import GlossTerm from "./GlossTerm.vue";
 import GlossaryList from "./GlossaryList.vue";
 import PageTools from "./PageTools.vue";
 import CheckYourself from "./CheckYourself.vue";
+import ReadToggle from "./ReadToggle.vue";
+import PathsList from "./PathsList.vue";
+import ReadMarks from "./ReadMarks.vue";
 import RelatedPages from "./RelatedPages.vue";
 
 export default {
@@ -45,7 +48,7 @@ export default {
         { immediate: true, flush: "post" },
       );
     }
-    return h(DefaultTheme.Layout, null, { "doc-footer-before": () => [h(RelatedPages), h(DocNotice)] });
+    return h(DefaultTheme.Layout, null, { "layout-bottom": () => h(ReadMarks), "doc-footer-before": () => [h(ReadToggle), h(RelatedPages), h(DocNotice)] });
   },
   enhanceApp({ app }) {
     app.component("Diagram", Diagram);
@@ -54,5 +57,6 @@ export default {
     app.component("GlossaryList", GlossaryList);
     app.component("PageTools", PageTools);
     app.component("CheckYourself", CheckYourself);
+    app.component("PathsList", PathsList);
   },
 } satisfies Theme;

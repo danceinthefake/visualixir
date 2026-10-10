@@ -17,6 +17,7 @@ pnpm exec playwright install chromium   # once, or use a system browser: CHROMIU
 | `glossary` | every term card opens on hover, Enter and tap, stays on screen, closes on Escape or a tap elsewhere, and links to a term that is on `/glossary`; axe passes with a card open |
 | `pagetools` | each page shows the "Read first" and "Related pages" links that `related.json` lists, all to real pages; on a page with several Under the hood sections Open all, Close all and "Always open them" work and are remembered |
 | `check` | every page in `quiz.json` ends with its Check yourself questions, and each answer opens and closes |
+| `paths` | Mark as read toggles, is remembered after a reload, ticks the sidebar and `/paths`, and Clear my progress clears it; the reading paths in `paths.json` only name real pages |
 | `search` | ten real queries put the right section in the top three; Ctrl+K opens and focuses the box, Enter opens a result, Escape closes |
 | `axe` | axe-core on every page, light and dark, desktop (1200px): no violations |
 | `axe-phone` | the same at 390px, which also catches scrollable regions without keyboard access |
