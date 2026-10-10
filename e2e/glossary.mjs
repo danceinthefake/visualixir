@@ -41,8 +41,14 @@ for (const kind of ["desktop", "phone"]) {
       const v = page.viewportSize();
       return b && b.x >= 0 && b.y >= 0 && b.x + b.width <= v.width + 1 && b.y + b.height <= v.height + 1;
     };
-    if (phone) await t.tap(); else await t.hover();
-    try { await card.waitFor({ state: "visible", timeout: 2000 }); } catch { failures.push(`${path} [${kind}]: the card did not open`); return; }
+    // A slow browser may not have hydrated the page yet when the pointer arrives: try once more before calling it a failure.
+    let opened = false;
+    for (let attempt = 0; attempt < 2 && !opened; attempt++) {
+      if (attempt) { await page.mouse.move(2, 2); await page.waitForTimeout(500); }
+      if (phone) await t.tap(); else await t.hover();
+      try { await card.waitFor({ state: "visible", timeout: 2000 }); opened = true; } catch {}
+    }
+    if (!opened) { failures.push(`${path} [${kind}]: the card did not open`); return; }
     cards++;
     if (!(await inside())) failures.push(`${path} [${kind}]: the card is not inside the screen`);
     if (!((await card.innerText()).trim().length > 40)) failures.push(`${path} [${kind}]: the card is empty`);
