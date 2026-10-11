@@ -28,7 +28,7 @@ pnpm exec playwright install chromium   # run once, or use a system browser: CHR
 pnpm e2e:live        # BASE_URL=https://visualixir.blessing.id: also checks what only a deployment has
 ```
 
-This command adds these checks: the twelve section-root redirects (`/getting-started` goes to its first page, with and without a trailing slash), the `nosniff` and `Referrer-Policy` headers, immutable caching of `/assets/*`, and the HTTP to HTTPS redirect. A local preview cannot do these checks, because they come from Cloudflare (`docs/public/_redirects` and `_headers`).
+This command adds these checks: the twelve section-root redirects, the `nosniff` and `Referrer-Policy` headers, immutable caching of `/assets/*`, and the HTTP to HTTPS redirect. For example, `/getting-started` goes to its first page, with and without a trailing slash. A local preview cannot do these checks, because they come from Cloudflare (`docs/public/_redirects` and `_headers`).
 
 ## Not in this directory
 

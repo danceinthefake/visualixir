@@ -36,7 +36,7 @@
 <title>m3</title>
 <polygon fill="#f2f2f2" stroke="#333333" points="292.75,-42.5 0,-42.5 0,0 292.75,0 292.75,-42.5"/>
 <text xml:space="preserve" text-anchor="middle" x="146.38" y="-25.2" font-family="Roboto" font-size="14.00">3. Set&#45;theoretic type signatures for functions</text>
-<text xml:space="preserve" text-anchor="middle" x="146.38" y="-7.95" font-family="Roboto" font-size="14.00">Erlang typespecs are phased out</text>
+<text xml:space="preserve" text-anchor="middle" x="146.38" y="-7.95" font-family="Roboto" font-size="14.00">the system removes Erlang typespecs</text>
 </g>
 <!-- m2&#45;&gt;m3 -->
 <g id="edge2" class="edge">

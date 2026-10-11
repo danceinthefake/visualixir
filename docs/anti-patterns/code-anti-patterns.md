@@ -68,7 +68,7 @@ defp convert_status("error"), do: :error
 defp convert_status("redirect"), do: :redirect
 ```
 
-`to_existing_atom/1` works only if the atom already exists. You must define the atom **inside a function of the same module** (not in a module attribute or the module body, which run only at compile time).
+`to_existing_atom/1` works only if the atom already exists. You must define the atom **inside a function of the same module** . Do not define it in a module attribute or the module body, because they run only at compile time.
 
 <Diagram name="code-anti-patterns/atoms" caption="Keep the set of atoms fixed and known." />
 
@@ -90,7 +90,7 @@ defp convert_status("redirect"), do: :redirect
 
 ## Namespace trespassing
 
-**Problem:** a library defines modules outside its own namespace. A package `:my_lib` must keep everything under `MyLib`. The VM loads **one instance of a module at a time**, so two packages that define the same name are incompatible, and the owner can add that name later.
+**Problem:** a library defines modules outside its own namespace. A package `:my_lib` must keep everything under `MyLib`. The VM loads **one instance of a module at a time**, so two packages that define the same name are incompatible. The owner can add that name later too.
 
 <Diagram name="code-anti-patterns/namespace" caption="plug_auth must not define Plug.Auth." />
 
@@ -164,9 +164,9 @@ This is most important with Erlang APIs. They never return `nil`, but they can r
 
 <UnderTheHood>
 
-**The extra key.** A struct is a map with one more key, `__struct__`, so a struct with 31 fields has 32 keys and a struct with 32 fields has 33 keys. We measured with `:erts_debug.size/1`. With 31 fields, 1000 instances with every field set cost about 37 words each, because they share one tuple of keys. With 32 fields, the cost was about 125 words each, 3.4 times more, and with 40 fields it was about 151 words. At 32 fields, the map is a hash tree (the Keywords and maps section shows the jump) and there is no key tuple to share. This is the cost that the anti-pattern describes.
+**The extra key.** A struct is a map with one more key, `__struct__`. A struct with 31 fields has 32 keys, and a struct with 32 fields has 33 keys. We measured with `:erts_debug.size/1`. With 31 fields, 1000 instances with every field set cost about 37 words each, because they share one tuple of keys. With 32 fields, the cost was about 125 words each, 3.4 times more, and with 40 fields it was about 151 words. At 32 fields, the map is a hash tree (the Keywords and maps section shows the jump) and there is no key tuple to share. This is the cost that the anti-pattern describes.
 
-One case went the other way. A copy of an existing struct with 40 fields and one changed field shared most of the tree and cost about 26 words, less than for a small struct. So the measured cost is about the creation of many structs with all their fields set, not about the update of one.
+One case went the other way. A copy of an existing struct with 40 fields and one changed field shared most of the tree. It cost about 26 words, less than for a small struct. So the measured cost is about the creation of many structs with all their fields set, not about the update of one.
 
 <Diagram name="code-anti-patterns/uth-struct-32" caption="At 32 fields, a struct stops sharing its keys, and each instance costs about three times more." />
 

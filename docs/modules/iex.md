@@ -23,7 +23,7 @@ $ export ERL_AFLAGS="-kernel shell_history enabled"
 
 The code in IEx is **evaluated** and not compiled, so benchmarks and profiling in the shell give results that are not correct. Never run them there.
 
-An expression can use several lines: `iex(1)> "ab` followed by `...(1)> c"` returns `"ab\nc"`. If you are stuck in an incomplete expression with no way out, a line with only `#iex:break` forces the shell back to its normal state (it then prints `** (TokenMissingError) iex:1: incomplete expression`).
+An expression can use several lines: `iex(1)> "ab` followed by `...(1)> c"` returns `"ab\nc"`. If you are stuck in an incomplete expression with no way out, a line with only `#iex:break` forces the shell back to its normal state. The shell then prints `** (TokenMissingError) iex:1: incomplete expression`.
 
 IEx evaluates input line by line. When the code so far is a complete expression at the end of a line, it runs at that point. A following line can begin with a binary operator such as `|>` or `++` and still work. For this, IEx treats such a line as if it started with `v()`, the value of the previous expression:
 
@@ -76,11 +76,11 @@ $ iex --sname baz --remsh foo@HOST
 
 <Diagram name="iex/remsh" caption="You type in one node. The code runs in the other node." />
 
-These connections are supported: from an Elixir node to an Elixir node, from a plain Erlang node to an Elixir node (through the `^G` menu), and from an Elixir node to a plain Erlang node (you get an `erl` shell there). It is not supported to connect an Elixir shell to a remote node **without Elixir**. When remsh halts, the Elixir shell process exits with reason `:normal`.
+These connections are supported: from an Elixir node to an Elixir node, and from a plain Erlang node to an Elixir node (through the `^G` menu). You can also connect from an Elixir node to a plain Erlang node. You get an `erl` shell there. It is not supported to connect an Elixir shell to a remote node **without Elixir**. When remsh halts, the Elixir shell process exits with reason `:normal`.
 
 ## dbg, pry and breakpoints
 
-IEx adds a `dbg` backend that can pause the execution. Enable it with `iex --dbg pry` (in a project, `iex --dbg pry -S mix`). IEx asks for permission, and then starts a shell in the context of the function with its variables, imports, and aliases. You can only read existing values. You cannot reach private functions or change the execution, and so the name is "pry". On a pipeline that ends with `|> dbg()`, you can pry each step. Type `n` for the next pipe, `continue` to run all steps while you stay in the pried process, or `respawn` to leave it and start a new shell. `IEx.pry/0` starts a session without `dbg`.
+IEx adds a `dbg` backend that can pause the execution. Enable it with `iex --dbg pry` (in a project, `iex --dbg pry -S mix`). IEx asks for permission, and then starts a shell in the context of the function with its variables, imports, and aliases. You can only read existing values. You cannot reach private functions or change the execution, and so the name is "pry". On a pipeline that ends with `|> dbg()`, you can pry each step. Type `n` for the next pipe. Type `continue` to run all steps while you stay in the pried process. Type `respawn` to leave it and start a new shell. `IEx.pry/0` starts a session without `dbg`.
 
 `IEx.break!/4` sets a breakpoint on a module, function, and arity that you cannot edit:
 

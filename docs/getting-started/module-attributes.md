@@ -6,7 +6,7 @@ An attribute (`@name value`) has three uses: to annotate modules and functions, 
 
 ## As annotations
 
-Reserved attributes include `@moduledoc` (module docs), `@doc` (docs for the next function), `@spec` (a typespec for the next function), and `@behaviour` (British spelling, declares an OTP or user-defined behaviour).
+Reserved attributes include `@moduledoc` (module docs), `@doc` (docs for the next function), `@spec` (a typespec for the next function), and `@behaviour`. The `@behaviour` attribute (British spelling) declares an OTP or user-defined behaviour.
 
 ```elixir
 defmodule Math do

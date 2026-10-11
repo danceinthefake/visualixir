@@ -132,7 +132,7 @@ The license depends on the path (see [NOTICE](NOTICE) and [REUSE.toml](REUSE.tom
 
 | What | License |
 |---|---|
-| Site code: Makefile, tool config, `docs/.vitepress`, `docs/index.md`, this README | [MIT](LICENSE) |
+| Site code: Makefile, tool configuration, `docs/.vitepress`, `docs/index.md`, this README | [MIT](LICENSE) |
 | Pages and diagrams (`docs/*/` and `docs/diagrams`), from the Elixir documentation | [Apache-2.0](LICENSES/Apache-2.0.txt) |
 
 The content comes from the Elixir documentation, © Plataformatec and The Elixir Team, under Apache-2.0. We condensed and restructured it and added diagrams, so the original is the reference. Every page links to the chapter that it comes from. This project is not affiliated with the Elixir Team.

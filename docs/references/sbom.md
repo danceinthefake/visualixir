@@ -6,7 +6,7 @@ A Software Bill of Materials (SBoM) is a structured, machine-readable inventory 
 
 <Diagram name="sbom/contents" caption="What a typical SBoM includes." />
 
-Two formats are common: **CycloneDX** (lightweight, designed for security) and **SPDX** (more comprehensive, originally about licensing). Both use JSON or XML.
+Two formats are common: **CycloneDX** (lightweight, designed for security) and **SPDX** (broader, originally about licensing). Both use JSON or XML.
 
 An SBoM is an **inventory and not a certification**. It does not claim that the software is secure, compliant, or free of vulnerabilities. Other tools use it to assess these properties.
 

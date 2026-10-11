@@ -60,11 +60,11 @@ The arrow relates a left side (zero or more arguments) to a right side (zero or 
 
 ### Sigils
 
-A sigil has `~`, then one lowercase letter or one or more uppercase letters, then one of the pairs `()` `{}` `[]` `<>` `""` `''` `||` `//`, then optional modifiers (ASCII letters or digits). A sigil is a call to `sigil_` plus the letter. The first argument is the contents as a string and the second argument is the modifiers as a list of integers. An uppercase letter disables interpolation: `~s/f#{"o"}o/` interpolates and `~S/f#{"o"}o/` does not.
+A sigil has four parts. First comes `~`. Then comes one lowercase letter or one or more uppercase letters. Then comes one of the pairs `()` `{}` `[]` `<>` `""` `''` `||` `//`. Last come optional modifiers (ASCII letters or digits). A sigil is a call to `sigil_` plus the letter. The first argument is the contents as a string and the second argument is the modifiers as a list of integers. An uppercase letter disables interpolation: `~s/f#{"o"}o/` interpolates and `~S/f#{"o"}o/` does not.
 
 ## The Elixir AST
 
-The AST is a regular Elixir data structure of atoms, integers, floats, strings, lists, tuples with two elements, and **tuples with three elements** for calls and variables. A call `sum(1, 2, 3)` is `{:sum, meta, [1, 2, 3]}`: an atom (or another tuple), a keyword list of metadata (such as line numbers), and a list of arguments. `quote` shows it.
+The AST is a regular Elixir data structure. It holds atoms, integers, floats, strings, lists, tuples with two elements, and **tuples with three elements** for calls and variables. A call `sum(1, 2, 3)` is `{:sum, meta, [1, 2, 3]}`: an atom (or another tuple), a keyword list of metadata (such as line numbers), and a list of arguments. `quote` shows it.
 
 <Diagram name="syntax-reference/ast-map" caption="Source constructs and their AST." />
 

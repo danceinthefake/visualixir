@@ -6,7 +6,7 @@ These anti-patterns are about modules, functions, and the role that they play. T
 
 ## Alternative return types
 
-**Problem:** an options argument (usually a keyword list) changes the return type in a big way, so you cannot tell what the function returns unless you know the options.
+**Problem:** an options argument (usually a keyword list) changes the return type in a big way. You cannot tell what the function returns unless you know the options.
 
 ```elixir
 AlternativeInteger.parse("13")                        #=> {13, ""}
@@ -58,7 +58,7 @@ Libraries must offer both variants, with the bang version built on the plain ver
 
 <Diagram name="design-anti-patterns/exceptions" caption="The plain function is the foundation. The bang version wraps it." />
 
-It is acceptable to raise errors for invalid arguments (`File.read(123)`), in tests and scripts, and in frameworks such as Phoenix that turn exceptions into HTTP responses.
+It is acceptable to raise errors for invalid arguments (`File.read(123)`) and in tests and scripts. It is also acceptable in frameworks such as Phoenix that turn exceptions into HTTP responses.
 
 ## Primitive obsession
 

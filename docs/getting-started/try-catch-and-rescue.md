@@ -162,4 +162,4 @@ what_happened =
 #=> :rescued
 ```
 
-Variables that you bind in the `try` body are not visible in `rescue`, `after`, or `else` either, because the body can fail before it binds them.
+Variables that you bind in the `try` body are not visible in `rescue`, `after`, or `else`. The body can fail before it binds them.

@@ -40,7 +40,7 @@ All callers of the GenServer waited in one mailbox for one process. That process
 
 ## Scattered process interfaces
 
-**Problem:** many modules talk directly to an `Agent` or `GenServer`. This duplicates code and leaves the shape of the shared data uncontrolled, so a list, a map, and an integer can all end up in one agent.
+**Problem:** many modules talk directly to an `Agent` or `GenServer`. This duplicates code and leaves the shape of the shared data uncontrolled. A list, a map, and an integer can all end up in one agent.
 
 ```elixir
 Agent.update(process, fn _list -> 123 end)                 # module A
@@ -87,7 +87,7 @@ Alternatively, let the receiving process fetch what it needs, or share data that
 
 <UnderTheHood>
 
-**What the closure captures.** We built a stand-in for `conn`: a map of about 104 KB. A process that we spawned with `fn -> conn.remote_ip end` held 139 KB, because the closure carries the whole map and the spawn copies it into the new process. A process that we spawned with a closure over only `ip = conn.remote_ip` held 2 KB. The closure object and the data that it captured are one thing in memory, as in the Anonymous functions chapter, and all of it crosses to the other process.
+**What the closure captures.** We built a stand-in for `conn`: a map of about 104 KB. A process that we spawned with `fn -> conn.remote_ip end` held 139 KB. The closure carries the whole map and the spawn copies it into the new process. A process that we spawned with a closure over only `ip = conn.remote_ip` held 2 KB. The closure object and the data that it captured are one thing in memory, as in the Anonymous functions chapter. All of it crosses to the other process.
 
 <Diagram name="process-anti-patterns/uth-capture" caption="The system copies a closure with everything that it captured, so capture only what the process needs." />
 

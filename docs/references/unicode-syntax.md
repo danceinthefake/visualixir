@@ -35,7 +35,7 @@ Elixir conforms to UAX #31 (version 17.0).
 
 **R3. Pattern_White_Space and Pattern_Syntax:** Elixir supports only `\t`, `\n`, `\r`, and space as whitespace, so it does not follow R3.
 
-**R4. Equivalent normalized identifiers:** identifiers are case-sensitive. Since v1.14, Elixir normalizes atoms and variables to NFC. It does not verify quoted atoms and strings, and they keep their form.
+**R4. Equivalent normalized identifiers:** identifiers are case-sensitive. Since v1.14, Elixir normalizes atoms and variables to NFC. The parser does not verify quoted atoms and strings, and they keep their form.
 
 <Diagram name="unicode-syntax/normalization" caption="Elixir normalizes only unquoted names." />
 

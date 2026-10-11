@@ -108,4 +108,4 @@ Every process that is registered under the "topic" `"hello"` receives `{:broadca
 
 ## Registrations and dead processes
 
-Lookup, dispatch, and registration are efficient and immediate. The cost is **delayed unsubscription**. If a process crashes, the system removes its keys automatically, but the change cannot propagate at once, so some operations can return a process that is already dead. The function docs say where this can happen. It is rarely a problem, because a pid can die at any time, even between the lookup and the `send`. `Process.monitor/1` delivers `:DOWN` immediately for a dead process, and `send/2` does nothing for one.
+Lookup, dispatch, and registration are efficient and immediate. The cost is **delayed unsubscription**. If a process crashes, the system removes its keys automatically. The change cannot propagate at once, so some operations can return a process that is already dead. The function docs say where this can happen. It is rarely a problem, because a pid can die at any time, even between the lookup and the `send`. `Process.monitor/1` delivers `:DOWN` immediately for a dead process, and `send/2` does nothing for one.

@@ -124,6 +124,6 @@ In production, use `--name` and fully qualified names. Connected nodes must shar
 
 ## Trade-offs
 
-`:global` requires **all known nodes to agree** each time the system creates a bucket. If a node does not respond, for example in a network partition, the node must reconnect or the system must remove it before the registration can succeed. The registration gets slower as the cluster grows. Lookups stay cheap. Other registries, such as Syn, make different trade-offs.
+`:global` requires **all known nodes to agree** each time the system creates a bucket. If a node does not respond, for example in a network partition, the registration cannot succeed. The node must reconnect or the system must remove it first. The registration gets slower as the cluster grows. Lookups stay cheap. Other registries, such as Syn, make different trade-offs.
 
 Storage is another problem. When the nodes stop, the bucket data is lost, and each node keeps its own buckets. For this reason, production applications usually use a database. They use Elixir for the real-time, collaborative parts, such as tracking connected clients or telling users when a bucket changes. The next chapter builds this.

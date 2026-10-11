@@ -11,9 +11,9 @@
 <!-- q1 -->
 <g id="node1" class="node">
 <title>q1</title>
-<polygon fill="#f2f2f2" stroke="#333333" points="224.25,-227.5 50.75,-227.5 50.75,-185 224.25,-185 224.25,-227.5"/>
-<text xml:space="preserve" text-anchor="middle" x="137.5" y="-210.2" font-family="Roboto" font-size="14.00">Can a pattern (and guard)</text>
-<text xml:space="preserve" text-anchor="middle" x="137.5" y="-192.95" font-family="Roboto" font-size="14.00">express the test?</text>
+<polygon fill="#f2f2f2" stroke="#333333" points="232.25,-227.5 58.75,-227.5 58.75,-185 232.25,-185 232.25,-227.5"/>
+<text xml:space="preserve" text-anchor="middle" x="145.5" y="-210.2" font-family="Roboto" font-size="14.00">Can a pattern (and guard)</text>
+<text xml:space="preserve" text-anchor="middle" x="145.5" y="-192.95" font-family="Roboto" font-size="14.00">express the test?</text>
 </g>
 <!-- case -->
 <g id="node2" class="node hl">
@@ -24,9 +24,9 @@
 <!-- q1&#45;&gt;case -->
 <g id="edge1" class="edge">
 <title>q1&#45;&gt;case</title>
-<path fill="none" stroke="#333333" d="M121.29,-184.66C117.16,-179.06 112.87,-172.91 109.25,-167 103.83,-158.15 98.56,-148.11 94.09,-139.02"/>
-<polygon fill="#333333" stroke="#333333" points="97.39,-137.79 89.91,-130.28 91.07,-140.81 97.39,-137.79"/>
-<text xml:space="preserve" text-anchor="middle" x="153.88" y="-153.7" font-family="Roboto" font-size="14.00"> yes: preferred</text>
+<path fill="none" stroke="#333333" d="M116.73,-184.63C110.85,-179.39 105.13,-173.42 100.75,-167 95.21,-158.88 91.12,-149.02 88.16,-139.87"/>
+<polygon fill="#333333" stroke="#333333" points="91.54,-138.95 85.42,-130.3 84.81,-140.88 91.54,-138.95"/>
+<text xml:space="preserve" text-anchor="middle" x="153.62" y="-153.7" font-family="Roboto" font-size="14.00"> yes: best choice</text>
 </g>
 <!-- q2 -->
 <g id="node3" class="node">
@@ -38,9 +38,9 @@
 <!-- q1&#45;&gt;q2 -->
 <g id="edge2" class="edge">
 <title>q1&#45;&gt;q2</title>
-<path fill="none" stroke="#333333" d="M174.18,-184.64C182.5,-179.32 191.07,-173.31 198.5,-167 207.69,-159.2 216.72,-149.67 224.47,-140.73"/>
-<polygon fill="#333333" stroke="#333333" points="227.03,-143.12 230.79,-133.22 221.67,-138.62 227.03,-143.12"/>
-<text xml:space="preserve" text-anchor="middle" x="225.8" y="-153.7" font-family="Roboto" font-size="14.00"> no</text>
+<path fill="none" stroke="#333333" d="M183.23,-184.69C191.32,-179.45 199.53,-173.46 206.5,-167 214.57,-159.53 222.12,-150.28 228.49,-141.48"/>
+<polygon fill="#333333" stroke="#333333" points="231.22,-143.69 234.05,-133.47 225.47,-139.7 231.22,-143.69"/>
+<text xml:space="preserve" text-anchor="middle" x="231.56" y="-153.7" font-family="Roboto" font-size="14.00"> no</text>
 </g>
 <!-- cond -->
 <g id="node4" class="node hl">

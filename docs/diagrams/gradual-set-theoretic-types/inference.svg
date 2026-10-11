@@ -56,15 +56,15 @@
 <!-- inc -->
 <g id="node5" class="node">
 <title>inc</title>
-<polygon fill="#f2f2f2" stroke="#333333" points="584.75,-164.5 292.75,-164.5 292.75,-122 584.75,-122 584.75,-164.5"/>
+<polygon fill="#f2f2f2" stroke="#333333" points="602.38,-164.5 275.12,-164.5 275.12,-122 602.38,-122 602.38,-164.5"/>
 <text xml:space="preserve" text-anchor="middle" x="438.75" y="-147.2" font-family="Roboto" font-size="14.00">incremental compilation</text>
-<text xml:space="preserve" text-anchor="middle" x="438.75" y="-129.95" font-family="Roboto" font-size="14.00">A needs B needs C: a change to C ripples up</text>
+<text xml:space="preserve" text-anchor="middle" x="438.75" y="-129.95" font-family="Roboto" font-size="14.00">A needs B and B needs C: a change to C affects A</text>
 </g>
 <!-- hub&#45;&gt;inc -->
 <g id="edge4" class="edge">
 <title>hub&#45;&gt;inc</title>
-<path fill="none" stroke="#333333" d="M191.01,-164.93C218.96,-162.48 250.32,-159.72 281.07,-157.02"/>
-<polygon fill="#333333" stroke="#333333" points="281.2,-160.52 290.85,-156.16 280.58,-153.55 281.2,-160.52"/>
+<path fill="none" stroke="#333333" d="M191.01,-164.93C213.6,-162.95 238.42,-160.77 263.35,-158.58"/>
+<polygon fill="#333333" stroke="#333333" points="263.64,-162.06 273.29,-157.7 263.02,-155.09 263.64,-162.06"/>
 </g>
 <!-- cas -->
 <g id="node6" class="node">

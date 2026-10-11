@@ -2,7 +2,7 @@
 
 Source: [Elixir guide, Pattern matching](https://elixir.hexdocs.pm/pattern-matching.html).
 
-This chapter explains why `=` is the *match operator*, how to pattern match inside data structures, and how the pin operator `^` accesses a value that is already bound.
+This chapter explains why `=` is the *match operator*, how to pattern match inside data structures, and how the pin operator `^` works. The pin operator accesses a value that is already bound.
 
 ## The match operator
 
@@ -122,7 +122,7 @@ If a variable appears more than once in a pattern, every occurrence must bind to
 
 ### Limits
 
-Pattern matching is powerful but it has limits. You cannot call functions on the left side of a match:
+Pattern matching has limits. You cannot call functions on the left side of a match:
 
 ```elixir
 length([1, [2], 3]) = 3
@@ -135,7 +135,7 @@ Destructuring is one of the foundations of recursion in Elixir. It also applies 
 
 **In short:** a match only checks the shape of the data and reads values that are already there. It builds nothing new.
 
-**What the compiler turns a match into.** A match is a few checks followed by reads. For `{:ok, v} = result`, the compiled code asks "is this a tuple of the right size with `:ok` as the first element?" Then it loads element 1 into a register. The code allocates nothing and copies nothing: `v` is the same word that was already inside `result`. For `[head | tail]`, the code uses `is_nonempty_list` and `get_hd`, and the tail comes in the same way. There is no `test_heap` or `put_*` instruction. If a check fails, the code jumps to the next clause, or raises `MatchError`.
+**What the compiler turns a match into.** A match is a few checks followed by reads. For `{:ok, v} = result`, the compiled code asks: "is this a tuple of the right size?" Then it asks: "is the first element `:ok`?" Then it loads element 1 into a register. The code allocates nothing and copies nothing: `v` is the same word that was already inside `result`. For `[head | tail]`, the code uses `is_nonempty_list` and `get_hd`, and the tail comes in the same way. There is no `test_heap` or `put_*` instruction. If a check fails, the code jumps to the next clause, or raises `MatchError`.
 
 **Repeated variables and the pin.** To match a tuple against `{x, x}`, the code loads both elements and compares them. The pin works in the same way: `^y` compares two values that are already there.
 

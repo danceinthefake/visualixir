@@ -89,4 +89,4 @@ Omitted defaults are `nil`. Fields with an implicit `nil` must come **first**, b
 defstruct [:email, name: "John", age: 27]
 ```
 
-`@enforce_keys [:make]` makes a key mandatory when you build the struct. If the key is missing, you get an `ArgumentError` at compile time. Elixir does not check it on updates, and it does not validate values.
+`@enforce_keys [:make]` makes a key mandatory when you build the struct. If the key is missing, you get an `ArgumentError` at compile time. Elixir does not enforce it on updates, and it does not validate values.

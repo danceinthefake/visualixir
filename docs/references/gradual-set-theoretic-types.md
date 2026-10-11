@@ -77,7 +77,7 @@ Think of `dynamic()` as a range of types. With `var` of type `atom() or integer(
 
 <Diagram name="gradual-set-theoretic-types/dynamic-range" caption="dynamic() gives a warning only when it is certain that the code fails." />
 
-In comparison with other gradually typed languages, `dynamic()` here is powerful. It restricts the program with intersections and still gives a warning when failure is certain. If you provide your own types that are not `dynamic()`, the system is fully static.
+In comparison with other gradually typed languages, `dynamic()` here does more. It restricts the program with intersections and still gives a warning when failure is certain. If you provide your own types that are not `dynamic()`, the system is fully static.
 
 Dynamic types are always at the **root**. `{:ok, dynamic()}` is rewritten to `dynamic({:ok, term()})`. You cannot make only a part of a tuple, map, or list gradual, but `dynamic()` can never enter statically typed code.
 
@@ -89,7 +89,7 @@ Inference deduces types at compile time. It has trade-offs:
 
 - **Speed:** inference is often more expensive than checking.
 - **Expressiveness:** what the system can infer is a subset of what it can check.
-- **Incremental compilation:** if A depends on B and B depends on C, a change in C can change the signature of B and force the system to compute A again.
+- **Incremental compilation:** if A depends on B and B depends on C, a change in C can change the signature of B. Then the system must compute A again.
 - **Cascading errors:** conflicting assumptions can produce messages that are less clear.
 
 The inference of Elixir is **best effort**. It finds bugs where *all* combinations of a type fail. It does not promise to find every incompatibility. It infers across the standard library and your dependencies, and it treats calls to modules in the **same project** as `dynamic()`. Later, the system will check functions with explicit signatures against them, as static languages do.

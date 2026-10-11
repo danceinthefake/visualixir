@@ -5,7 +5,7 @@ digraph choose {
   q2 [label="Several conditions\nto test in turn?"]
   cond [label="cond" class=hl]
   if [label="if" class=hl]
-  q1 -> case [label=" yes: preferred"]
+  q1 -> case [label=" yes: best choice"]
   q1 -> q2 [label=" no"]
   q2 -> cond [label=" yes"]
   q2 -> if [label=" no, one"]

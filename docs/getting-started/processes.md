@@ -84,9 +84,9 @@ So two schedulers work, one inside the other. The VM decides which process runs 
 
 <Diagram name="processes/uth-threads-cores" caption="Two schedulers: the VM picks the process and the Linux kernel picks the CPU." />
 
-**Below the VM: the hardware.** This CPU, an AMD Ryzen 7 5700G, has 8 cores with 2 hardware threads each, so Linux sees 16 logical CPUs. For this reason, the VM started 16 schedulers. With 32 busy processes, the 16 scheduler threads ran on 14 of the 16 logical CPUs (we read this from `/proc/self/task`). To send the 1.6 MB list from the example above, the VM reads it from the heap of the sender and writes it into the heap of the receiver. All of it passes through the caches of the CPU. 1.6 MB is more than the L2 cache of 512 KiB of one core, so it cannot all stay in the nearest cache.
+**Below the VM: the hardware.** This CPU, an AMD Ryzen 7 5700G, has 8 cores with 2 hardware threads each, so Linux sees 16 logical CPUs. For this reason, the VM started 16 schedulers. With 32 busy processes, the 16 scheduler threads ran on 14 of the 16 logical CPUs (we read this from `/proc/self/task`). To send the 1.6 MB list from the example above, the VM reads it from the sender heap. Then it writes it into the receiver heap. All of it passes through the caches of the CPU. 1.6 MB is more than the L2 cache of 512 KiB of one core, so it cannot all stay in the nearest cache.
 
-*Sources:* the Erlang docs that we linked above, and the [BEAM Book](https://blog.stenmans.org/theBeamBook/) for how schedulers treat a process that waits. The number of reductions for each turn is the value that this OTP release reports. It has changed between releases.
+*Sources:* the Erlang docs that we linked above, and the [BEAM Book](https://blog.stenmans.org/theBeamBook/) for how schedulers treat a process that waits. The number of reductions for each turn is the value that this OTP release reports. It changes between releases.
 
 </UnderTheHood>
 

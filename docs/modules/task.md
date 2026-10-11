@@ -49,7 +49,7 @@ end)
 
 **What exists after `Task.async`.** We looked at both processes with `Process.info`, and it showed what the docs describe. The task is linked to the caller and monitored by it. Its process dictionary has `$callers` and `$ancestors`, and each holds the caller. After the task finished and before `Task.await` ran, the mailbox of the caller held **two** messages: `{ref, result}` and then `{:DOWN, ref, :process, pid, :normal}`. After `await` returned, both were gone and the caller had no monitor left. This shows that `await` removes the monitor and the `:DOWN` message together with the reply. A task that starts through a `Task.Supervisor` has the supervisor first in `$ancestors` and the caller in `$callers`.
 
-**Where the copy happens.** A closure carries the variables that it uses, and the new process gets its own copy of them. A list of 100,000 integers measured 200,000 words (a 64-bit word is 8 bytes, so about 1.6 MB), and the closure that captured it measured 200,003 words. A task that used that list, with the await, took **0.8 to 1 ms** after the first run. With a list of 10 elements, it took **5 to 11 µs**. When we built the same list inside the task, it took about 1.5 ms here, so on this machine the copy was not the expensive choice. The advice in the docs is still correct for data when you need only a part of it, or when it is slow to produce.
+**Where the copy happens.** A closure carries the variables that it uses, and the new process gets its own copy of them. A list of 100,000 integers measured 200,000 words (a 64-bit word is 8 bytes, so about 1.6 MB). The closure that captured it measured 200,003 words. A task that used that list, with the await, took **0.8 to 1 ms** after the first run. With a list of 10 elements, it took **5 to 11 µs**. When we built the same list inside the task, it took about 1.5 ms here. On this machine, the copy was not the expensive choice. The advice in the docs is still correct for data when you need only a part of it, or when it is slow to produce.
 
 <Diagram name="task/uth-async-state" caption="What the two processes hold after the task is done." />
 
@@ -146,7 +146,7 @@ Supervisor.start_link([
 ], strategy: :one_for_one)
 ```
 
-This is useful for work during startup, for example to warm caches. You cannot await such tasks, because they are not linked to a caller. The supervisor does not wait for the task to finish before it starts the next child, so for synchronous initialization use an `Agent` or a `GenServer`. To give a task its own module, call `use Task` and `Task.start_link(__MODULE__, :run, [arg])`.
+This is useful for work during startup, for example to warm caches. You cannot await such tasks, because they are not linked to a caller. The supervisor does not wait for the task to finish before it starts the next child. For synchronous initialization, use an `Agent` or a `GenServer`. To give a task its own module, call `use Task` and `Task.start_link(__MODULE__, :run, [arg])`.
 
 Unlike `GenServer`, `Agent`, and `Supervisor`, the default `:restart` of a task is **`:temporary`**. The supervisor does not restart it, even if it crashes. Use `use Task, restart: :transient` to restart it after an unsuccessful exit, or `restart: :permanent` to always restart it.
 

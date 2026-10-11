@@ -5,7 +5,7 @@ digraph inference {
   benefit [label="+ code is type checked with no annotations" class=hl]
   sp [label="speed\nmore work than checking"]
   ex [label="expressiveness\nless than what can be checked"]
-  inc [label="incremental compilation\nA needs B needs C: a change to C ripples up"]
+  inc [label="incremental compilation\nA needs B and B needs C: a change to C affects A"]
   cas [label="cascading errors\nless clear messages"]
   plan [label="Elixir's approach: best effort, across dependencies\ncalls inside your own project are assumed dynamic()"]
   hub -> benefit

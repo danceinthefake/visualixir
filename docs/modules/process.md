@@ -24,7 +24,7 @@ Source: [Elixir docs, Process](https://elixir.hexdocs.pm/Process.html).
 
 ## Links and monitors
 
-`Process.link/1` creates a **bidirectional** link between the caller and a process or port. Only one link exists between two processes, and a link to yourself does nothing. If one side exits with a reason other than `:normal` and the other side does not trap exits, the other side exits with the same reason. It then signals its own links in turn. `Process.unlink/1` removes the link. It does nothing if there is no link.
+`Process.link/1` creates a **bidirectional** link between the caller and a process or port. Only one link exists between two processes, and a link to yourself does nothing. If one side exits with a reason other than `:normal`, the other side exits with the same reason. This does not happen if the other side traps exits. That side then signals its own links in turn. `Process.unlink/1` removes the link. It does nothing if there is no link.
 
 `Process.monitor/1` watches a process **in one direction**. When the process dies, the watcher gets `{:DOWN, ref, :process, object, reason}`. `object` is the pid, or `{name, node}` when you monitor a name. If the process is already dead, the `:DOWN` message arrives immediately. `Process.demonitor/2` turns the monitor off. It does nothing if the monitor is already off.
 
@@ -71,7 +71,7 @@ The **process dictionary** is key-value storage for each process. `Process.put/2
 
 <Diagram name="process/timers" caption="read_timer and cancel_timer take the reference." />
 
-If `dest` is a pid, it must be local. The system cancels the timer automatically when the pid is not alive or exits. If `dest` is an atom, the system looks up the name **at delivery**. It produces no error if nothing is registered, and it does *not* cancel the timer automatically. `read_timer/1` and `cancel_timer/2` return the milliseconds that are left, or `false` if the timer expired, was cancelled, or never existed. Even for an expired timer, they cannot tell you if the message has arrived.
+If `dest` is a pid, it must be local. The system cancels the timer automatically when the pid is not alive or exits. If `dest` is an atom, the system looks up the name **at delivery**. It produces no error if nothing is registered, and it does *not* cancel the timer automatically. `read_timer/1` and `cancel_timer/2` return the milliseconds that are left, or `false` if the timer expired, was cancelled, or never existed. Even for an expired timer, they cannot tell you if the message arrived.
 
 `Process.sleep/1` blocks the current process for a timeout or `:infinity`. In the `:infinity` case, the process does not consume or reply to messages. Use it with extreme care. To wait for work, communicate progress with messages instead. Since Elixir v1.18, it accepts arbitrarily high integers.
 

@@ -104,7 +104,7 @@ end
 
 <Diagram name="macro-anti-patterns/use-import" caption="use hides what Elixir injects. import shows it." />
 
-When you really need more, `use` is the common extension point. Document its effects in `@moduledoc` like a nutrition label, and list only the changes to the public API. For example: *When you `use GenServer`, the `GenServer` module will set `@behaviour GenServer` and define a `child_spec/1` function, so your module can be used as a child in a supervision tree.*
+When you really need more, `use` is the common extension point. Document its effects in `@moduledoc` like a nutrition label, and list only the changes to the public API. For example: *When you `use GenServer`, the `GenServer` module will set `@behaviour GenServer` and define a `child_spec/1` function. Your module can then be a child in a supervision tree.*
 
 ## Untracked compile-time dependencies
 

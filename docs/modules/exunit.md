@@ -33,7 +33,7 @@ There are two more options on `use ExUnit.Case`. `:group` (since v1.18.0) makes 
 
 ## The life of a test: setup, test, on_exit
 
-`setup_all` callbacks run **once for each module**, before any test. `setup` callbacks run **before each test**. Neither runs if the module has no tests or if the filters remove all tests. Both can be a block, an atom that names a local function, a `{module, function}` tuple, or a list of these, and they run in the order of appearance. They can return `:ok`, a keyword list or map, or `{:ok, keyword_or_map}`. The system merges what they return into the **context**, which every later callback and the test receives. Any other return value from `setup_all` makes all tests fail. A bad return value from `setup` fails that test.
+`setup_all` callbacks run **once for each module**, before any test. `setup` callbacks run **before each test**. Neither runs if the module has no tests or if the filters remove all tests. Both can be a block, an atom that names a local function, a `{module, function}` tuple, or a list of these. They run in the order of appearance. They can return `:ok`, a keyword list or map, or `{:ok, keyword_or_map}`. The system merges what they return into the **context**, which every later callback and the test receives. Any other return value from `setup_all` makes all tests fail. A bad return value from `setup` fails that test.
 
 <Diagram steps name="exunit/lifecycle" caption="The life cycle of one test process." />
 
