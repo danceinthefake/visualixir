@@ -18,6 +18,7 @@ pnpm exec playwright install chromium   # run once, or use a system browser: CHR
 | `pagetools` | Each page shows the "Read first" and "Related pages" links that `related.json` lists, and all links go to real pages. On a page with several Under the hood sections, Open all, Close all, and "Always open them" work, and the browser remembers the choice. |
 | `check` | Each page in `quiz.json` ends with its Check yourself questions. Each answer opens and closes. |
 | `paths` | Mark as read toggles, survives a reload, ticks the sidebar and `/paths`, and Clear my progress clears it. The reading paths in `paths.json` name only real pages. |
+| `theme` | A click on the theme switch changes the page and the diagram colors, and a second click restores them. The knob sits inside the switch. |
 | `search` | Ten real queries put the right section in the top three results. Ctrl+K opens the box and focuses it. Enter opens a result. Escape closes the box. |
 | `axe` | Axe-core finds no violations on every page, in light and dark, on desktop (1200px). |
 | `axe-phone` | The same check at 390px. It also finds scrollable regions without keyboard access. |

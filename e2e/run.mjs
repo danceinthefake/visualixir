@@ -5,7 +5,7 @@
 import { spawn, spawnSync } from "node:child_process";
 import { openSync } from "node:fs";
 
-const all = ["site", "layout", "search", "diagrams", "glossary", "pagetools", "check", "paths", "axe", "axe-phone"];
+const all = ["site", "layout", "search", "diagrams", "glossary", "pagetools", "check", "paths", "theme", "axe", "axe-phone"];
 const wanted = process.argv.slice(2).filter((a) => !a.startsWith("--"));
 const tasks = wanted.length ? wanted : all;
 const extra = process.argv.slice(2).filter((a) => a.startsWith("--"));
@@ -18,6 +18,7 @@ const cmd = {
   pagetools: ["e2e/pagetools.mjs"],
   check: ["e2e/check.mjs"],
   paths: ["e2e/paths.mjs"],
+  theme: ["e2e/theme.mjs"],
   axe: ["e2e/axe.mjs", "--width", "1200"],
   "axe-phone": ["e2e/axe.mjs", "--width", "390"],
 };

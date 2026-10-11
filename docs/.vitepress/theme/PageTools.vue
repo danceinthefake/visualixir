@@ -18,7 +18,7 @@ const first = computed(() => (entry.value?.first ?? []).filter((p) => titles.val
 <template>
   <div v-if="first.length || hoods >= 2" class="page-tools">
     <p v-if="first.length" class="page-tools__first">
-      <strong>Read first:</strong>
+      <strong>Read first:</strong>{{ " " }}
       <template v-for="(p, i) in first" :key="p"><template v-if="i">, </template><a :href="withBase('/' + p)">{{ titles.get(p) }}</a></template>
     </p>
     <div v-if="hoods >= 2" class="page-tools__hood" role="group" aria-label="Under the hood sections">

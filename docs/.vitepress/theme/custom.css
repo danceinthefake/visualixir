@@ -82,8 +82,8 @@
 .related-pages ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 20px; }
 
 /* Check yourself: questions at the end of a page, answers behind a button. */
-.check { margin: 3rem 0 0; padding: 4px 20px 16px; border: 1px solid var(--vp-c-divider); border-inline-start: 6px solid var(--vp-c-brand-1); }
-.check h2 { margin: 16px 0 4px; padding: 0; border: 0; font-size: 1.25rem; letter-spacing: normal; }
+section.check { margin: 3rem 0 0; padding: 4px 20px 16px; border: 1px solid var(--vp-c-divider); border-inline-start: 6px solid var(--vp-c-brand-1); }
+section.check h2 { margin: 16px 0 4px; padding: 0; border: 0; font-size: 1.25rem; letter-spacing: normal; }
 .check__intro { margin: 0 0 8px; color: var(--vp-c-text-2); font-size: 0.9375rem; }
 .check__list { margin: 0; padding-inline-start: 1.4em; }
 .check__list > li { margin: 10px 0; }

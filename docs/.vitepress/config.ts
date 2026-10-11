@@ -113,12 +113,12 @@ export default defineConfig({
       { text: "Meta-programming", link: "/meta-programming/quote-and-unquote" },
       { text: "Anti-patterns", link: "/anti-patterns/what-anti-patterns" },
       { text: "Modules", link: "/modules/task" },
-      { text: "Paths", link: "/paths" },
       {
         text: "More",
         items: [
           { text: "Cheatsheets", link: "/cheatsheets/enum-cheat" },
           { text: "References", link: "/references/compatibility-and-deprecations" },
+          { text: "Paths", link: "/paths" },
           { text: "Glossary", link: "/glossary" },
         ],
       },
