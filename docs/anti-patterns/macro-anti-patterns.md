@@ -2,11 +2,11 @@
 
 Source: [Elixir guide, Meta-programming anti-patterns](https://elixir.hexdocs.pm/macro-anti-patterns.html).
 
-Anti-patterns about macros and code generation. Five of them.
+These anti-patterns are about macros and code generation. There are five.
 
 ## Compile-time dependencies
 
-**Problem:** any macro use adds a compile-time dependency on the module defining the macro. Worse, when a macro is used in a module *body*, its **arguments** can become compile-time dependencies too, so changing one file recompiles many.
+**Problem:** each use of a macro adds a compile-time dependency on the module that defines the macro. It is worse when a macro is used in the *body* of a module, because its **arguments** can also become compile-time dependencies. Then a change in one file recompiles many files.
 
 ```elixir
 defmodule MyApp do
@@ -15,9 +15,9 @@ defmodule MyApp do
 end
 ```
 
-`plug` stores the module in `@plugs`, and `MyApp.Authentication` is only *called* at runtime. But because `plug` ran at compile time, it is now a compile-time dependency of `MyApp`.
+`plug` stores the module in `@plugs`, and `MyApp.Authentication` is only *called* at runtime. But `plug` ran at compile time, so it is now a compile-time dependency of `MyApp`.
 
-**Refactoring:** expand the literal as if it were inside the function where it's used:
+**Refactoring:** expand the literal as if it were inside the function where it is used:
 
 ```elixir
 defmacro plug(mod) do
@@ -28,15 +28,15 @@ defmacro plug(mod) do
 end
 ```
 
-Now it's a runtime dependency. Only do this if the macro doesn't call functions, read structs or inspect the module at compile time. Use `mix xref trace path/to/file.ex` to see a file's compile-time, runtime and export dependencies.
+Now it is a runtime dependency. Do this only if the macro does not call functions, read structs, or inspect the module at compile time. Use `mix xref trace path/to/file.ex` to see the compile-time, runtime, and export dependencies of a file.
 
-<Diagram name="macro-anti-patterns/compile-deps" caption="A compile-time dependency drags its own dependencies into recompilation." />
+<Diagram name="macro-anti-patterns/compile-deps" caption="A compile-time dependency pulls its own dependencies into the recompilation." />
 
 ## Large code generation
 
-**Problem:** a macro that expands into a lot of code makes compilation slower and the artifacts larger, because it's expanded and compiled at *every* call, and a router can have hundreds of `get/2`.
+**Problem:** a macro that expands into much code makes the compilation slower and the artifacts larger. The system expands and compiles it at *every* call, and a router can have hundreds of `get/2`.
 
-**Refactoring:** keep the quote tiny and delegate the work to a function:
+**Refactoring:** keep the quote small and give the work to a function:
 
 ```elixir
 defmacro get(route, handler) do
@@ -50,21 +50,21 @@ def __define__(module, route, handler) do
 end
 ```
 
-<Diagram name="macro-anti-patterns/large-gen" caption="The checks are compiled once, not once per route." />
+<Diagram name="macro-anti-patterns/large-gen" caption="The system compiles the checks once, not once for each route." />
 
 <UnderTheHood>
 
-**What the extra code costs.** We generated 300 functions with a macro in two ways. In the fat macro, the checks were written inside every generated function. In the thin macro, each function was a single call to one shared function that holds the checks. The fat version produced a 142,968-byte `.beam` compiled in 263 ms, and the thin one a 56,324-byte `.beam` in 54 ms: 2.5 times the file and about 5 times the compile time. The generated code is compiled and stored once per call to the macro, so it grows with every use.
+**What the extra code costs.** We generated 300 functions with a macro in two ways. In the fat macro, the checks were inside every generated function. In the thin macro, each function was one call to one shared function that holds the checks. The fat version produced a `.beam` of 142,968 bytes that compiled in 263 ms. The thin version produced a `.beam` of 56,324 bytes that compiled in 54 ms. The file is 2.5 times larger and the compile time is about 5 times longer. The system compiles and stores the generated code once for each call to the macro, so it grows with every use.
 
-<Diagram name="macro-anti-patterns/uth-large-gen" caption="Code a macro generates is compiled and written to the .beam once per call." />
+<Diagram name="macro-anti-patterns/uth-large-gen" caption="The system compiles the code that a macro generates, and writes it to the .beam, once for each call." />
 
-*Sources:* measured with `Code.compile_string/1` and `:timer.tc/1` on Elixir 1.20 / OTP 29. If the macro's code runs while the module compiles, as with attributes, the file doesn't grow, but the compile time still does (130 ms against 20 ms in our first try).
+*Sources:* we measured with `Code.compile_string/1` and `:timer.tc/1` on Elixir 1.20 / OTP 29. If the code of the macro runs while the module compiles, as with attributes, the file does not grow. The compile time still grows (130 ms against 20 ms in our first try).
 
 </UnderTheHood>
 
 ## Unnecessary macros
 
-**Problem:** a macro where a function would do makes code harder to read and reason about, and harder to evolve.
+**Problem:** a macro where a function is enough makes the code harder to read, harder to reason about, and harder to change.
 
 ```elixir
 defmacro sum(v1, v2) do
@@ -72,7 +72,7 @@ defmacro sum(v1, v2) do
 end
 ```
 
-**Refactoring:** a plain function, with no `require` needed:
+**Refactoring:** a plain function. It needs no `require`:
 
 ```elixir
 def sum(v1, v2), do: v1 + v2
@@ -82,7 +82,7 @@ This is the guidance from the [Macros](../meta-programming/macros) chapter: macr
 
 ## `use` instead of `import`
 
-**Problem:** `import` and `alias` are lexical and only let a module call another. `use` lets a module inject **any** code, including propagated imports, so you must know the library's internals to know what your module now contains.
+**Problem:** `import` and `alias` are lexical, and they only let a module call another module. `use` lets a module inject **any** code, including propagated imports. You must know the internals of the library to know what your module now contains.
 
 ```elixir
 defmodule Library do
@@ -100,15 +100,15 @@ defmodule ClientApp do
 end
 ```
 
-**Refactoring:** avoid `__using__/1` when `alias` or `import` would do. `ClientApp` just does `import Library`.
+**Refactoring:** avoid `__using__/1` when `alias` or `import` is enough. `ClientApp` only does `import Library`.
 
-<Diagram name="macro-anti-patterns/use-import" caption="use hides what gets injected. import shows it." />
+<Diagram name="macro-anti-patterns/use-import" caption="use hides what Elixir injects. import shows it." />
 
-When you truly need more, `use` is the common extension point. Document its effects in `@moduledoc` like a nutrition label, listing only changes to the public API. For example: *When you `use GenServer`, the `GenServer` module will set `@behaviour GenServer` and define a `child_spec/1` function, so your module can be used as a child in a supervision tree.*
+When you really need more, `use` is the common extension point. Document its effects in `@moduledoc` like a nutrition label, and list only the changes to the public API. For example: *When you `use GenServer`, the `GenServer` module will set `@behaviour GenServer` and define a `child_spec/1` function, so your module can be used as a child in a supervision tree.*
 
 ## Untracked compile-time dependencies
 
-**Problem:** the opposite: a compile-time dependency the compiler can't see, so it doesn't recompile when it should. It happens when module names are **built dynamically**.
+**Problem:** this is the opposite case. The compiler cannot see a compile-time dependency, so it does not recompile when it must. This happens when you **build module names dynamically**.
 
 ```elixir
 mods = [OtherModule.Foo, OtherModule.Bar]     # fine: literals are tracked
@@ -119,11 +119,11 @@ for part <- [:Foo, :Bar] do                   # bad: the compiler only sees Othe
 end
 ```
 
-Writing `:"Elixir.OtherModule.Foo"` atoms directly has the same problem, since Elixir never sees the aliases.
+Atoms such as `:"Elixir.OtherModule.Foo"` that you write directly have the same problem, because Elixir never sees the aliases.
 
-<Diagram name="macro-anti-patterns/untracked" caption="Only literal aliases are tracked." />
+<Diagram name="macro-anti-patterns/untracked" caption="The compiler tracks only literal aliases." />
 
-**Refactoring:** use full module names. If you must build them, do it in a macro at compile time so the compiler still sees them:
+**Refactoring:** use full module names. If you must build them, do it in a macro at compile time, so that the compiler still sees them:
 
 ```elixir
 defmacro call_examples(parts) do
@@ -135,4 +135,4 @@ defmacro call_examples(parts) do
 end
 ```
 
-`mix xref trace` helps check that dependencies are tracked.
+`mix xref trace` helps you make sure that the compiler tracks the dependencies.

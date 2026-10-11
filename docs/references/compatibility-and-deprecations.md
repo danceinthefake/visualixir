@@ -2,7 +2,7 @@
 
 Source: [Elixir reference, Compatibility and deprecations](https://elixir.hexdocs.pm/compatibility-and-deprecations.html).
 
-Elixir uses `vMAJOR.MINOR.PATCH`. It is at major version 1. A backwards-compatible **minor** release comes every 6 months. **Patch** releases are unscheduled, made for bug fixes or security patches. There are no plans for a major v2.
+Elixir uses `vMAJOR.MINOR.PATCH`. It is at major version 1. A backwards-compatible **minor** release comes every 6 months. **Patch** releases have no schedule. They are for bug fixes or security patches. There are no plans for a major v2.
 
 Bug fixes go only to the latest minor branch. Security patches cover the last 5 minor branches:
 
@@ -14,22 +14,22 @@ Bug fixes go only to the latest minor branch. Security patches cover the last 5 
 | 1.17 | Security patches only |
 | 1.16 | Security patches only |
 
-Releases are announced on the read-only elixir-lang-ann mailing list, and security releases are tagged `[security]`.
+The read-only mailing list elixir-lang-ann announces releases. Security releases have the tag `[security]`.
 
 ## Between non-major Elixir versions
 
-Minor and patch releases are backwards compatible: documented, well-defined behavior keeps working. Some rare things can still break code:
+Minor and patch releases are backwards compatible: documented and well-defined behavior keeps working. Some rare changes can still break code:
 
-- **Security:** a fix may require an incompatible change.
-- **Bugs:** a program that relies on buggy behavior may break when it is fixed.
-- **Compiler front-end:** new warnings and clearer errors can fail builds run with `--warnings-as-errors`, or tools that assert on exact messages.
-- **Imports:** new `Kernel` functions are auto-imported and may collide with your local functions. Resolve with `import Kernel, except: [...]`.
+- **Security:** a fix can require an incompatible change.
+- **Bugs:** a program that relies on buggy behavior can break when the bug is fixed.
+- **Compiler front-end:** new warnings and clearer errors can fail builds that run with `--warnings-as-errors`, or tools that assert on exact messages.
+- **Imports:** Elixir imports new `Kernel` functions automatically, and they can collide with your local functions. To fix this, use `import Kernel, except: [...]`.
 
-Experimental features are explicitly marked and carry no guarantee until stabilized.
+Experimental features have an explicit mark and carry no guarantee until they are stable.
 
 ## Between Elixir and Erlang/OTP
 
-Erlang/OTP is versioned independently, with a new major version yearly. The goal is to support the last three Erlang majors when Elixir is released.
+Erlang/OTP has its own versions, with a new major version every year. The goal is to support the last three Erlang major versions when Elixir is released.
 
 | Elixir | Erlang/OTP |
 |---|---|
@@ -54,19 +54,19 @@ Erlang/OTP is versioned independently, with a new major version yearly. The goal
 | 1.1 | 17 - 18 |
 | 1.0 | 17 - 17 (and 18 from v1.0.5) |
 
-Patch releases may add support for a new OTP version (Erlang/OTP 20 in v1.4.5). They usually make the minimum change needed to run. Only the next minor (v1.5.0) uses the new OTP features.
+Patch releases can add support for a new OTP version (Erlang/OTP 20 in v1.4.5). They usually make the minimum change necessary to run. Only the next minor version (v1.5.0) uses the new OTP features.
 
 ## Deprecations
 
 <Diagram name="compatibility-and-deprecations/deprecation-steps" caption="Nothing is removed until a major release." />
 
-1. **Soft-deprecated:** the CHANGELOG and docs list the feature as deprecated, but no warning is emitted. This step is optional.
-2. **Hard-deprecated:** it warns on use. The proposed replacement **must exist for at least three minor versions** first. `Enum.uniq/2` was soft-deprecated for `Enum.uniq_by/2` in v1.1, so a warning could come in v1.4 or later.
-3. **Removed:** only in a major release, so v1.x deprecations can only be removed by v2.x.
+1. **Soft-deprecated:** the CHANGELOG and the docs list the feature as deprecated, but Elixir emits no warning. This step is optional.
+2. **Hard-deprecated:** the feature gives a warning when you use it. The proposed replacement **must exist for at least three minor versions** first. `Enum.uniq/2` was soft-deprecated for `Enum.uniq_by/2` in v1.1, so a warning can come in v1.4 or later.
+3. **Removed:** only in a major release, so only v2.x can remove v1.x deprecations.
 
 ### Recent deprecations
 
-The first column is the version where it was hard-deprecated. The full table, going back to v1.1, is at [elixir.hexdocs.pm/compatibility-and-deprecations](https://elixir.hexdocs.pm/compatibility-and-deprecations.html#table-of-deprecations).
+The first column is the version where Elixir hard-deprecated the feature. The full table, back to v1.1, is at [elixir.hexdocs.pm/compatibility-and-deprecations](https://elixir.hexdocs.pm/compatibility-and-deprecations.html#table-of-deprecations).
 
 | Version | Deprecated | Replaced by (available since) |
 |---|---|---|

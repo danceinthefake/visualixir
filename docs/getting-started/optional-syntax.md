@@ -2,9 +2,9 @@
 
 Source: [Elixir guide, Optional syntax sheet](https://elixir.hexdocs.pm/optional-syntax.html).
 
-Elixir lets you omit a few delimiters. Four rules explain all of them, and they keep the core of the language tiny.
+Elixir lets you omit a few delimiters. Four rules explain all of them, and they keep the core of the language small.
 
-Start from this:
+Start with this code:
 
 ```elixir
 if variable? do
@@ -14,19 +14,18 @@ else
 end
 ```
 
-Now take the conveniences away, one at a time:
+Now remove the conveniences, one at a time:
 
-<Diagram steps name="optional-syntax/walkthrough" caption="Each step undoes one convenience. The last line is what the compiler sees." />
+<Diagram steps name="optional-syntax/walkthrough" caption="Each step removes one convenience. The last line is what the compiler sees." />
 
 1. `do`-`end` blocks are keywords: `if variable?, do: Call.this(), else: Call.that()`
-2. A keyword list as the last argument needs no square brackets.
+2. A keyword list as the last argument does not need square brackets.
 3. A keyword list is a list of two-element tuples: `[{:do, …}, {:else, …}]`
-4. Parentheses are optional on function calls.
+4. Parentheses are optional in function calls.
 
 ## Why it matters
 
-`if`, `def` and `defmodule` are not special keywords with their own grammar. They are ordinary calls built from these four rules. So
-this:
+`if`, `def`, and `defmodule` are not special keywords with their own grammar. They are ordinary calls that these four rules build. So this code:
 
 ```elixir
 defmodule Math do
@@ -36,7 +35,7 @@ defmodule Math do
 end
 ```
 
-is just:
+is the same as this code:
 
 ```elixir
 defmodule(Math, [
@@ -44,6 +43,6 @@ defmodule(Math, [
 ])
 ```
 
-That's what lets you extend the language with the same constructs it is built from (see meta-programming).
+For this reason, you can extend the language with the same constructs that build it (see meta-programming).
 
-You don't have to apply these rules by hand: `mix format` does. It always adds parentheses to calls unless configured otherwise.
+You do not need to apply these rules by hand. `mix format` does it. Unless you configure it otherwise, it always adds parentheses to calls.

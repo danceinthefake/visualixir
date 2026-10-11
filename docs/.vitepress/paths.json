@@ -2,19 +2,19 @@
   "_why": "Reading paths: ordered pages for a goal, shown on /paths with the reader's progress (kept in the browser). Values are page paths without .md. scripts/audit.py checks they exist.",
   "tracks": [
     { "id": "start", "title": "New to Elixir",
-      "blurb": "The language itself, from values to loops. Start here if you have not written Elixir before.",
+      "blurb": "The language itself, from values to loops. Start here if you have never written Elixir.",
       "steps": ["getting-started/introduction", "getting-started/basic-types", "getting-started/lists-and-tuples", "getting-started/pattern-matching", "getting-started/case-cond-and-if", "getting-started/anonymous-functions", "getting-started/modules-and-functions", "getting-started/recursion", "getting-started/enumerable-and-streams"] },
-    { "id": "data", "title": "Data, types and protocols",
-      "blurb": "How Elixir models data: maps, structs, protocols, binaries and the type system.",
+    { "id": "data", "title": "Data, types, and protocols",
+      "blurb": "How Elixir models data: maps, structs, protocols, binaries, and the type system.",
       "steps": ["getting-started/keywords-and-maps", "getting-started/structs", "getting-started/protocols", "getting-started/binaries-strings-and-charlists", "references/typespecs", "references/gradual-set-theoretic-types", "cheatsheets/types-cheat"] },
     { "id": "concurrency", "title": "Processes and fault tolerance",
-      "blurb": "Processes, state, supervision and the module docs behind them. Do the language track first.",
+      "blurb": "Processes, state, supervision, and the module docs for them. Do the language track first.",
       "steps": ["getting-started/processes", "mix-and-otp/agents", "mix-and-otp/genservers", "mix-and-otp/supervisor-and-application", "mix-and-otp/dynamic-supervisor", "modules/process", "modules/task", "modules/registry", "modules/supervisor", "anti-patterns/process-anti-patterns"] },
     { "id": "project", "title": "Build, test and ship a project",
       "blurb": "From mix new to a release, with tests and debugging on the way.",
       "steps": ["mix-and-otp/introduction-to-mix", "mix-and-otp/docs-tests-and-with", "modules/exunit", "mix-and-otp/config-and-distribution", "mix-and-otp/releases", "getting-started/debugging", "modules/iex"] },
     { "id": "meta", "title": "Meta-programming",
-      "blurb": "Code that writes code: quoted expressions, macros, DSLs, and when not to.",
+      "blurb": "Code that writes code: quoted expressions, macros, DSLs, and when not to use them.",
       "steps": ["meta-programming/quote-and-unquote", "meta-programming/macros", "meta-programming/domain-specific-languages", "anti-patterns/macro-anti-patterns"] }
   ]
 }

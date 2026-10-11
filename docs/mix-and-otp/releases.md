@@ -2,70 +2,67 @@
 
 Source: [Elixir guide, Releases](https://elixir.hexdocs.pm/releases.html).
 
-Everything so far depends on the Erlang and Elixir installed on your machine. A **release** is a self-contained directory with your code, its dependencies, and the whole
-Erlang VM and runtime. It runs on any target with the **same OS distribution and version** as the machine that built it.
+Everything so far depends on the Erlang and Elixir that are installed on your machine. A **release** is a self-contained directory. It holds your code, its dependencies, and the whole Erlang VM and runtime. It runs on any target with the **same OS distribution and version** as the machine that built it.
 
 ```console
 $ MIX_ENV=prod mix release
 Release created at _build/prod/rel/kv
 ```
 
-<Diagram name="releases/contents" caption="Copy one directory. The server needs no Erlang or Elixir." />
+<Diagram name="releases/contents" caption="Copy one directory. The server does not need Erlang or Elixir." />
 
-`bin/kv` is the entry point:
+`bin/kv` is the entry point. These are its commands:
 
-| Command | Does |
+| Command | Action |
 |---|---|
 | `start`, `start_iex`, `restart`, `stop` | manage the release |
-| `rpc COMMAND`, `remote` | run a command in, or connect to, the running system |
-| `eval COMMAND` | start a fresh system, run one command, shut down |
+| `rpc COMMAND`, `remote` | run a command in the running system, or connect to it |
+| `eval COMMAND` | start a new system, run one command, and shut down |
 | `daemon`, `daemon_iex` | run as a daemon on Unix-like systems |
 | `install` | install as a service on Windows |
 
-## Why releases?
+## Why use releases?
 
-- **Code preloading.** By default the VM loads modules the first time they are used (*interactive* mode), so the first requests in production can spike. Releases run in *embedded*
-  mode and load everything at boot.
-- **Configuration and customization.** Fine control over system configuration and VM flags.
-- **Self-contained.** No source code and no Erlang or Elixir on the server. The standard libraries are stripped to the parts you use.
-- **Multiple releases.** Assemble different releases with different configuration, or with different applications.
+- **Code preloading.** By default, the VM loads a module the first time that code uses it (*interactive* mode). The first requests in production can then be slow. Releases run in *embedded* mode and load all modules at boot.
+- **Configuration and customization.** You have fine control over the system configuration and the VM flags.
+- **Self-contained.** The server needs no source code and no Erlang or Elixir. The release keeps only the parts of the standard libraries that you use.
+- **Multiple releases.** You can assemble different releases with different configuration, or with different applications.
 
-<Diagram name="releases/code-loading" caption="A release pays the loading cost at boot instead of on the first requests." />
+<Diagram name="releases/code-loading" caption="A release pays the loading cost at boot and not on the first requests." />
 
 <UnderTheHood>
 
-**What embedded mode changes.** We built a small release and started it in each mode as a daemon. In the default *embedded* mode, 614 modules were already loaded at boot and `Stream` was in memory before anything called it. In *interactive* mode only 159 were, and `Stream` was not loaded, so the first call to it reads `Elixir.Stream.beam` from disk, as in the Modules chapter. That read is the latency spike the chapter describes, moved to boot time.
+**What embedded mode changes.** We built a small release and started it in each mode as a daemon. In the default *embedded* mode, the VM loaded 614 modules at boot, and `Stream` was in memory before any code called it. In *interactive* mode, the VM loaded only 159 modules, and `Stream` was not loaded. The first call to it reads `Elixir.Stream.beam` from disk, as in the Modules chapter. This read is the delay that the chapter describes. Embedded mode moves it to boot time.
 
-**What is in the directory.** The release was 21 MB: 11 MB for the VM runtime (`erts`, whose `beam.smp` alone is 10.1 MB), 9.4 MB for libraries and 599 `.beam` files. That is why it runs on a machine without Erlang or Elixir installed.
+**What is in the directory.** The release was 21 MB. The VM runtime (`erts`) used 11 MB, and `beam.smp` alone is 10.1 MB. The libraries used 9.4 MB, with 599 `.beam` files. For this reason the release runs on a machine that does not have Erlang or Elixir.
 
-<Diagram name="releases/uth-modes" caption="Embedded mode loads the modules at boot. Interactive mode loads each on first use." />
+<Diagram name="releases/uth-modes" caption="Embedded mode loads the modules at boot. Interactive mode loads each module on first use." />
 
-*Sources:* measured with `bin/kv daemon` and `bin/kv rpc`, `:code.all_loaded/0` and `du`, on Elixir 1.20 / OTP 29. The counts depend on the application.
+*Sources:* we measured with `bin/kv daemon`, `bin/kv rpc`, `:code.all_loaded/0`, and `du`, on Elixir 1.20 / OTP 29. The counts depend on the application.
 
 </UnderTheHood>
 
-## Configuring releases
+## Configuration of releases
 
-<Diagram name="releases/hooks" caption="One hook at build time, three at boot." />
+<Diagram name="releases/hooks" caption="One hook at build time and three at boot." />
 
-- `config/config.exs`: build-time configuration, run before the app compiles. It often imports `dev.exs` or `prod.exs`.
-- `config/runtime.exs`: runs on every boot, and can be extended with config providers.
-- `rel/env.sh.eex`, `rel/env.bat.eex`: templates executed on every command to set OS and VM environment variables.
-- `rel/vm.args.eex`: static Erlang VM flags.
+- `config/config.exs`: build-time configuration. It runs before the application compiles. It often imports `dev.exs` or `prod.exs`.
+- `config/runtime.exs`: runs on every boot. Configuration providers can extend it.
+- `rel/env.sh.eex`, `rel/env.bat.eex`: templates that run on every command. They set the OS and VM environment variables.
+- `rel/vm.args.eex`: fixed Erlang VM flags.
 
-Our `runtime.exs` already handles `PORT` and `NODES`. Releases don't take `--sname`, but `RELEASE_NODE` sets the name, so two copies run like this:
+Our `runtime.exs` already handles `PORT` and `NODES`. Releases do not take `--sname`, but `RELEASE_NODE` sets the name. Start two copies in this way:
 
 ```console
 $ NODES="foo@computer-name,bar@computer-name" PORT=4040 RELEASE_NODE="foo" bin/kv start_iex
 $ NODES="foo@computer-name,bar@computer-name" PORT=4041 RELEASE_NODE="bar" bin/kv start_iex
 ```
 
-Check with `Node.list` in either shell.
+To make sure that the nodes are connected, run `Node.list` in either shell.
 
 ## OS scripts and VM arguments
 
-Releases use short names (`--sname`) by default. For real distribution, set `RELEASE_DISTRIBUTION` to `name` in `env.sh` (or `env.bat` on Windows). `mix release.init` copies the templates
-into `rel/`:
+Releases use short names (`--sname`) by default. For real distribution, set `RELEASE_DISTRIBUTION` to `name` in `env.sh` (or `env.bat` on Windows). `mix release.init` copies the templates into `rel/`:
 
 ```shell
 # export RELEASE_MODE=interactive     # load code on demand instead of preloading
@@ -73,10 +70,8 @@ into `rel/`:
 # export RELEASE_NODE=<%= @release.name %>
 ```
 
-`rel/vm.args.eex` holds low-level VM flags, such as `+Q 65536` for more concurrent ports/sockets or `-env ERL_FULLSWEEP_AFTER 10` for more frequent GC. Don't set `-name`, `-sname` or
-`-setcookie` there. Use environment variables.
+`rel/vm.args.eex` holds low-level VM flags. For example, `+Q 65536` allows more concurrent ports and sockets, and `-env ERL_FULLSWEEP_AFTER 10` makes the garbage collector run more often. Do not set `-name`, `-sname`, or `-setcookie` there. Use environment variables.
 
 ## Summing up
 
-We built a distributed key-value store and met GenServers, supervisors, tasks, agents and applications, wrote tests with ExUnit, and used Mix throughout. For a real distributed
-key-value store, look at Riak, which also runs on the Erlang VM and replicates buckets across nodes.
+We built a distributed key-value store. We learned about GenServers, supervisors, tasks, agents, and applications, wrote tests with ExUnit, and used Mix throughout. For a real distributed key-value store, look at Riak. It also runs on the Erlang VM and copies buckets across nodes.

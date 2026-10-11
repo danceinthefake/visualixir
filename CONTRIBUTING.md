@@ -25,7 +25,7 @@ All prose follows ASD-STE100 (Simplified Technical English), Issue 9. This appli
 - Define a concept term at its first use. Do not define product names.
 - Use American spelling.
 
-Do not change code, identifiers, commands, file paths, quoted errors, or text that quotes the official docs. When you change a page, convert the prose that you touch. No tool can guarantee compliance. The official dictionary is free at asd-ste100.org.
+Do not change code, identifiers, commands, file paths, quoted errors, or text that quotes the official docs. All pages follow the standard. Write new and changed prose in STE. No tool can guarantee compliance. The official dictionary is free at asd-ste100.org.
 
 ## Setup
 

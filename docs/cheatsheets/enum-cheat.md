@@ -2,7 +2,7 @@
 
 Source: [Elixir cheatsheet, Enum](https://elixir.hexdocs.pm/enum-cheat.html).
 
-A quick reference for `Enum`, the module for working with enumerables. Most examples use this cart:
+This page is a quick reference for `Enum`, the module for work with enumerables. Most examples use this cart:
 
 ```elixir
 cart = [
@@ -12,17 +12,17 @@ cart = [
 ]
 ```
 
-A few use `string =~ part`, which checks that the string on the left contains the part on the right.
+A few examples use `string =~ part`. It makes sure that the string on the left contains the part on the right.
 
 ## Which function?
 
-Start from what you want back:
+Start with the result that you want:
 
-<Diagram name="enum-cheat/decision" caption="Find the group by the result you want." />
+<Diagram name="enum-cheat/decision" caption="Find the group by the result that you want." />
 
 ## Predicates
 
-Functions that answer yes or no.
+These functions answer yes or no.
 
 | Function | Example | Result |
 |---|---|---|
@@ -37,7 +37,7 @@ Functions that answer yes or no.
 
 ## Filtering
 
-<Diagram name="enum-cheat/filter-reject" caption="filter keeps what matches. reject drops it." />
+<Diagram name="enum-cheat/filter-reject" caption="filter keeps what matches. reject removes it." />
 
 | Function | Example | Result |
 |---|---|---|
@@ -46,8 +46,7 @@ Functions that answer yes or no.
 | `reject(enum, fun)` | `Enum.reject(cart, &(&1.fruit =~ "o"))` | apple and banana |
 | `flat_map(enum, fun)` | `Enum.flat_map(cart, fn item -> if item.count > 1, do: [item.fruit], else: [] end)` | `["apple", "orange"]` |
 
-`flat_map` filters and transforms in one pass: return `[]` to exclude an element. Comprehensions filter too, with a condition (`for item <- cart, item.fruit =~ "e", do: item`) or with a
-pattern in the generator (`for %{count: 1, fruit: fruit} <- cart, do: fruit` gives `["banana"]`).
+`flat_map` filters and transforms in one pass: return `[]` to exclude an element. Comprehensions also filter, with a condition (`for item <- cart, item.fruit =~ "e", do: item`) or with a pattern in the generator (`for %{count: 1, fruit: fruit} <- cart, do: fruit` gives `["banana"]`).
 
 ## Mapping
 
@@ -57,8 +56,7 @@ pattern in the generator (`for %{count: 1, fruit: fruit} <- cart, do: fruit` giv
 | | `Enum.map(cart, fn item -> %{item \| count: item.count + 10} end)` | counts 13, 11, 16 |
 | `map_every(enum, nth, fun)` | `Enum.map_every(cart, 2, fn item -> %{item \| count: item.count + 10} end)` | counts 13, 1, 16 |
 
-`map_every(…, 2, …)` applies the function to the 1st, 3rd, 5th… element. With a comprehension: `for item <- cart, do: item.fruit`, and filter plus map at once with `for item <- cart, item.fruit =~ "e", do: item.fruit`
-(`["apple", "orange"]`).
+`map_every(…, 2, …)` applies the function to the 1st, 3rd, 5th, and later odd elements. With a comprehension, use `for item <- cart, do: item.fruit`. To filter and map at the same time, use `for item <- cart, item.fruit =~ "e", do: item.fruit` (`["apple", "orange"]`).
 
 ## Side effects
 
@@ -66,11 +64,11 @@ pattern in the generator (`for %{count: 1, fruit: fruit} <- cart, do: fruit` giv
 |---|---|---|
 | `each(enum, fun)` | `Enum.each(cart, &IO.puts(&1.fruit))` | prints the three names, returns `:ok` |
 
-`each` is used **only** for side effects.
+Use `each` **only** for side effects.
 
 ## Accumulating
 
-<Diagram name="enum-cheat/accumulate" caption="One list of counts, four ways to accumulate." />
+<Diagram name="enum-cheat/accumulate" caption="One list of counts and four ways to accumulate." />
 
 | Function | Example | Result |
 |---|---|---|
@@ -79,7 +77,7 @@ pattern in the generator (`for %{count: 1, fruit: fruit} <- cart, do: fruit` giv
 | `scan(enum, acc, fun)` | `Enum.scan(cart, 0, fn item, acc -> item.count + acc end)` | `[3, 4, 10]` |
 | `reduce_while(enum, acc, fun)` | halt with `{:halt, acc}` at `"orange"`, otherwise `{:cont, item.count + acc}` | `4` |
 
-Comprehensions can reduce too: `for item <- cart, reduce: 0 do acc -> item.count + acc end` gives `10`, and with a filter (`item.fruit =~ "e"`) gives `9`.
+Comprehensions can also reduce: `for item <- cart, reduce: 0 do acc -> item.count + acc end` gives `10`. With a filter (`item.fruit =~ "e"`), it gives `9`.
 
 ## Aggregations
 
@@ -94,7 +92,7 @@ Comprehensions can reduce too: `for item <- cart, reduce: 0 do acc -> item.count
 | `product(enum)` | `cart \|> Enum.map(& &1.count) \|> Enum.product()` | `18` |
 | `product_by(enum, mapper)` | `Enum.product_by(cart, & &1.count)` | `18` |
 
-Prefer `sum_by/2` and `product_by/2`: one pass instead of two. `Enum.count_until/2,3` counts up to a limit.
+Prefer `sum_by/2` and `product_by/2`, because they use one pass and not two. `Enum.count_until/2,3` counts up to a limit.
 
 ## Sorting
 
@@ -108,11 +106,11 @@ Prefer `sum_by/2` and `product_by/2`: one pass instead of two. `Enum.count_until
 | `min_by(enum, mapper)` | `Enum.min_by(cart, & &1.count)` | `%{fruit: "banana", count: 1}` |
 | `max_by(enum, mapper)` | `Enum.max_by(cart, & &1.count)` | `%{fruit: "orange", count: 6}` |
 
-When sorting or comparing **structs**, pass a module as the sorter (`Enum.sort/2`, `sort_by/3`, `min/2`, `min_by/3`, `max/2`, `max_by/3`).
+To sort or compare **structs**, pass a module as the sorter (`Enum.sort/2`, `sort_by/3`, `min/2`, `min_by/3`, `max/2`, `max_by/3`).
 
-## Concatenating and flattening
+## Concatenate and flatten
 
-<Diagram name="enum-cheat/flat-map" caption="flat_map is map followed by a one-level flatten." />
+<Diagram name="enum-cheat/flat-map" caption="flat_map is map and then a flatten of one level." />
 
 | Function | Example | Result |
 |---|---|---|
@@ -121,7 +119,7 @@ When sorting or comparing **structs**, pass a module as the sorter (`Enum.sort/2
 | `flat_map(enum, fun)` | `Enum.flat_map(cart, fn item -> List.duplicate(item.fruit, item.count) end)` | apple ×3, banana, orange ×6 |
 | `flat_map_reduce(enum, acc, fun)` | same, returning `{list, acc + item.count}` | `{that list, 10}` |
 
-Two generators in a comprehension flatten too: `for item <- cart, fruit <- List.duplicate(item.fruit, item.count), do: fruit`.
+Two generators in a comprehension also flatten: `for item <- cart, fruit <- List.duplicate(item.fruit, item.count), do: fruit`.
 
 ## Conversion
 
@@ -131,13 +129,13 @@ Two generators in a comprehension flatten too: `for item <- cart, fruit <- List.
 | `into(enum, collectable, transform)` | `Enum.into(cart, %{}, fn item -> {item.fruit, item.count} end)` | the same map |
 | `to_list(enum)` | `Enum.to_list(1..5)` | `[1, 2, 3, 4, 5]` |
 
-The comprehension form is `for item <- cart, into: %{}, do: {item.fruit, item.count}`.
+The form with a comprehension is `for item <- cart, into: %{}, do: {item.fruit, item.count}`.
 
-<Diagram name="enum-cheat/for-equivalents" caption="Every comprehension option has an Enum function." />
+<Diagram name="enum-cheat/for-equivalents" caption="Every option of a comprehension has an Enum function." />
 
 ## Duplicates and uniques
 
-<Diagram name="enum-cheat/dedup-uniq" caption="dedup only sees neighbours. uniq sees everything." />
+<Diagram name="enum-cheat/dedup-uniq" caption="dedup sees only neighbors. uniq sees everything." />
 
 | Function | Example | Result |
 |---|---|---|
@@ -160,15 +158,15 @@ Comprehensions support `uniq: true`.
 | `with_index(enum)` | `Enum.with_index(cart)` | `[{apple map, 0}, {banana map, 1}, {orange map, 2}]` |
 | `with_index(enum, fun)` | `Enum.with_index(cart, fn item, index -> {item.fruit, index} end)` | `[{"apple", 0}, {"banana", 1}, {"orange", 2}]` |
 
-Indexing into a list in a loop is discouraged: lists are linked lists.
+Do not index into a list in a loop, because lists are linked lists.
 
 <UnderTheHood>
 
-**Why indexing a list in a loop is slow.** A list is linked cells, so `Enum.at(list, n)` has to follow `n` pointers from the front. On a list of a million integers (about 16 MB of cells), `Enum.at(list, 0)` took 2 to 3 microseconds and `Enum.at(list, 999_999)` took about 2 milliseconds (1.7 and 2.4 ms in two runs). `elem(tuple, 999_999)` on the same data as a tuple took under a microsecond, one load at a fixed offset. Doing the slow lookup once per element in a loop makes the whole loop quadratic.
+**Why indexing a list in a loop is slow.** A list is linked cells, so `Enum.at(list, n)` must follow `n` pointers from the front. We used a list of a million integers (about 16 MB of cells). `Enum.at(list, 0)` took 2 to 3 microseconds and `Enum.at(list, 999_999)` took about 2 milliseconds (1.7 and 2.4 ms in two runs). `elem(tuple, 999_999)` on the same data as a tuple took less than a microsecond: one load at a fixed offset. If you do the slow lookup once for each element in a loop, the whole loop becomes quadratic.
 
-<Diagram name="enum-cheat/uth-at" caption="Indexing a list walks its cells. Indexing a tuple is one load." />
+<Diagram name="enum-cheat/uth-at" caption="An index into a list walks its cells. An index into a tuple is one load." />
 
-*Sources:* measured with `:timer.tc/1` on Erlang/OTP 29. Timings vary by machine.
+*Sources:* we measured with `:timer.tc/1` on Erlang/OTP 29. The timings change from machine to machine.
 
 </UnderTheHood>
 
@@ -192,7 +190,7 @@ Indexing into a list in a loop is discouraged: lists are linked lists.
 | `group_by(enum, key_fun)` | `Enum.group_by(cart, &String.last(&1.fruit))` | `%{"a" => [banana map], "e" => [apple map, orange map]}` |
 | `group_by(enum, key_fun, value_fun)` | `Enum.group_by(cart, &String.last(&1.fruit), & &1.fruit)` | `%{"a" => ["banana"], "e" => ["apple", "orange"]}` |
 
-## Joining and interspersing
+## Join and intersperse
 
 | Function | Example | Result |
 |---|---|---|
@@ -201,7 +199,7 @@ Indexing into a list in a loop is discouraged: lists are linked lists.
 | `intersperse(enum, separator \\ "")` | `Enum.intersperse(["apple", "banana", "orange"], ", ")` | `["apple", ", ", "banana", ", ", "orange"]` |
 | `map_intersperse(enum, separator \\ "", mapper)` | `Enum.map_intersperse(cart, ", ", & &1.fruit)` | the same list |
 
-## Slicing
+## Slice
 
 | Function | Example | Result |
 |---|---|---|
@@ -213,7 +211,7 @@ Indexing into a list in a loop is discouraged: lists are linked lists.
 
 Those slide examples use `fruits = ["apple", "banana", "grape", "orange", "pear"]`.
 
-## Reversing
+## Reverse
 
 | Function | Example | Result |
 |---|---|---|
@@ -221,9 +219,9 @@ Those slide examples use `fruits = ["apple", "banana", "grape", "orange", "pear"
 | `reverse(enum, tail)` | `Enum.reverse(cart, [:this_will_be, :the_tail])` | the reversed cart, then `:this_will_be, :the_tail` |
 | `reverse_slice(enum, start_index, count)` | `Enum.reverse_slice(cart, 1, 2)` | apple, orange, banana |
 
-## Splitting
+## Split
 
-<Diagram name="enum-cheat/splitting" caption="split_while stops early. split_with checks everything." />
+<Diagram name="enum-cheat/splitting" caption="split_while stops early. split_with checks every element." />
 
 | Function | Example | Result |
 |---|---|---|
@@ -255,7 +253,7 @@ Negative amounts count from the back.
 
 ## Chunking
 
-<Diagram name="enum-cheat/chunk" caption="Fixed-size chunks, sliding windows, or chunks that follow a value." />
+<Diagram name="enum-cheat/chunk" caption="Chunks of a fixed size, sliding windows, or chunks that follow a value." />
 
 | Function | Example | Result |
 |---|---|---|
@@ -264,13 +262,13 @@ Negative amounts count from the back.
 | `chunk_every(enum, count, step, leftover \\ [])` | `Enum.chunk_every(cart, 2, 2, [:elements, :to_complete])` | `[[apple, banana], [orange, :elements]]` |
 | | `Enum.chunk_every(cart, 2, 1, :discard)` | `[[apple, banana], [banana, orange]]` |
 
-See `Enum.chunk_while/4` for custom chunking.
+For custom chunking, see `Enum.chunk_while/4`.
 
-## Zipping
+## Zip
 
 <Diagram name="enum-cheat/zip" caption="zip pairs elements by position. unzip splits them again." />
 
-With `fruits = ["apple", "banana", "orange"]` and `counts = [3, 1, 6]`:
+These examples use `fruits = ["apple", "banana", "orange"]` and `counts = [3, 1, 6]`:
 
 | Function | Example | Result |
 |---|---|---|
@@ -279,4 +277,4 @@ With `fruits = ["apple", "banana", "orange"]` and `counts = [3, 1, 6]`:
 | `zip_reduce(left, right, acc, fun)` | price is `count * 2` if `fruit =~ "e"`, else `count`, summed from `0` | `19` |
 | `unzip(list)` | `cart \|> Enum.map(&{&1.fruit, &1.count}) \|> Enum.unzip()` | `{["apple", "banana", "orange"], [3, 1, 6]}` |
 
-`Enum.zip/1`, `zip_with/2` and `zip_reduce/3` zip many collections at once.
+`Enum.zip/1`, `zip_with/2`, and `zip_reduce/3` zip many collections at the same time.

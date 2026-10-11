@@ -2,11 +2,11 @@
 
 Source: [Elixir guide, Task and gen_tcp](https://elixir.hexdocs.pm/task-and-gen-tcp.html).
 
-This chapter serves requests over TCP with Erlang's `:gen_tcp` and explores `Task`. First an **echo server**.
+This chapter serves requests over TCP with the Erlang module `:gen_tcp`. It also explores `Task`. First, build an **echo server**.
 
-A TCP server, in broad strokes, does three things:
+A TCP server does three things:
 
-1. **Listen** on a port and get hold of a socket
+1. **Listen** on a port and get a socket
 2. **Accept** a client connection
 3. **Read** a request and **write** a response
 
@@ -41,29 +41,34 @@ defmodule KV.Server do
 end
 ```
 
-The options: `:binary` (binaries, not lists), `packet: :line` (one line at a time), `active: false` (block on `recv` until data arrives) and
-`reuseaddr: true` (reuse the address if the listener crashes). Test with `telnet 127.0.0.1 4040`. When the client quits, `recv` returns
-`{:error, :closed}`, which the `{:ok, data}` match doesn't expect. We'll fix that later. More urgent: nothing supervises this.
+These are the options. `:binary` gives binaries, not lists. `packet: :line` reads one line at a time. `active: false` blocks `recv` until data arrives. `reuseaddr: true` reuses the address if the listener crashes. To test, run `telnet 127.0.0.1 4040`. When the client quits, `recv` returns `{:error, :closed}`. The `{:ok, data}` match does not expect this value. A later section fixes this. A more urgent problem is that nothing supervises this code.
 
 <UnderTheHood>
 
-**In short:** your code asks the Linux kernel to do the networking, and the process just waits until the kernel says data has arrived.
+**In short:** your code asks the Linux kernel to do the networking. The process waits until the kernel reports that data arrived.
 
-**What `:gen_tcp` asks the kernel for.** Tracing an echo server and a client showed the VM asking the Linux kernel, one step at a time, to create a socket, attach it to port 4747, start listening (with room for 5 waiting connections) and watch it for activity. The sockets don't block: asking for data that hasn't arrived yet gets an immediate "no data yet" answer, and the process that asked just waits, using no CPU. When the kernel reports that data has arrived, the VM asks again and gets the line.
+**What `:gen_tcp` asks the kernel for.** We traced an echo server and a client. The VM asked the Linux kernel, one step at a time, to do these things:
 
-The kernel keeps the connection's state and buffers: `ss -tnm` showed a receive buffer limit of 128 KiB and a send buffer limit of about 2.5 MB.
+1. Create a socket.
+2. Attach the socket to port 4747.
+3. Start to listen, with room for 5 waiting connections.
+4. Watch the socket for activity.
 
-**In the hardware.** This test used the loopback interface, so no network card was involved. Over a real network the packets also pass through the network card, which is outside what we measured here.
+The sockets do not block. If the process asks for data that did not arrive yet, the kernel immediately answers "no data yet". The process then waits and uses no CPU. When the kernel reports that data arrived, the VM asks again and gets the line.
 
-<Diagram name="task-and-gen-tcp/uth-socket" caption="Receiving: the process waits, the kernel's epoll reports data, and the VM reads it." />
+The kernel keeps the state and the buffers of the connection. `ss -tnm` showed a receive buffer limit of 128 KiB and a send buffer limit of about 2.5 MB.
 
-*Sources:* `strace -f -y -Y` and `ss` on Linux with Erlang/OTP 29. The calls seen were `socket`, `bind`, `listen(fd, 5)`, `epoll_ctl` (to watch a socket), `connect` returning `EINPROGRESS` and `recvfrom` returning `EAGAIN`. Socket call names are Linux's.
+**In the hardware.** This test used the loopback interface, so it did not use a network card. Over a real network, the packets also pass through the network card. We did not measure that part.
+
+<Diagram name="task-and-gen-tcp/uth-socket" caption="To receive data, the process waits, the epoll of the kernel reports data, and the VM reads it." />
+
+*Sources:* `strace -f -y -Y` and `ss` on Linux with Erlang/OTP 29. The calls that we saw were `socket`, `bind`, `listen(fd, 5)`, `epoll_ctl` (to watch a socket), `connect` that returned `EINPROGRESS`, and `recvfrom` that returned `EAGAIN`. The names of the socket calls are the names that Linux uses.
 
 </UnderTheHood>
 
 ## Tasks
 
-`Task.start_link/1` runs an existing function in a new process that can be part of a supervision tree. As a child spec, `{Task, fn -> ... end}`:
+`Task.start_link/1` runs an existing function in a new process. That process can be part of a supervision tree. As a child spec, write `{Task, fn -> ... end}`:
 
 ```elixir
 children = [
@@ -73,30 +78,28 @@ children = [
 ]
 ```
 
-It works, but only for **one client at a time**: `serve/1` runs inside the acceptor and never returns, so a second client connects and gets no echo.
+This works, but only for **one client at a time**. `serve/1` runs inside the acceptor and never returns. A second client connects but gets no echo.
 
-<Diagram name="task-and-gen-tcp/sequential" caption="serve loops forever, so the acceptor can't accept again." />
+<Diagram name="task-and-gen-tcp/sequential" caption="serve loops forever, so the acceptor cannot accept again." />
 
 ## Flawed concurrency
 
-Serve each client in its own task:
+Serve each client in a separate task:
 
 ```elixir
 {:ok, pid} = Task.start_link(fn -> serve(client) end)
 :ok = :gen_tcp.controlling_process(client, pid)
 ```
 
-Two clients now work at once, until one quits. Two causes: the unhandled `{:error, :closed}`, and the fact that each task is **linked** to the acceptor,
-so one crash takes the acceptor and every other client down.
+Two clients now work at the same time, until one client quits. There are two causes. The first cause is the unhandled `{:error, :closed}`. The second cause is that each task is **linked** to the acceptor. One crash then stops the acceptor and every other client.
 
-<Diagram name="task-and-gen-tcp/flawed" caption="Links without a supervisor let one failure cascade." />
+<Diagram name="task-and-gen-tcp/flawed" caption="Links without a supervisor let one failure spread." />
 
-The rule of the guide: start processes as children of supervisors.
+The rule of the guide is to start processes as children of supervisors.
 
 ## A task supervisor
 
-`Task.Supervisor` supervises tasks and is better suited than `DynamicSupervisor` here. Add it before the acceptor, because order matters: the acceptor must not
-accept requests before its supervisor and buckets exist. Shutdown runs in reverse.
+`Task.Supervisor` supervises tasks. It is better for this job than `DynamicSupervisor`. Add it before the acceptor, because the order matters. The acceptor must not accept requests before its supervisor and the buckets exist. The shutdown runs in the reverse order.
 
 ```elixir
 {Task.Supervisor, name: KV.ServerSupervisor},
@@ -108,13 +111,13 @@ accept requests before its supervisor and buckets exist. Shutdown runs in revers
 :ok = :gen_tcp.controlling_process(client, pid)
 ```
 
-`controlling_process` makes the serving task the socket's owner. Otherwise the acceptor would own every socket, and its crash would close them all.
+`controlling_process` makes the serving task the owner of the socket. Otherwise the acceptor owns every socket, and a crash of the acceptor closes all of them.
 
-<Diagram name="task-and-gen-tcp/concurrent" caption="Each connection gets its own supervised task. A crash stays contained." />
+<Diagram name="task-and-gen-tcp/concurrent" caption="Each connection gets a separate supervised task. A crash stays in that task." />
 
 ## Restart strategies
 
-What happens on a crash is part of the child spec's `:restart`:
+The `:restart` key of the child spec says what happens after a crash:
 
 | `:restart` | Restarts the process |
 |---|---|
@@ -122,21 +125,20 @@ What happens on a crash is part of the child spec's `:restart`:
 | `:transient` | only if it exits abnormally |
 | `:temporary` | never |
 
-`Task.child_spec/1` says `:temporary`, and `KV.Bucket` says nothing, so it is `:permanent`. Are those right?
+`Task.child_spec/1` says `:temporary`. `KV.Bucket` says nothing, so it is `:permanent`. Are these values correct?
 
-- **Buckets**: permanent. Users shouldn't have to recreate them.
-- **Acceptor**: it is critical, since nobody can connect without it. It must be `:permanent`.
-- **Connection tasks**: temporary. The cause may be the connection itself, and restarting over it would fail again.
+- **Buckets**: permanent. Users must not need to create them again.
+- **Acceptor**: it is critical, because nobody can connect without it. It must be `:permanent`.
+- **Connection tasks**: temporary. The cause can be the connection itself, and a restart then fails again.
 
-So override the acceptor's spec:
+Override the spec of the acceptor:
 
 ```elixir
 Supervisor.child_spec({Task, fn -> KV.Server.accept(4040) end}, restart: :permanent)
 ```
 
-<Diagram name="task-and-gen-tcp/restart-tree" caption="Numbers are start order. Shutdown goes in reverse." />
+<Diagram name="task-and-gen-tcp/restart-tree" caption="The numbers show the start order. The shutdown runs in the reverse order." />
 
 ## Production
 
-A real TCP server runs a **pool** of acceptors, each with its own supervisor (`PartitionSupervisor` could do it). In practice use Ranch (Erlang) or Thousand Island
-(Elixir).
+A real TCP server runs a **pool** of acceptors. Each acceptor has its own supervisor (`PartitionSupervisor` can do this). In practice, use Ranch (Erlang) or Thousand Island (Elixir).

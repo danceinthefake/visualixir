@@ -2,8 +2,7 @@
 
 Source: [Elixir guide, Domain-Specific Languages (DSLs)](https://elixir.hexdocs.pm/domain-specific-languages.html).
 
-A DSL is a language tailored to one domain. You don't need macros for one: every function and data structure you define is part of your domain's language. A
-`Validator` could be built three ways:
+A DSL is a language for one domain. You do not need macros to make one. Every function and data structure that you define is part of the language of your domain. You can build a `Validator` in three ways:
 
 ```elixir
 # 1. Data structures
@@ -14,7 +13,7 @@ user
 |> validate_length(:name, 1..100)
 |> validate_matches(:email, ~r/@/)
 
-# 3. Macros + modules
+# 3. Macros and modules
 defmodule MyValidator do
   use Validator
   validate_length :name, 1..100
@@ -22,13 +21,11 @@ defmodule MyValidator do
 end
 ```
 
-<Diagram name="domain-specific-languages/options" caption="data > functions > macros: prefer them in this order." />
+<Diagram name="domain-specific-languages/options" caption="data, then functions, then macros: prefer them in this order." />
 
-Data is the most flexible and easiest to compose, because the standard library is full of functions for it. Functions suit complex APIs and read well with `|>`. Macros
-are the most complex: more code, hard and costly to test, and they limit how users call you (everything must sit inside a module). Validating an attribute *only if a
-condition holds* is trivial with data or functions and impossible with the macro DSL unless you extend it.
+Data is the most flexible and the easiest to compose, because the standard library has many functions for it. Functions suit complex APIs and read well with `|>`. Macros are the most complex. They need more code, they are hard and costly to test, and they limit how users call you (everything must be inside a module). To validate an attribute *only if a condition holds* is simple with data or functions. It is impossible with the macro DSL unless you extend it.
 
-Macros and modules still have their place. The rest of this chapter builds one.
+Macros and modules still have a place. The rest of this chapter builds a DSL with them.
 
 ## The goal: a test case
 
@@ -48,11 +45,11 @@ end
 MyTest.run()
 ```
 
-`test` defines a function and `run` runs them all. Assertions are just the match operator.
+`test` defines a function and `run` runs all of them. The assertions are the match operator.
 
 ## The test macro
 
-`use TestCase` calls the `__using__/1` macro, which returns code injected into the user's module:
+`use TestCase` calls the `__using__/1` macro. The macro returns code that Elixir injects into the module of the user:
 
 ```elixir
 defmodule TestCase do
@@ -73,12 +70,11 @@ end
 
 <Diagram name="domain-specific-languages/test-macro" caption="test receives quoted code and returns quoted code that defines a function." />
 
-`MyTest."test hello"()` now runs that test and raises `MatchError` for `"hello" = "world"`. There is no way to run all of them yet.
+`MyTest."test hello"()` now runs that test and raises `MatchError` for `"hello" = "world"`. There is not yet a way to run all the tests.
 
-## Storing information with attributes
+## Store information with attributes
 
-The tests can be listed with `__MODULE__.__info__(:functions)`, but a module attribute, as temporary storage, can hold more per test. `__using__/1` starts
-`@tests` as `[]`, each `test` prepends its name, and `@before_compile` injects `run/0` when the module is complete:
+You can list the tests with `__MODULE__.__info__(:functions)`, but a module attribute, as temporary storage, can hold more for each test. `__using__/1` starts `@tests` as `[]`. Each `test` adds its name at the front. `@before_compile` injects `run/0` when the module is complete:
 
 ```elixir
 defmacro __using__(_opts) do
@@ -109,7 +105,6 @@ defmacro __before_compile__(_env) do
 end
 ```
 
-<Diagram name="domain-specific-languages/test-case-flow" caption="Set up, collect while the module compiles, then generate run/0." />
+<Diagram name="domain-specific-languages/test-case-flow" caption="Set up, collect while the module compiles, and then generate run/0." />
 
-That is the main idea of DSLs in Elixir: macros return quoted code that runs in the caller, module attributes hold what you collect, and `@before_compile` adds code once the definition is
-complete. `@on_definition` and `@after_compile` are related hooks (see `Module`).
+This is the main idea of DSLs in Elixir. Macros return quoted code that runs in the caller. Module attributes hold what you collect. `@before_compile` adds code when the definition is complete. `@on_definition` and `@after_compile` are related hooks (see `Module`).

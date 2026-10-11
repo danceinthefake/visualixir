@@ -2,11 +2,11 @@
 
 Source: [Elixir guide, Pattern matching](https://elixir.hexdocs.pm/pattern-matching.html).
 
-This chapter explains why `=` is called the *match operator*, how to pattern match inside data structures, and how the pin operator `^` accesses a value that is already bound.
+This chapter explains why `=` is the *match operator*, how to pattern match inside data structures, and how the pin operator `^` accesses a value that is already bound.
 
 ## The match operator
 
-`=` looks like assignment, but it is a **match**. The two sides must be equal:
+`=` looks like an assignment, but it is a **match**. The two sides must be equal:
 
 ```elixir
 x = 1
@@ -14,9 +14,9 @@ x = 1
 2 = x       #=> ** (MatchError) no match of right hand side value: 1
 ```
 
-`1 = x` is a valid expression: both sides are `1`, so it matches. When they aren't equal, Elixir raises `MatchError`.
+`1 = x` is a valid expression. Both sides are `1`, so it matches. When the sides are not equal, Elixir raises `MatchError`.
 
-A variable can only be assigned on the **left** of `=`:
+You can assign a variable only on the **left** of `=`:
 
 ```elixir
 1 = unknown
@@ -25,7 +25,7 @@ A variable can only be assigned on the **left** of `=`:
 
 ## Pattern matching
 
-The match operator also **destructures** complex data types. Tuples first:
+The match operator also **destructures** complex data types. Tuples are first:
 
 ```elixir
 {a, b, c} = {:hello, "world", 42}
@@ -33,11 +33,11 @@ a   #=> :hello
 b   #=> "world"
 ```
 
-Both sides are three-element tuples, so they line up field by field. Each variable takes the value opposite it.
+Both sides are tuples with three elements, so they line up field by field. Each variable takes the value opposite it.
 
 <Diagram name="pattern-matching/tuple" caption="{a, b, c} = {:hello, &quot;world&quot;, 42}: a = :hello, b = &quot;world&quot;, c = 42" />
 
-If the sides can't line up, the match fails. That happens when the sizes differ, or when the types differ (a tuple on the left, a list on the right):
+If the sides cannot line up, the match fails. This happens when the sizes are different, or when the types are different (a tuple on the left and a list on the right):
 
 ```elixir
 {a, b, c} = {:hello, "world"}
@@ -47,7 +47,7 @@ If the sides can't line up, the match fails. That happens when the sizes differ,
 #=> ** (MatchError) no match of right hand side value: [:hello, "world", 42]
 ```
 
-You can also match on **specific values**. This pattern only matches a tuple that starts with the atom `:ok`:
+You can also match on **specific values**. This pattern matches only a tuple that starts with the atom `:ok`:
 
 ```elixir
 {:ok, result} = {:ok, 13}
@@ -63,9 +63,9 @@ result   #=> 13
 
 ### Lists
 
-Lists work the same way: `[a, b, c] = [1, 2, 3]` binds `a` to `1`, and so on.
+Lists work in the same way: `[a, b, c] = [1, 2, 3]` binds `a` to `1`, and so on.
 
-A list can also be matched on its own **head and tail**:
+You can also match a list on its own **head and tail**:
 
 ```elixir
 [head | tail] = [1, 2, 3]
@@ -73,27 +73,27 @@ head   #=> 1
 tail   #=> [2, 3]
 ```
 
-A list is a chain of cells, each holding a value and a pointer to the rest. `[head | tail]` splits off the first cell: `head` is its value, `tail` is everything after it.
+A list is a chain of cells. Each cell holds a value and a pointer to the rest. `[head | tail]` splits off the first cell: `head` is its value and `tail` is everything after it.
 
 <Diagram name="pattern-matching/cons" caption="head = 1, tail = [2, 3]" />
 
-Like `hd/1` and `tl/1`, this can't match an empty list:
+As with `hd/1` and `tl/1`, this cannot match an empty list:
 
 ```elixir
 [head | tail] = []
 #=> ** (MatchError) no match of right hand side value: []
 ```
 
-The `[head | tail]` form isn't only for matching. It also **prepends** to a list:
+The `[head | tail]` form is not only for matching. It also **prepends** to a list:
 
 ```elixir
 list = [1, 2, 3]
 [0 | list]   #=> [0, 1, 2, 3]
 ```
 
-### Ignoring values with `_`
+### Ignore values with `_`
 
-When you don't care about part of a pattern, bind it to `_`. If only the head matters, throw the tail away:
+When you do not need part of a pattern, bind it to `_`. If only the head is important, throw the tail away:
 
 ```elixir
 [head | _] = [1, 2, 3]
@@ -102,7 +102,7 @@ head   #=> 1
 
 <Diagram name="pattern-matching/underscore" caption="[head | _] = [1, 2, 3]: head = 1, the rest is thrown away" />
 
-`_` can never be **read**. Using it in an expression is a compile error:
+You can never **read** `_`. If you use it in an expression, you get a compile error:
 
 ```elixir
 _
@@ -122,41 +122,39 @@ If a variable appears more than once in a pattern, every occurrence must bind to
 
 ### Limits
 
-Pattern matching is powerful but limited. You can't call functions on the left side of a match:
+Pattern matching is powerful but it has limits. You cannot call functions on the left side of a match:
 
 ```elixir
 length([1, [2], 3]) = 3
 #=> ** (CompileError) iex:1: cannot invoke remote function :erlang.length/1 inside match
 ```
 
-Destructuring is one of the foundations of recursion in Elixir, and it applies to other types too, like maps and binaries.
+Destructuring is one of the foundations of recursion in Elixir. It also applies to other types, for example maps and binaries.
 
 <UnderTheHood>
 
 **In short:** a match only checks the shape of the data and reads values that are already there. It builds nothing new.
 
-**What the compiler turns a match into.** A match is a few checks followed by reads. For `{:ok, v} = result` the compiled code asks "is this a tuple of the right size whose first element is `:ok`?" and then loads element 1 into a register. Nothing is allocated and nothing is copied: `v` is the same value that was already inside `result`. For `[head | tail]` it checks that the list isn't empty and loads the head, and the tail comes the same way. If a check fails, the code jumps to the next clause, or raises `MatchError`.
+**What the compiler turns a match into.** A match is a few checks followed by reads. For `{:ok, v} = result`, the compiled code asks "is this a tuple of the right size with `:ok` as the first element?" Then it loads element 1 into a register. The code allocates nothing and copies nothing: `v` is the same word that was already inside `result`. For `[head | tail]`, the code uses `is_nonempty_list` and `get_hd`, and the tail comes in the same way. There is no `test_heap` or `put_*` instruction. If a check fails, the code jumps to the next clause, or raises `MatchError`.
 
-There is no `test_heap` or `put_*` instruction: matching doesn't allocate and doesn't copy, and `v` is the same word that was already inside `result`. For `[head | tail]` it is `is_nonempty_list` and `get_hd` (the tail comes the same way). If a test fails, the code jumps to the next clause, or raises `MatchError`.
+**Repeated variables and the pin.** To match a tuple against `{x, x}`, the code loads both elements and compares them. The pin works in the same way: `^y` compares two values that are already there.
 
-**Repeated variables and the pin.** Matching a tuple against `{x, x}` loads both elements and compares them. The pin works the same way: `^y` compares two values that are already there.
+<Diagram name="pattern-matching/uth-match" caption="A match is a few tests, and then loads from the existing data." />
 
-<Diagram name="pattern-matching/uth-match" caption="A match is a few tests, then loads from the existing data." />
-
-*Sources:* instructions read with `:beam_disasm` on Erlang/OTP 29 and Elixir 1.20. The instructions are `is_tagged_tuple` and `get_tuple_element`, `is_nonempty_list` and `get_hd`, and `is_eq_exact` for repeated variables and the pin. There is no `test_heap` or `put_*` instruction, the ones that build data.
+*Sources:* we read the instructions with `:beam_disasm` on Erlang/OTP 29 and Elixir 1.20. The instructions are `is_tagged_tuple` and `get_tuple_element`, `is_nonempty_list` and `get_hd`, and `is_eq_exact` for repeated variables and the pin. There is no `test_heap` or `put_*` instruction. These are the instructions that build data.
 
 </UnderTheHood>
 
 ## The pin operator
 
-Variables can be **rebound**:
+You can **rebind** variables:
 
 ```elixir
 x = 1
 x = 2
 ```
 
-Sometimes you don't want that. Use the pin operator `^` to match against a variable's *existing value* instead of rebinding it:
+Sometimes you do not want this. Use the pin operator `^` to match against the *existing value* of a variable and not rebind it:
 
 ```elixir
 x = 1
@@ -164,9 +162,9 @@ x = 1
 #=> ** (MatchError) no match of right hand side value: 2
 ```
 
-Since `x` was pinned while bound to `1`, that is equivalent to `1 = 2`, and you get the exact same error message.
+`x` was pinned while it was bound to `1`. This is equivalent to `1 = 2`, and you get the same error message.
 
-<Diagram name="pattern-matching/pin" caption="Without ^ the name moves to the new value. With ^ the old value is compared, and 1 ≠ 2 fails." />
+<Diagram name="pattern-matching/pin" caption="Without ^, the name moves to the new value. With ^, Elixir compares the old value, and 1 ≠ 2 fails." />
 
 The pin also works inside other patterns, such as lists and tuples:
 
@@ -177,6 +175,6 @@ x = 1
 {y, ^x} = {2, 2}          #=> ** (MatchError) no match of right hand side value: {2, 2}
 ```
 
-Because `x` was `1` when it was pinned, the last line could have been written `{y, 1} = {2, 2}`.
+`x` was `1` when you pinned it, so you can write the last line as `{y, 1} = {2, 2}`.
 
-Next, [case, cond, and if](./case-cond-and-if) shows patterns picking a branch, and they can be extended with guards.
+Next, [case, cond, and if](./case-cond-and-if) shows patterns that pick a branch. You can extend them with guards.

@@ -2,17 +2,17 @@
 
 Source: [Elixir cheatsheet, Set-theoretic types](https://elixir.hexdocs.pm/types-cheat.html).
 
-A type is a **set of values**. The type language has set operators to combine those sets.
+A type is a **set of values**. The type language has set operators that combine those sets.
 
 ## Set operators
 
-<Diagram name="types-cheat/set-ops" caption="Types combine like sets: or, and, and not." />
+<Diagram name="types-cheat/set-ops" caption="Types combine as sets do: or, and, and not." />
 
 | Operator | Syntax | Meaning |
 |---|---|---|
-| Union | `type1 or type2` | values in either |
-| Intersection | `type1 and type2` | values in both |
-| Difference | `type1 and not type2` | values in the first but not the second |
+| Union | `type1 or type2` | values in either type |
+| Intersection | `type1 and type2` | values in both types |
+| Difference | `type1 and not type2` | values in the first type but not in the second type |
 | Negation | `not type` | every value that is not in the type |
 
 ## Data types
@@ -30,17 +30,17 @@ A type is a **set of values**. The type language has set operators to combine th
 | Type | Matches |
 |---|---|
 | `atom()` | all atoms |
-| `:ok`, `:error`, `SomeModule` | one individual atom each |
+| `:ok`, `:error`, `SomeModule` | one atom each |
 
 ### Functions
 
 | Type | Meaning |
 |---|---|
 | `function()` | all functions |
-| `(-> :ok)` | a zero-arity function returning `:ok` |
-| `(integer() -> boolean())` | one argument |
-| `(binary(), binary() -> binary())` | two arguments |
-| `(integer() -> binary()) and (binary() -> atom())` | multiple clauses |
+| `(-> :ok)` | a function with no arguments that returns `:ok` |
+| `(integer() -> boolean())` | a function with one argument |
+| `(binary(), binary() -> binary())` | a function with two arguments |
+| `(integer() -> binary()) and (binary() -> atom())` | a function with multiple clauses |
 
 An intersection of function types describes one function with several clauses:
 
@@ -69,9 +69,9 @@ An intersection of function types describes one function with several clauses:
 %{..., name: binary(), age: not_set()}
 ```
 
-<Diagram name="types-cheat/map-keys" caption="Which values each map type accepts." />
+<Diagram name="types-cheat/map-keys" caption="The values that each map type accepts." />
 
-**Maps with domain keys** (always treated as optional)
+**Maps with domain keys** (always optional)
 
 ```elixir
 # Has atom and binary keys
@@ -91,7 +91,7 @@ An intersection of function types describes one function with several clauses:
 %{..., atom() => binary(), root: integer()}
 ```
 
-The domain key types are `atom()`, `binary()`, `integer()`, `float()`, `fun()`, `list()`, `map()`, `pid()`, `port()`, `reference()` and `tuple()`.
+The domain key types are `atom()`, `binary()`, `integer()`, `float()`, `fun()`, `list()`, `map()`, `pid()`, `port()`, `reference()`, and `tuple()`.
 
 ### Non-empty lists
 
@@ -100,7 +100,7 @@ The domain key types are `atom()`, `binary()`, `integer()`, `float()`, `fun()`, 
 | `non_empty_list(elem_type)` | a proper list |
 | `non_empty_list(elem_type, tail_type)` | an improper list, as long as `tail_type` does not include lists |
 
-<Diagram name="types-cheat/lists" caption="A proper list ends in []. An improper list ends in something else." />
+<Diagram name="types-cheat/lists" caption="A proper list ends in []. An improper list ends in another value." />
 
 ### Tuples
 
@@ -110,7 +110,7 @@ The domain key types are `atom()`, `binary()`, `integer()`, `float()`, `fun()`, 
 | `{:ok, binary()}`, `{:error, binary(), term()}`, `{pid(), reference()}` | tuples of exactly n elements |
 | `{binary(), binary(), ...}` | tuples of **at least** n elements |
 
-## Additional types for convenience
+## Extra types for convenience
 
 | Alias | Definition |
 |---|---|

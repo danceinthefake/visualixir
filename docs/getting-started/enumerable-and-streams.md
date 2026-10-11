@@ -2,11 +2,11 @@
 
 Source: [Elixir guide, Enumerables and Streams](https://elixir.hexdocs.pm/enumerable-and-streams.html).
 
-Most collection work uses `Enum` and `Stream`, not hand-written recursion.
+Most work with collections uses `Enum` and `Stream`, not recursion that you write by hand.
 
 ## Enumerables
 
-`Enum` works on anything that implements the `Enumerable` protocol: lists, maps and ranges are all enumerable.
+`Enum` works on anything that implements the `Enumerable` protocol. Lists, maps, and ranges are all enumerable.
 
 ```elixir
 Enum.map([1, 2, 3], fn x -> x * 2 end)                 #=> [2, 4, 6]
@@ -14,15 +14,13 @@ Enum.map(%{1 => 2, 3 => 4}, fn {k, v} -> k * v end)    #=> [2, 12]
 Enum.map(1..3, fn x -> x * 2 end)                      #=> [2, 4, 6]
 ```
 
-<Diagram name="enumerable-and-streams/enumerable" caption="Enum functions are polymorphic: any Enumerable will do." />
+<Diagram name="enumerable-and-streams/enumerable" caption="Enum functions are polymorphic. Any Enumerable works." />
 
-`Enum` only enumerates. For operations specific to one type, like inserting at a position, use that type's module
-(`List.insert_at/3`). See the [Enum cheatsheet](/cheatsheets/enum-cheat) for the full list.
+`Enum` only enumerates. For operations that are specific to one type, for example to insert at a position, use the module of that type (`List.insert_at/3`). See the [Enum cheatsheet](/cheatsheets/enum-cheat) for the full list.
 
-## Eager vs lazy
+## Eager and lazy
 
-Every `Enum` function is **eager**. Many take an enumerable and return a list, so a pipeline builds an intermediate list at
-every step.
+Every `Enum` function is **eager**. Many of them take an enumerable and return a list, so a pipeline builds an intermediate list at every step.
 
 ## The pipe operator
 
@@ -38,34 +36,33 @@ odd? = fn x -> rem(x, 2) != 0 end
 
 ## Streams
 
-`Stream` has lazy versions of these functions. A stream is a value describing a computation, so nothing runs until you pass it to `Enum`.
+`Stream` has lazy versions of these functions. A stream is a value that describes a computation, so nothing runs until you pass it to `Enum`.
 
 ```elixir
 1..100_000 |> Stream.map(&(&1 * 3)) |> Stream.filter(odd?) |> Enum.sum()   #=> 7500000000
 ```
 
-<Diagram name="enumerable-and-streams/eager-vs-lazy" caption="Enum builds a list per step. Stream builds none until Enum asks." />
+<Diagram name="enumerable-and-streams/eager-vs-lazy" caption="Enum builds a list at each step. Stream builds no list until Enum asks." />
 
-Streams shine for large or **infinite** collections:
+Streams are good for large or **infinite** collections:
 
 ```elixir
 stream = Stream.cycle([1, 2, 3])
 Enum.take(stream, 10)    #=> [1, 2, 3, 1, 2, 3, 1, 2, 3, 1]
 ```
 
-Calling `Enum.map/2` on that stream would never finish. `Stream.resource/3` wraps resources so they're opened before enumeration
-and closed after, even on failure. `File.stream!/1` is built on it: `"path" |> File.stream!() |> Enum.take(10)` reads only ten lines.
+`Enum.map/2` on that stream never finishes. `Stream.resource/3` wraps resources so that they open before the enumeration and close after it, also after a failure. `File.stream!/1` uses it: `"path" |> File.stream!() |> Enum.take(10)` reads only ten lines.
 
-Start with `Enum.map/2` and `Enum.reduce/3`, and reach for `Stream` only when you need laziness.
+Start with `Enum.map/2` and `Enum.reduce/3`. Use `Stream` only when you need laziness.
 
 <UnderTheHood>
 
-**Where the intermediate lists live.** `Enum.map` builds a whole new list on the process heap before `Enum.filter` starts, and `filter` builds another. Measured, running `1..2_000_000 |> Enum.map(&(&1 * 3)) |> Enum.filter(odd?) |> Enum.sum()` in a fresh process left that process with a heap of 75 MB. The `Stream` version of the same pipeline composes the steps into functions and runs each number through all of them, one at a time, so nothing is built up: the heap ended at 609 words.
+**Where the intermediate lists live.** `Enum.map` builds a whole new list on the process heap before `Enum.filter` starts, and `filter` builds another list. We ran `1..2_000_000 |> Enum.map(&(&1 * 3)) |> Enum.filter(odd?) |> Enum.sum()` in a new process. The heap of that process was 75 MB. The `Stream` version of the same pipeline composes the steps into functions and runs each number through all of them, one at a time. It builds up nothing, and the heap ended at 609 words.
 
-<Diagram name="enumerable-and-streams/uth-peak-heap" caption="The same pipeline eagerly and lazily: what each leaves on the process heap." />
+<Diagram name="enumerable-and-streams/uth-peak-heap" caption="The same pipeline, eager and lazy: what each leaves on the process heap." />
 
-**Why it is faster here.** The eager run took about 250 ms and the lazy one about 65 ms on this machine. The eager version writes a 2-million-element list and then a 1-million-element one, about 48 MB of list cells at 16 bytes each, and then has to garbage-collect them. The lazy version avoids that work. That is a result for this pipeline: for a small collection, composing functions can cost more than it saves.
+**Why it is faster here.** The eager run took about 250 ms and the lazy run took about 65 ms on this machine. The eager version writes a list of 2 million elements and then a list of 1 million elements. These are about 48 MB of list cells at 16 bytes each, and the garbage collector must then free them. The lazy version does not do this work. This is a result for this pipeline. For a small collection, the composition of functions can cost more than it saves.
 
-*Sources:* measured with `Process.info(pid, :total_heap_size)` and `:timer.tc/1` on Erlang/OTP 29. Eager versus lazy is the chapter's own distinction.
+*Sources:* we measured with `Process.info(pid, :total_heap_size)` and `:timer.tc/1` on Erlang/OTP 29. The difference between eager and lazy is from the chapter.
 
 </UnderTheHood>

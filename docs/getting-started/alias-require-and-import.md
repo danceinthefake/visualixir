@@ -2,30 +2,28 @@
 
 Source: [Elixir guide, alias, require, import, and use](https://elixir.hexdocs.pm/alias-require-and-import.html).
 
-Three directives and one macro for reusing code. The first three have **lexical scope**.
+Elixir has three directives and one macro to reuse code. The first three have **lexical scope**.
 
 | Directive | What it does |
 |---|---|
 | `alias Foo.Bar, as: Bar` | Refer to `Foo.Bar` as `Bar` |
-| `require Foo` | Allow using `Foo`'s macros |
-| `import Foo` | Call `Foo`'s functions without the `Foo.` prefix |
+| `require Foo` | Allow the use of the macros of `Foo` |
+| `import Foo` | Call the functions of `Foo` without the `Foo.` prefix |
 | `use Foo` | Let `Foo` inject code into your module |
 
 ## alias
 
-`alias Math.List` is short for `alias Math.List, as: List`: the alias defaults to the last part of the name. The
-original stays reachable as `Elixir.List`.
+`alias Math.List` is short for `alias Math.List, as: List`. By default, the alias is the last part of the name. The original module is still available as `Elixir.List`.
 
 ## Lexical scope
 
-Each directive is valid only from where it appears to the end of its enclosing block. Put it inside a function
-and only that function sees it.
+Each directive is valid from the place where it appears to the end of its enclosing block. If you put a directive inside a function, only that function sees it.
 
-<Diagram name="alias-require-and-import/lexical" caption="An alias inside plus/2 doesn't reach minus/2." />
+<Diagram name="alias-require-and-import/lexical" caption="An alias inside plus/2 does not reach minus/2." />
 
 ## require
 
-Macros are expanded at compile time, so you opt in to a module's macros by requiring it.
+Elixir expands macros at compile time, so you must require a module to use its macros.
 
 ```elixir
 Integer.is_odd(3)
@@ -36,24 +34,22 @@ Integer.is_odd(3)   #=> true
 
 ## import
 
-`import` lets you call public functions or macros without the prefix. Prefer `:only` (or `:except`) to keep
-the scope small:
+`import` lets you call public functions or macros without the prefix. To keep the scope small, use `:only` (or `:except`):
 
 ```elixir
 import List, only: [duplicate: 2]
 duplicate(:ok, 3)   #=> [:ok, :ok, :ok]
 ```
 
-Private functions can't be imported. In your own code prefer `alias`, which keeps it clear where a function comes from.
+You cannot import private functions. In your own code, prefer `alias`. It shows clearly where a function comes from.
 
 ## use
 
-`use` is an extension point. It requires the module, then calls its `__using__/1` macro, which can inject anything.
-`use ExUnit.Case`, `use GenServer` and `use Supervisor` work this way.
+`use` is an extension point. It requires the module and then calls its `__using__/1` macro, which can inject any code. `use ExUnit.Case`, `use GenServer`, and `use Supervisor` work in this way.
 
 <Diagram name="alias-require-and-import/use-expands" caption="use is require plus a call to __using__/1." />
 
-`use` can run arbitrary code, so read the docs of what you use, and don't reach for it where `import` or `alias` would do.
+`use` can run any code. Read the docs of the module that you use. Do not use `use` where `import` or `alias` is enough.
 
 ## Several at once
 

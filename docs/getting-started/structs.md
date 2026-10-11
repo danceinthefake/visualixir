@@ -16,14 +16,13 @@ end
 %User{oops: :field}    #=> ** (KeyError) key :oops not found expanding struct: User.__struct__/1
 ```
 
-A struct is named after the module that defines it. Only the fields listed in `defstruct` may exist.
+A struct has the name of the module that defines it. Only the fields in `defstruct` can exist.
 
-<Diagram name="structs/compile-check" caption="Unknown keys are rejected while compiling, not at runtime." />
+<Diagram name="structs/compile-check" caption="Elixir rejects unknown keys at compile time, not at runtime." />
 
 ## Access, update, match
 
-Access and update work like a map with fixed keys. The update syntax never adds keys, so the underlying maps can share
-their key structure in memory.
+Access and update work as they do for a map with fixed keys. The update syntax never adds keys, so the underlying maps can share their key structure in memory.
 
 ```elixir
 john = %User{}
@@ -35,11 +34,11 @@ jane = %{john | name: "Jane"}
 %User{} = %{}              #=> ** (MatchError)
 ```
 
-`%User{} = value` also checks that the value is a `User` struct.
+`%User{} = value` also makes sure that the value is a `User` struct.
 
 ## Dynamic updates
 
-To update a struct from a keyword list or map whose fields you don't know until runtime, use `struct!/2`. It raises on invalid fields:
+To update a struct from a keyword list or a map when you do not know the fields until runtime, use `struct!/2`. It raises an error for invalid fields:
 
 ```elixir
 john = %User{name: "John", age: 27}
@@ -48,20 +47,20 @@ struct!(john, invalid: "field")
 #=> ** (KeyError) key :invalid not found in: %User{age: 27, name: "John"}
 ```
 
-Use `%{john | name: "Jane"}` when you know the fields at compile time, and always prefer `struct!/2` to the `Map` functions, to keep the struct intact.
+When you know the fields at compile time, use `%{john | name: "Jane"}`. Always use `struct!/2` and not the `Map` functions, to keep the struct intact.
 
-## Structs are bare maps underneath
+## A struct is a map underneath
 
-A struct is a map with one extra key, `__struct__`, holding the module name.
+A struct is a map with one extra key, `__struct__`, that holds the module name.
 
-<Diagram name="structs/struct-underneath" caption="Same map, plus __struct__." />
+<Diagram name="structs/struct-underneath" caption="The same map, plus __struct__." />
 
 ```elixir
 is_map(john)       #=> true
 john.__struct__    #=> User
 ```
 
-But structs don't inherit map features:
+But structs do not inherit the features of maps:
 
 ```elixir
 john[:name]
@@ -70,25 +69,24 @@ Enum.each(john, fn {field, value} -> IO.puts(value) end)
 #=> ** (Protocol.UndefinedError) protocol Enumerable not implemented for %User{age: 27, name: "John"} of type User (a struct)
 ```
 
-`john[:name]` fails because there is no `Access` behaviour, and `Enum.each(john, …)` raises `Protocol.UndefinedError`. You attach behaviour like this with [protocols](./protocols).
+`john[:name]` fails because the struct has no `Access` behaviour. `Enum.each(john, …)` raises `Protocol.UndefinedError`. You add this type of behaviour with [protocols](./protocols).
 
 <UnderTheHood>
 
-**In memory.** A struct is a map with one extra key, `__struct__`, so `%User{name: nil, age: nil, email: nil}` took 12 words against 10 for a plain map with the same three keys. The saving is in the keys. All structs of one kind share a single tuple of keys: 1000 of them took 12,005 words counted with sharing, and would take 17,000 if each carried its own. This is the optimisation the "Structs with 32 fields or more" anti-pattern refers to.
+**In memory.** A struct is a map with one extra key, `__struct__`. `%User{name: nil, age: nil, email: nil}` took 12 words. A plain map with the same three keys took 10 words. The saving is in the keys. All structs of one kind share a single tuple of keys. 1000 structs took 12,005 words, counted with sharing. Without the sharing, they take 17,000 words. The "Structs with 32 fields or more" anti-pattern refers to this optimization.
 
-<Diagram name="structs/uth-shared-keys" caption="Every struct of a kind points at the same tuple of keys." />
+<Diagram name="structs/uth-shared-keys" caption="Every struct of a kind points to the same tuple of keys." />
 
-*Sources:* measured with `:erts_debug.size/1` (counts shared parts once) and `:erts_debug.flat_size/1` on Erlang/OTP 29.
+*Sources:* we measured with `:erts_debug.size/1` (counts shared parts once) and `:erts_debug.flat_size/1` on Erlang/OTP 29.
 
 </UnderTheHood>
 
 ## Defaults and required keys
 
-Omitted defaults are `nil`. Fields with implicit `nil` must come **first**, then the keyword list:
+Omitted defaults are `nil`. Fields with an implicit `nil` must come **first**, before the keyword list:
 
 ```elixir
 defstruct [:email, name: "John", age: 27]
 ```
 
-`@enforce_keys [:make]` makes a key mandatory when building, or `ArgumentError` at compile time. It isn't checked on
-updates and it doesn't validate values.
+`@enforce_keys [:make]` makes a key mandatory when you build the struct. If the key is missing, you get an `ArgumentError` at compile time. Elixir does not check it on updates, and it does not validate values.

@@ -2,17 +2,16 @@
 
 Source: [Elixir guide, Client-server with GenServer](https://elixir.hexdocs.pm/genservers.html).
 
-The last feature: a client can `SUBSCRIBE shopping` and get real-time notifications (`milk SET TO 1`, `milk DELETED`) from a bucket anywhere in the cluster. Agents can't
-receive messages, so `KV.Bucket` becomes a `GenServer`.
+The last feature is that a client can send `SUBSCRIBE shopping`. The client then gets real-time notifications (`milk SET TO 1`, `milk DELETED`) from a bucket anywhere in the cluster. An agent cannot receive messages, so `KV.Bucket` becomes a `GenServer`.
 
 ## Links and monitors
 
-How do you know a process terminated? Two options:
+How do you know that a process ended? You have two options:
 
-- **Links** tie the fates of two processes: if one crashes, the other crashes too. Supervisors are the exception, because they trap exits with `Process.flag(:trap_exit, true)`.
+- **Links** tie two processes together. If one process crashes, the other process crashes too. Supervisors are the exception, because they trap exits with `Process.flag(:trap_exit, true)`.
 - **Monitors** only observe. When the monitored process ends, for any reason, you get a message and nothing else happens.
 
-<Diagram name="genservers/link-vs-monitor" caption="A link propagates failure. A monitor reports it." />
+<Diagram name="genservers/link-vs-monitor" caption="A link passes the failure on. A monitor reports it." />
 
 ```elixir
 pid = spawn(fn -> Process.sleep(5000) end)
@@ -21,12 +20,11 @@ flush()   # nothing yet, then after five seconds:
 #=> {:DOWN, #Reference<...>, :process, #PID<0.119.0>, :normal}
 ```
 
-Monitors are how a bucket learns a subscriber went away, so it can stop sending to it. Otherwise the subscriber list would grow forever.
+A bucket uses monitors to learn that a subscriber went away. The bucket then stops sending messages to it. Without monitors, the list of subscribers grows without limit.
 
 ## GenServer callbacks
 
-A GenServer is a process that calls a small set of functions under specific conditions. With an agent, client code and server code sit in one function. In a
-GenServer they are split:
+A GenServer is a process that calls a small set of functions under specific conditions. With an agent, the client code and the server code are in one function. In a GenServer, they are separate:
 
 ```elixir
 # client
@@ -70,21 +68,19 @@ defmodule KV.Bucket do
 end
 ```
 
-`GenServer.start_link/3` takes the callback module, the argument for `init/1`, and options (such as `:name`). `start_link` runs on the client and `init/1`
-on the server.
+`GenServer.start_link/3` takes the callback module, the argument for `init/1`, and options (such as `:name`). `start_link` runs on the client and `init/1` runs on the server.
 
-A **call** is synchronous, and the server must reply while the client waits. A **cast** is asynchronous, with no reply. Requests are handled in order. The state is now a
-map with a `:bucket` key so it has room for subscribers, and `get_in/1`, `put_in/2` and `pop_in/1` reach into it.
+A **call** is synchronous. The server must reply while the client waits. A **cast** is asynchronous and has no reply. The server handles requests in order. The state is now a map with a `:bucket` key, so it has room for subscribers. `get_in/1`, `put_in/2`, and `pop_in/1` reach into the map.
 
 <UnderTheHood>
 
-**Why a long mailbox hurts.** A process's mailbox is a queue in arrival order, and `receive` looks at the messages from the front until one matches. Measured, with a message that matched at the end of the mailbox: 10 messages ahead of it took under a microsecond, 10,000 took about 40 microseconds, and 1,000,000 took about 5 milliseconds (41 and 5,149 microseconds in one run, 40 and 4,919 in another).
+**Why a long mailbox hurts.** The mailbox of a process is a queue in the order of arrival. `receive` looks at the messages from the front until one message matches. We measured a message that matched at the end of the mailbox. With 10 messages ahead of it, `receive` took less than a microsecond. With 10,000 messages ahead of it, it took about 40 microseconds. With 1,000,000 messages ahead of it, it took about 5 milliseconds (41 and 5,149 microseconds in one run, 40 and 4,919 in another).
 
-A GenServer works through its mailbox in order, so a server that gets requests faster than it handles them makes every client wait behind the queue. `GenServer.call` also gives the caller a unique alias that the reply is sent to, which tracing showed in the agent example, so a reply doesn't get mixed up with other messages.
+A GenServer works through its mailbox in order. If a server gets requests faster than it handles them, every client waits behind the queue. `GenServer.call` also gives the caller a unique alias, and the server sends the reply to that alias. The trace in the agent example showed this. The alias prevents the reply from mixing with other messages.
 
-<Diagram name="genservers/uth-mailbox" caption="A receive scans the mailbox from the front, so cost grows with the messages ahead of it." />
+<Diagram name="genservers/uth-mailbox" caption="A receive scans the mailbox from the front, so the cost grows with the number of messages ahead of it." />
 
-*Sources:* measured with a plain `receive` and `:timer.tc/1` on Erlang/OTP 29. The scan cost depends on the pattern and the VM version.
+*Sources:* we measured with a plain `receive` and `:timer.tc/1` on Erlang/OTP 29. The scan cost depends on the pattern and on the VM version.
 
 </UnderTheHood>
 
@@ -113,13 +109,13 @@ defp broadcast(state, message) do
 end
 ```
 
-<Diagram name="genservers/subscribe-flow" caption="Subscribe by cast. Every change is broadcast. A dead subscriber is removed on :DOWN." />
+<Diagram name="genservers/subscribe-flow" caption="A client subscribes with a cast. The bucket broadcasts every change. The bucket removes a dead subscriber on :DOWN." />
 
-Real code would use a `call` for `subscribe`, since it gives back-pressure. `cast` is used here to show the callback.
+Real code uses a `call` for `subscribe`, because a call gives back-pressure. This example uses `cast` to show the callback.
 
 ## Wiring it into the server
 
-Parse `["SUBSCRIBE", bucket]` into `{:subscribe, bucket}` and add a `run` clause that subscribes, switches the socket to **active mode** and loops:
+Parse `["SUBSCRIBE", bucket]` into `{:subscribe, bucket}`. Then add a `run` clause that subscribes, switches the socket to **active mode**, and loops:
 
 ```elixir
 def run({:subscribe, bucket}, socket) do
@@ -144,22 +140,20 @@ defp receive_messages(socket) do
 end
 ```
 
-`:gen_tcp.recv/3` is **passive mode**: it blocks until data arrives. In **active mode** the socket delivers `{:tcp, socket, data}` and `{:tcp_closed, socket}` to the process's mailbox, so
-one process can receive TCP events and bucket messages together. Many systems use `active: :once` to avoid flooding the mailbox. Because the bucket monitors the process, closing the connection unsubscribes it.
+`:gen_tcp.recv/3` is **passive mode**. It blocks until data arrives. In **active mode**, the socket delivers `{:tcp, socket, data}` and `{:tcp_closed, socket}` to the mailbox of the process. One process can then receive TCP events and bucket messages together. Many systems use `active: :once` to prevent a flood in the mailbox. The bucket monitors the process, so when the connection closes, the bucket removes the subscription.
 
 <Diagram name="genservers/active-mode" caption="Bucket events and socket events arrive in the same mailbox." />
 
-The subscription is also distributed: with two connected nodes, changes made on one are streamed to a subscriber on the other, because it's all message passing.
+The subscription also works across nodes. With two connected nodes, the changes on one node go to a subscriber on the other node, because everything is message passing.
 
-## call, cast or info?
+## call, cast, or info?
 
 | Callback | Use for |
 |---|---|
-| `handle_call/3` | Synchronous requests. The default: waiting for a reply gives back-pressure. |
-| `handle_cast/2` | Asynchronous requests when you don't need a reply. Use sparingly: delivery isn't confirmed. |
-| `handle_info/2` | Everything else: plain `send/2` messages and monitor `:DOWN` messages. |
+| `handle_call/3` | Synchronous requests. This is the default, because the wait for a reply gives back-pressure. |
+| `handle_cast/2` | Asynchronous requests when you do not need a reply. Use it rarely, because nothing confirms the delivery. |
+| `handle_info/2` | All other messages: plain `send/2` messages and monitor `:DOWN` messages. |
 
 ## Agent or GenServer?
 
-Agents are a subset of GenServers, and are built on them, like supervisors and `Registry`. GenServers are the essential building block for concurrent, fault-tolerant
-systems. Some people never use agents, others use them for small bits of state. Either is fine.
+Agents are a subset of GenServers, and they use GenServers, as supervisors and `Registry` do. GenServers are the basic building block of concurrent, fault-tolerant systems. Some people never use agents. Others use agents for small amounts of state. Both choices are correct.

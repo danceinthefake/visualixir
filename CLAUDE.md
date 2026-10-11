@@ -6,8 +6,9 @@ Visualixir is a VitePress site of Graphviz diagrams that explain the official El
 
 The reference for all prose is ASD-STE100 (Simplified Technical English), Issue 9. The rules are in the global `~/.claude/CLAUDE.md`. The `simple-english` plugin implements them. Use its Strict mode for documents.
 
-- The rules apply to every prose file in this repository: CLAUDE.md, README.md, CONTRIBUTING.md, `e2e/README.md`, the files in `.github/`, the text of the `docs/` pages, commit messages, pull request descriptions, and code comments.
-- Write new prose in STE. When you change a page, convert the prose that you touch. Do not rewrite a page that you do not change.
+- The rules apply to every prose file in this repository: CLAUDE.md, README.md, CONTRIBUTING.md, `e2e/README.md`, the files in `.github/`, the text of the `docs/` pages and the reader text in the JSON files of `docs/.vitepress/`, commit messages, pull request descriptions, and code comments.
+- All pages, the JSON files with reader text (`glossary.json`, `quiz.json`, `paths.json`), and the project documents are in STE. Write all new and changed prose in STE.
+- The text inside the `.dot` diagrams and the interface text in the Vue components are not yet converted.
 - Do not change code, identifiers, commands, file paths, quoted errors, product names, or text that quotes the official Elixir docs.
 - Before you commit prose, search it for contractions, `should`, `may`, `might`, `could`, `would`, semicolons, and em-dashes.
 - No tool can guarantee compliance. The official dictionary is free at asd-ste100.org.

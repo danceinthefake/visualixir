@@ -2,12 +2,11 @@
 
 Source: [Elixir guide, Anonymous functions](https://elixir.hexdocs.pm/anonymous-functions.html).
 
-Code you can store and pass around like an integer or string.
+An anonymous function is code that you can store and pass around, as you do with an integer or a string.
 
 ## Name and arity
 
-A function is identified by **name and arity** (its argument count). `trunc/1` is a real function;
-`trunc/2` is a different, nonexistent one. In IEx, `h trunc/1` prints the docs.
+The **name and arity** (the number of arguments) identify a function. `trunc/1` is a real function. `trunc/2` is a different function that does not exist. In IEx, `h trunc/1` prints the docs.
 
 ## Defining and calling
 
@@ -16,18 +15,15 @@ add = fn a, b -> a + b end
 add.(1, 2)   #=> 3
 ```
 
-Arguments are left of `->`, the body right of it. Calling uses a **dot**, so there is never doubt
-whether you are calling the variable `add` or a named function `add/2`. Without the dot you'd have
-to scan all previous code to know what `is_atom(:foo)` means.
+The arguments are on the left of `->` and the body is on the right. You call the function with a **dot**. The dot makes it clear if you call the variable `add` or a named function `add/2`. Without the dot, you must read all the earlier code to know what `is_atom(:foo)` means.
 
-<Diagram name="anonymous-functions/call" caption="The dot decides which one you are calling." />
+<Diagram name="anonymous-functions/call" caption="The dot shows which function you call." />
 
-Check with `is_function(add)` (true) and `is_function(add, 2)` (true, exact arity), `is_function(add, 1)` (false).
+Make sure that a value is a function with `is_function(add)` (true). `is_function(add, 2)` (true) checks the exact arity. `is_function(add, 1)` is false.
 
 ## Closures
 
-A function can use variables that were in scope where it was defined. Assigning inside a function
-never changes the surrounding scope.
+A function can use the variables that were in scope where you defined it. An assignment inside a function never changes the outer scope.
 
 ```elixir
 double = fn a -> add.(a, a) end
@@ -38,24 +34,23 @@ x = 42
 x                      #=> 42
 ```
 
-<Diagram name="anonymous-functions/closure" caption="double closes over add. The inner x = 0 leaves the outer x alone." />
+<Diagram name="anonymous-functions/closure" caption="double closes over add. The inner x = 0 does not change the outer x." />
 
 <UnderTheHood>
 
-**In memory.** `fn x -> x + y end` makes an object on the heap, the *fun object*, that holds every variable it captured. The compiler shows it as two instructions: `test_heap` reserves room, then `make_fun3` builds the object with its list of captured variables. Calling it, `f.(a)`, is a `call_fun` instruction. Whatever the closure captured is part of it: a closure over a 10,000-element list measured 20,003 words.
+**In memory.** `fn x -> x + y end` makes an object on the heap, the *fun object*. It holds every variable that it captured. The compiler shows it as two instructions. `test_heap` reserves room, and `make_fun3` builds the object with its list of captured variables. A call, `f.(a)`, is a `call_fun` instruction. The closure includes everything that it captured. A closure over a list of 10,000 elements measured 20,003 words.
 
-**What that costs when you send it.** A message is copied into the receiver's heap, so sending that closure copied the whole list: the receiver grew by about 160 KB. Capture only what you need, and see the "Sending unnecessary data" anti-pattern.
+**What that costs when you send it.** The system copies a message into the heap of the receiver. When we sent that closure, the system copied the whole list, and the receiver grew by about 160 KB. Capture only the data that you need. See the "Sending unnecessary data" anti-pattern.
 
-<Diagram name="anonymous-functions/uth-closure" caption="A closure carries what it captured, and sending it copies all of it." />
+<Diagram name="anonymous-functions/uth-closure" caption="A closure carries what it captured, and a send copies all of it." />
 
-*Sources:* instructions read with `:beam_disasm`, sizes with `:erts_debug.flat_size/1`, on Erlang/OTP 29. Message copying is documented in the [Efficiency Guide](https://www.erlang.org/doc/system/eff_guide_processes.html).
+*Sources:* we read the instructions with `:beam_disasm` and measured the sizes with `:erts_debug.flat_size/1`, on Erlang/OTP 29. The [Efficiency Guide](https://www.erlang.org/doc/system/eff_guide_processes.html) describes message copying.
 
 </UnderTheHood>
 
 ## Clauses and guards
 
-Like `case`, an anonymous function can have several clauses and guards. Every clause needs the same
-number of arguments, or you get a `CompileError`.
+As in `case`, an anonymous function can have several clauses and guards. Every clause must have the same number of arguments. If not, you get a `CompileError`.
 
 ```elixir
 f = fn
@@ -68,8 +63,7 @@ f.(-1, 3)   #=> -3
 
 ## The capture operator
 
-`&` turns any `name/arity` into a function value: named functions, module functions, even operators.
-It also shortens simple anonymous functions, where `&1` is the first argument.
+`&` turns any `name/arity` into a function value: named functions, module functions, and operators. It also makes simple anonymous functions shorter. `&1` is the first argument.
 
 ```elixir
 fun = &is_atom/1
@@ -78,7 +72,7 @@ fun.(:hello)              #=> true
 (&+/2).(1, 2)             #=> 3
 
 &(&1 + 1)      # same as fn x -> x + 1 end
-&"Good #{&1}"  # works with string interpolation too
+&"Good #{&1}"  # also works with string interpolation
 ```
 
-<Diagram name="anonymous-functions/capture" caption="Every capture yields a function value you call with a dot." />
+<Diagram name="anonymous-functions/capture" caption="Every capture gives a function value that you call with a dot." />

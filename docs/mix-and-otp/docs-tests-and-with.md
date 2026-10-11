@@ -2,12 +2,11 @@
 
 Source: [Elixir guide, Doctests, patterns, and with](https://elixir.hexdocs.pm/docs-tests-and-with.html).
 
-This chapter parses the commands (`CREATE`, `PUT`, `GET`, `DELETE`) and dispatches them to buckets.
+This chapter parses the commands (`CREATE`, `PUT`, `GET`, `DELETE`) and sends them to buckets.
 
 ## Doctests
 
-Examples in documentation double as tests. A doctest is four spaces of indentation and `iex>` inside a doc string, with `...>` for continuation lines.
-The expected result follows on the next line. Use `~S"""` so `\r\n` isn't interpreted until the test runs.
+Examples in documentation are also tests. A doctest is four spaces of indentation and `iex>` inside a doc string. Use `...>` for continuation lines. The expected result is on the next line. Use `~S"""` so that Elixir does not interpret `\r\n` until the test runs.
 
 ```elixir
 defmodule KV.Command do
@@ -30,13 +29,11 @@ defmodule KV.CommandTest do
 end
 ```
 
-A blank line between examples makes **separate** tests. Without one they compile into a single test. Doctests are documentation first and tests second, not a replacement for
-tests.
+A blank line between examples makes **separate** tests. Without a blank line, the examples compile into one test. Doctests are documentation first and tests second. They do not replace tests.
 
 ## Parsing with patterns
 
-`String.split/1` splits on whitespace, so extra spaces don't matter. Then let function-body pattern matching pick the command, with no `if/else` on
-the name or argument count:
+`String.split/1` splits on whitespace, so extra spaces do not matter. Then pattern matching in the function body picks the command. You do not need `if/else` on the name or on the number of arguments:
 
 ```elixir
 def parse(line) do
@@ -50,12 +47,11 @@ def parse(line) do
 end
 ```
 
-<Diagram name="docs-tests-and-with/parse" caption="The shape of the list picks the command. Anything else is an unknown command." />
+<Diagram name="docs-tests-and-with/parse" caption="The shape of the list picks the command. Any other shape is an unknown command." />
 
 ## with
 
-The server has to handle several failure shapes at once (a closed socket, an unknown command), and nested `case` gets ugly. `with` turns each `case`
-into a step:
+The server must handle several failures at once, for example a closed socket and an unknown command. Nested `case` expressions are hard to read. `with` turns each `case` into a step:
 
 ```elixir
 defp serve(socket) do
@@ -69,8 +65,7 @@ defp serve(socket) do
 end
 ```
 
-`with` matches the right side of each `<-` against its pattern. On a match it moves on. On a mismatch it stops and returns the **non-matching value**
-as is. `write_line/2` then has one clause per outcome:
+`with` matches the right side of each `<-` against its pattern. If the value matches, `with` goes to the next step. If the value does not match, `with` stops and returns the **non-matching value** unchanged. `write_line/2` then has one clause for each outcome:
 
 ```elixir
 defp write_line(_socket, :ok), do: :ok
@@ -83,7 +78,7 @@ defp write_line(socket, {:error, error}) do
 end
 ```
 
-<Diagram name="docs-tests-and-with/with-chain" caption="Success walks the chain. The first mismatch jumps straight to write_line." />
+<Diagram name="docs-tests-and-with/with-chain" caption="On success, the chain runs to the end. The first mismatch goes straight to write_line." />
 
 ## Running commands
 
@@ -107,14 +102,13 @@ defp lookup(bucket, callback) do
 end
 ```
 
-`put` and `delete` follow the same shape. The body-less `def run(command, socket)` is a function head: here it documents the arguments.
+`put` and `delete` have the same shape. The `def run(command, socket)` without a body is a function head. Here it documents the arguments.
 
 <Diagram name="docs-tests-and-with/request-path" caption="One PUT, from the socket to the agent and back." />
 
 ## Integration tests
 
-Mocks would move tests away from how the code really runs. Instead, use the real local registry and give **each test a unique name** (module plus test name). A `setup`
-block runs per test, opens a client connection and builds that name. It gets the same test context as the tests:
+Mocks make the tests differ from the real code. Instead, use the real local registry and give **each test a unique name** (the module name plus the test name). A `setup` block runs for each test. It opens a client connection and builds the name. It gets the same test context as the tests:
 
 ```elixir
 setup config do
@@ -130,4 +124,4 @@ test "server interaction", %{socket: socket, name: name} do
 end
 ```
 
-Stop any running `iex -S mix` first: tests and development use the same port, 4040. The next chapter fixes that.
+First, stop any running `iex -S mix`. The tests and the development server use the same port, 4040. The next chapter fixes this.

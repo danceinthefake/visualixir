@@ -2,8 +2,7 @@
 
 Source: [Elixir guide, Protocols](https://elixir.hexdocs.pm/protocols.html).
 
-A protocol is polymorphism by data type. The problem: a `type/1` function with a clause per type works while the code is yours,
-but nobody else can extend it. With a protocol, **anyone can implement it, for any type, at any time**.
+A protocol is polymorphism by data type. Here is the problem. A `type/1` function with one clause for each type works while the code is yours, but nobody else can extend it. With a protocol, **anyone can implement it, for any type, at any time**.
 
 ```elixir
 defprotocol Utility do
@@ -20,9 +19,9 @@ defimpl Utility, for: Integer do
 end
 ```
 
-The `defimpl` blocks can live in different files. Dispatch is always on the type of the **first argument**.
+The `defimpl` blocks can be in different files. The dispatch is always on the type of the **first argument**.
 
-<Diagram name="protocols/dispatch" caption="The protocol picks the implementation from the first argument's type." />
+<Diagram name="protocols/dispatch" caption="The protocol picks the implementation from the type of the first argument." />
 
 ## Example: Size
 
@@ -43,23 +42,20 @@ defimpl Size, for: Tuple do
 end
 ```
 
-Lists get no implementation, because a list's length isn't pre-computed. Calling `Size.size([1, 2, 3])` raises
-`Protocol.UndefinedError`. You can implement a protocol for `Atom`, `BitString`, `Float`, `Function`, `Integer`, `List`, `Map`, `PID`,
-`Port`, `Reference` and `Tuple`.
+Lists have no implementation, because the length of a list is not pre-computed. `Size.size([1, 2, 3])` raises `Protocol.UndefinedError`. You can implement a protocol for `Atom`, `BitString`, `Float`, `Function`, `Integer`, `List`, `Map`, `PID`, `Port`, `Reference`, and `Tuple`.
 
-<Diagram name="protocols/size" caption="One function, one implementation per type." />
+<Diagram name="protocols/size" caption="One function and one implementation for each type." />
 
 ## Protocols and structs
 
-A struct is a map, but it doesn't share the map's implementations. `Size.size(%MapSet{})` fails until you write
-`defimpl Size, for: MapSet`. Structs need their own implementation, which lets your own data types define what `size` means for them.
+A struct is a map, but it does not share the implementations of the map. `Size.size(%MapSet{})` fails until you write `defimpl Size, for: MapSet`. A struct needs its own implementation. This lets your own data types define what `size` means for them.
 
-## Falling back to `Any`
+## Fallback to `Any`
 
-Writing every implementation by hand gets tedious. Implement the protocol for `Any`, then either:
+It is tedious to write every implementation by hand. Implement the protocol for `Any`. Then use one of two methods:
 
-- **derive**: `@derive [Size]` on a struct, explicit, and the approach many libraries push towards, or
-- **fall back**: `@fallback_to_any true` in the protocol, opt-in for every type (a poor default, so it's off).
+- **derive**: `@derive [Size]` on a struct. This is explicit, and many libraries use it.
+- **fall back**: `@fallback_to_any true` in the protocol. This opts in every type. It is a poor default, so it is off.
 
 ```elixir
 defimpl Size, for: Any do
@@ -67,24 +63,24 @@ defimpl Size, for: Any do
 end
 ```
 
-<Diagram name="protocols/fallback" caption="Lookup order when calling a protocol function." />
+<Diagram name="protocols/fallback" caption="The lookup order when you call a protocol function." />
 
 <UnderTheHood>
 
-**What a protocol call becomes.** A call such as `Enumerable.reduce(list, acc, fun)` first asks which module handles this kind of value, then calls that module. When `mix` compiles a project it *consolidates* each protocol, so that first step becomes a few type checks and one jump that ends in a constant: the name of the module, such as `Enumerable.List`.
+**What a protocol call becomes.** A call such as `Enumerable.reduce(list, acc, fun)` first asks which module handles this kind of value. Then it calls that module. When `mix` compiles a project, it *consolidates* each protocol. The first step then becomes a few type checks and one jump that ends in a constant: the name of the module, for example `Enumerable.List`.
 
-The [Protocol docs](https://hexdocs.pm/elixir/Protocol.html) describe a consolidated call as "equivalent to invoking two remote functions", one to identify the implementation and one to call it. Consolidation applies when "all protocol implementations are known up-front", which is why implementations defined later, for example only in tests, need care.
+The [Protocol docs](https://hexdocs.pm/elixir/Protocol.html) describe a consolidated call as "equivalent to invoking two remote functions". One function identifies the implementation and one function calls it. Consolidation applies when "all protocol implementations are known up-front". For this reason, take care with implementations that you define later, for example only in tests.
 
-<Diagram name="protocols/uth-dispatch" caption="A consolidated protocol decides the implementation with a few tests and a jump." />
+<Diagram name="protocols/uth-dispatch" caption="A consolidated protocol picks the implementation with a few tests and a jump." />
 
-*Sources:* disassembled with `:beam_disasm` after `Protocol.consolidate/2` on Elixir 1.20. The checks are `is_map`, `get_map_elements` (to read a struct's name), `is_atom` and `select_val`. The shape of the generated code may change between Elixir versions.
+*Sources:* we disassembled with `:beam_disasm` after `Protocol.consolidate/2` on Elixir 1.20. The checks are `is_map`, `get_map_elements` (to read the name of a struct), `is_atom`, and `select_val`. The shape of the generated code can change between Elixir versions.
 
 </UnderTheHood>
 
 ## Built-in protocols
 
-<Diagram name="protocols/builtin" caption="Functions you already use are protocols underneath." />
+<Diagram name="protocols/builtin" caption="The functions that you already use are protocols underneath." />
 
 - `Enumerable`: what `Enum` works with.
-- `String.Chars`: `to_string/1`, and what `"#{value}"` calls. `"#{{1, 2, 3}}"` fails because tuples don't implement it.
-- `Inspect`: `inspect/1`, and how IEx prints results. If the output starts with `#`, it isn't valid Elixir, so inspect isn't reversible.
+- `String.Chars`: `to_string/1`, and what `"#{value}"` calls. `"#{{1, 2, 3}}"` fails because tuples do not implement it.
+- `Inspect`: `inspect/1`, and how IEx prints results. If the output starts with `#`, it is not valid Elixir, so inspect is not reversible.

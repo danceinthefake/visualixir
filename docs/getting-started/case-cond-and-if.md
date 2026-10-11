@@ -4,7 +4,7 @@ Source: [Elixir guide, case, cond, and if](https://elixir.hexdocs.pm/case-cond-a
 
 ## case
 
-`case` compares a value against patterns, top to bottom, and runs the first clause that matches.
+`case` compares a value with patterns, from top to bottom, and runs the first clause that matches.
 
 ```elixir
 case {1, 2, 3} do
@@ -14,10 +14,9 @@ case {1, 2, 3} do
 end
 ```
 
-<Diagram name="case-cond-and-if/case-order" caption="First match wins. If no clause matches, Elixir raises CaseClauseError." />
+<Diagram name="case-cond-and-if/case-order" caption="The first match wins. If no clause matches, Elixir raises CaseClauseError." />
 
-Use `^` to match against an existing variable instead of rebinding it. Add a **guard** with `when`
-for extra conditions:
+Use `^` to match against an existing variable and not bind it again. For extra conditions, add a **guard** with `when`:
 
 ```elixir
 x = 1
@@ -32,8 +31,7 @@ case {1, 2, 3} do
 end
 ```
 
-An error raised inside a guard doesn't escape. It just makes the guard fail, and the next clause is
-tried:
+An error that a guard raises does not escape. The guard only fails, and Elixir tries the next clause:
 
 ```elixir
 case 1 do
@@ -43,7 +41,7 @@ end
 #=> "Got 1"
 ```
 
-If nothing matches:
+If no clause matches:
 
 ```elixir
 case :ok do
@@ -52,25 +50,23 @@ end
 #=> ** (CaseClauseError) no case clause matching: :ok
 ```
 
-The full list of guards is in the [Patterns and Guards](/references/patterns-and-guards#guards) reference.
+The [Patterns and Guards](/references/patterns-and-guards#guards) reference has the full list of guards.
 
 <UnderTheHood>
 
-**In short:** `case`, guards and `if` become a few quick checks and jumps, with no function calls.
+**In short:** `case`, guards, and `if` become a few quick checks and jumps, with no function calls.
 
-**What `case` becomes.** When a `case` matches on fixed values, the compiler turns it into a single lookup that jumps straight to the right branch, instead of testing each clause in turn. A guard such as `when is_integer(x) and x > 10` becomes two quick checks, and no function is called. That fits the chapter's note that patterns and guards are limited to expressions the compiler can optimise. An `if` is the same idea: a jump on the condition, where `false` and `nil` take the `else` side.
+**What `case` becomes.** When a `case` matches on fixed values, the compiler turns it into a single lookup that jumps straight to the correct branch. It does not test each clause in turn. A guard such as `when is_integer(x) and x > 10` becomes two quick checks, and no function is called. This agrees with the note in the chapter that patterns and guards are limited to expressions that the compiler can optimize. An `if` is the same idea: a jump on the condition, where `false` and `nil` take the `else` side.
 
-<Diagram name="case-cond-and-if/uth-select" caption="case, guards and if compile to tests and jumps, with no function calls." />
+<Diagram name="case-cond-and-if/uth-select" caption="case, guards, and if compile to tests and jumps, with no function calls." />
 
-*Sources:* read with `:beam_disasm` on Erlang/OTP 29 and Elixir 1.20. The instructions are `select_val` (the lookup and jump, also used for `if`), and `is_integer` and `is_ge 11` for the guard. How the compiler lays out a `case` can differ between versions.
+*Sources:* we read the code with `:beam_disasm` on Erlang/OTP 29 and Elixir 1.20. The instructions are `select_val` (the lookup and jump, also used for `if`), and `is_integer` and `is_ge 11` for the guard. The layout that the compiler makes for a `case` can differ between versions.
 
 </UnderTheHood>
 
 ## if
 
-Patterns and guards cover only expressions the compiler can optimize. For anything else, `if`. The
-body runs unless the condition is `false` or `nil`, in which case `if` returns `nil`, or the `else`
-value.
+Patterns and guards cover only expressions that the compiler can optimize. For all other cases, use `if`. The body runs unless the condition is `false` or `nil`. In that case, `if` returns `nil` or the `else` value.
 
 ```elixir
 if false do "never seen" end   #=> nil
@@ -79,8 +75,7 @@ if nil do "no" else "This will" end   #=> "This will"
 
 ### Everything is an expression
 
-There are no statements in Elixir. Every construct returns a value, and variables set inside a block
-don't leak out of it.
+Elixir has no statements. Every construct returns a value, and variables that you set inside a block do not leak out of it.
 
 ```elixir
 x = 1
@@ -92,7 +87,7 @@ x
 #=> 1
 ```
 
-<Diagram name="case-cond-and-if/scope" caption="The if block reads the outer x but its own x = x + 1 stays inside." />
+<Diagram name="case-cond-and-if/scope" caption="The if block reads the outer x, but its own x = x + 1 stays inside." />
 
 To keep the change, bind the *result* of the `if`:
 
@@ -100,14 +95,11 @@ To keep the change, bind the *result* of the `if`:
 x = if true do x + 1 else x end
 ```
 
-That is also why there's no ternary operator: `if` already returns a value. And `if` is a macro,
-not a special form.
+For the same reason, Elixir has no ternary operator: `if` already returns a value. Also, `if` is a macro and not a special form.
 
 ## cond
 
-`cond` checks several conditions and runs the first one that is neither `nil` nor `false`. It's the
-`else if` chain of other languages. If none is truthy, `CondClauseError` is raised, so end with
-`true ->` for a default.
+`cond` checks several conditions and runs the first one that is not `nil` or `false`. It is the `else if` chain of other languages. If no condition is truthy, Elixir raises `CondClauseError`, so end with `true ->` for a default.
 
 ```elixir
 cond do
@@ -117,6 +109,6 @@ cond do
 end
 ```
 
-## Which one?
+## Which one to use?
 
-<Diagram name="case-cond-and-if/choose" caption="Prefer patterns and guards. Fall back to if, then cond for several conditions." />
+<Diagram name="case-cond-and-if/choose" caption="Prefer patterns and guards. Use if as a fallback. Use cond for several conditions." />
