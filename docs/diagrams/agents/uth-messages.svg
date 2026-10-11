@@ -44,7 +44,7 @@
 <title>d</title>
 <polygon fill="#f2f2f2" stroke="#333333" points="297.25,-42.5 48.75,-42.5 48.75,0 297.25,0 297.25,-42.5"/>
 <text xml:space="preserve" text-anchor="middle" x="173" y="-25.2" font-family="Roboto" font-size="14.00">caller: receives the reply (message 2)</text>
-<text xml:space="preserve" text-anchor="middle" x="173" y="-7.95" font-family="Roboto" font-size="14.00">it was waiting, using no CPU</text>
+<text xml:space="preserve" text-anchor="middle" x="173" y="-7.95" font-family="Roboto" font-size="14.00">it waited and used no CPU</text>
 </g>
 <!-- c&#45;&gt;d -->
 <g id="edge3" class="edge">

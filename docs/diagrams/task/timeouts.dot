@@ -7,7 +7,7 @@ digraph timeouts {
   ok [label="{:ok, reply}"]
   ex [label="caller exits\n(linked task exits too)" class=hl]
   nil [label="nil\nmonitor stays active"]
-  sd [label="Task.shutdown(task)\nunlinks, stops it, checks for a late reply"]
+  sd [label="Task.shutdown(task)\nunlinks, stops it, looks for a late reply"]
   ig [label="Task.ignore(task)\nleave it running, forget the reply"]
   t -> aw
   t -> y

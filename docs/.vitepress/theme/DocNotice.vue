@@ -12,9 +12,9 @@ const url = computed(() => (frontmatter.value.source as string | undefined) ?? `
 
 <template>
   <p v-if="snap && frontmatter.notice !== false" class="doc-notice">
-    A condensed, illustrated version of the
-    <a :href="url" rel="noopener">official Elixir page</a>, taken from the docs of
+    This page is a short version of the
+    <a :href="url" rel="noopener">official Elixir page</a>, with diagrams. It uses the docs of
     <time :datetime="snap.date">{{ snap.date }}</time><template v-if="snap.elixir"> (Elixir {{ snap.elixir }})</template>.
-    The official page is authoritative.
+    The official page is the reference.
   </p>
 </template>

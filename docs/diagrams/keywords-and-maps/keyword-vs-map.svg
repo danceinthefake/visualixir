@@ -18,7 +18,7 @@
 <title>cluster_kw</title>
 <polygon fill="none" stroke="black" points="116.88,-167 116.88,-262 484.75,-262 484.75,-167 116.88,-167"/>
 <text xml:space="preserve" text-anchor="middle" x="300.81" y="-244.7" font-family="Roboto" font-size="14.00">keyword list [a: 1, b: 2, a: 3]</text>
-<text xml:space="preserve" text-anchor="middle" x="300.81" y="-227.45" font-family="Roboto" font-size="14.00">ordered · atom keys · keys may repeat</text>
+<text xml:space="preserve" text-anchor="middle" x="300.81" y="-227.45" font-family="Roboto" font-size="14.00">ordered · atom keys · keys can repeat</text>
 </g>
 <!-- m1 -->
 <g id="node1" class="node">

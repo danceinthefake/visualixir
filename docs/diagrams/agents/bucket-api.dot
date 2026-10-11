@@ -3,7 +3,7 @@ digraph bucket_api {
   node [shape=box]
   ag [label="Agent process\nstate: a map" class=hl]
   subgraph cluster_bucket {
-    label="KV.Bucket: the only module that knows it's an Agent"
+    label="KV.Bucket: the only module that knows about the Agent"
     sl [label="start_link(opts)"]
     get [label="get(bucket, key)"]
     put [label="put(bucket, key, value)"]

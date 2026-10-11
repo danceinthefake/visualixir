@@ -9,7 +9,7 @@ digraph socket {
   subgraph cluster_k {
     label="the Linux kernel"
     tcp [label="the TCP stack and the socket's buffers\nreceive 128 KiB, send about 2.5 MB (ss -tnm)"]
-    ep [label="epoll: tells the VM when data has arrived"]
+    ep [label="epoll: tells the VM when data arrives"]
   }
   net [label="over a real network the packets go through the network card\nhere it was loopback, so no card was involved" class=dim]
   sys -> tcp

@@ -11,7 +11,7 @@
 <g id="clust1" class="cluster">
 <title>cluster_bad</title>
 <polygon fill="none" stroke="black" points="8,-8 8,-101 267.75,-101 267.75,-8 8,-8"/>
-<text xml:space="preserve" text-anchor="middle" x="137.88" y="-83.7" font-family="Roboto" font-size="14.00">{x, x} = {1, 2}: x can&#39;t be both</text>
+<text xml:space="preserve" text-anchor="middle" x="137.88" y="-83.7" font-family="Roboto" font-size="14.00">{x, x} = {1, 2}: x cannot be both</text>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_ok</title>

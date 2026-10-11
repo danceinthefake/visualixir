@@ -33,7 +33,7 @@
 <title>q2</title>
 <polygon fill="#f2f2f2" stroke="#333333" points="313.62,-131.75 181.38,-131.75 181.38,-89.25 313.62,-89.25 313.62,-131.75"/>
 <text xml:space="preserve" text-anchor="middle" x="247.5" y="-114.45" font-family="Roboto" font-size="14.00">Several conditions</text>
-<text xml:space="preserve" text-anchor="middle" x="247.5" y="-97.2" font-family="Roboto" font-size="14.00">to check in turn?</text>
+<text xml:space="preserve" text-anchor="middle" x="247.5" y="-97.2" font-family="Roboto" font-size="14.00">to test in turn?</text>
 </g>
 <!-- q1&#45;&gt;q2 -->
 <g id="edge2" class="edge">

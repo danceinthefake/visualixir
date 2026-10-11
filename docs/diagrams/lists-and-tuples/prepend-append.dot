@@ -14,7 +14,7 @@ digraph prepend_append {
     b4:tl -> nil2
   }
   subgraph cluster_pre {
-    label="[0] ++ list: fast, only [0] is copied; list is shared"
+    label="[0] ++ list: fast. Only [0] is copied and list is shared"
     n0 [label="{<hd>0|<tl>·}" class=hl]
     a1 [label="{<hd>1|<tl>·}"]
     a2 [label="{<hd>2|<tl>·}"]

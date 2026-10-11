@@ -6,7 +6,7 @@ digraph compile_check {
   res [label="%User{name: \"Jane\", age: 27}"]
   bad [label="%User{oops: :field}"]
   err [label="KeyError\n(caught when compiling)"]
-  def -> ok1 [label=" fields known;\l age takes its default\l"]
+  def -> ok1 [label=" fields known.\l age takes its default\l"]
   ok1 -> res
   def -> bad [label=" unknown field" class=bad style=dashed]
   bad -> err [class=bad style=dashed]

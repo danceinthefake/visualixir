@@ -2,7 +2,7 @@ digraph repeated {
   rankdir=LR
   node [shape=record]
   subgraph cluster_bad {
-    label="{x, x} = {1, 2}: x can't be both"
+    label="{x, x} = {1, 2}: x cannot be both"
     pb [label="<a>x|<b>x" class=hl]
     vb [label="<a>1|<b>2"]
     pb:a -> vb:a

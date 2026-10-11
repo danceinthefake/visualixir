@@ -18,7 +18,7 @@ watch(() => hood.version, () => (open.value = hood.target));
   <BlessCollapsible v-model:open="open" class="under-the-hood">
     <template #title>
       Under the hood
-      <small class="under-the-hood__note">Visualixir's explanation, not from the official docs</small>
+      <small class="under-the-hood__note">Our own text. It is not from the official docs.</small>
     </template>
     <slot />
   </BlessCollapsible>

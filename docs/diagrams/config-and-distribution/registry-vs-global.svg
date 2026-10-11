@@ -11,7 +11,7 @@
 <g id="clust1" class="cluster">
 <title>cluster_global</title>
 <polygon fill="none" stroke="black" points="8,-8 8,-109 597.5,-109 597.5,-8 8,-8"/>
-<text xml:space="preserve" text-anchor="middle" x="302.75" y="-91.7" font-family="Roboto" font-size="14.00">:global via {:global, name}: one name table across connected nodes</text>
+<text xml:space="preserve" text-anchor="middle" x="302.75" y="-91.7" font-family="Roboto" font-size="14.00">:global with {:global, name}: one name table across connected nodes</text>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_local</title>

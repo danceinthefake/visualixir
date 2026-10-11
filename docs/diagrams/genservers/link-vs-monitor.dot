@@ -2,7 +2,7 @@ digraph link_vs_monitor {
   rankdir=LR
   node [shape=box]
   subgraph cluster_mon {
-    label="monitor: one-way, just a message"
+    label="monitor: one-way, only a message"
     w [label="watcher\nProcess.monitor(pid)" class=hl]
     t2 [label="watched process\nterminates, for any reason"]
     t2 -> w [label=" {:DOWN, ref, :process, pid, reason}"]

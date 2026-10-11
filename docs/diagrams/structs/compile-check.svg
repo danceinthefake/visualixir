@@ -25,7 +25,7 @@
 <title>def&#45;&gt;ok1</title>
 <path fill="none" stroke="#333333" d="M209.19,-57.76C258.66,-61.82 317.04,-66.61 363.54,-70.43"/>
 <polygon fill="#333333" stroke="#333333" points="363.03,-73.89 373.28,-71.22 363.6,-66.92 363.03,-73.89"/>
-<text xml:space="preserve" text-anchor="start" x="226.75" y="-90.94" font-family="Roboto" font-size="14.00"> fields known;</text>
+<text xml:space="preserve" text-anchor="start" x="226.75" y="-90.94" font-family="Roboto" font-size="14.00"> fields known.</text>
 <text xml:space="preserve" text-anchor="start" x="226.75" y="-73.69" font-family="Roboto" font-size="14.00"> age takes its default</text>
 </g>
 <!-- bad -->

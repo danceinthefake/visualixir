@@ -14,7 +14,7 @@ const parts = (t: string) => t.split("`").map((text, i) => ({ text, code: i % 2 
 <template>
   <section v-if="items.length" class="check" aria-labelledby="check-title">
     <h2 id="check-title">Check yourself</h2>
-    <p class="check__intro">Answer in your head first, then open the answer.</p>
+    <p class="check__intro">Answer in your head. Then open the answer.</p>
     <ol class="check__list">
       <li v-for="(it, i) in items" :key="i">
         <details class="check__item">

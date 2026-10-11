@@ -27,7 +27,7 @@
 <title>caller&#45;&gt;task</title>
 <path fill="none" stroke="#333333" d="M91.86,-102.81C104.09,-109.45 118.33,-115.89 132.25,-119.25 226.22,-141.93 253.7,-130.15 349.75,-119.25 356.23,-118.51 362.95,-117.45 369.61,-116.19"/>
 <polygon fill="#333333" stroke="#333333" points="370.13,-119.66 379.23,-114.24 368.73,-112.8 370.13,-119.66"/>
-<text xml:space="preserve" text-anchor="middle" x="241" y="-136.16" font-family="Roboto" font-size="14.00"> spawns; linked and monitored</text>
+<text xml:space="preserve" text-anchor="middle" x="241" y="-136.16" font-family="Roboto" font-size="14.00"> spawns, links, and monitors</text>
 </g>
 <!-- aw -->
 <g id="node3" class="node">

@@ -11,7 +11,7 @@
 <g id="clust1" class="cluster">
 <title>cluster_mon</title>
 <polygon fill="none" stroke="black" points="8,-8 8,-92 638,-92 638,-8 8,-8"/>
-<text xml:space="preserve" text-anchor="middle" x="323" y="-74.7" font-family="Roboto" font-size="14.00">monitor: one&#45;way, just a message</text>
+<text xml:space="preserve" text-anchor="middle" x="323" y="-74.7" font-family="Roboto" font-size="14.00">monitor: one&#45;way, only a message</text>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_link</title>

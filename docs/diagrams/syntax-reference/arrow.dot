@@ -5,7 +5,7 @@ digraph arrow {
   a [label="do … end\ncase 1 do 2 -> 3; 4 -> 5 end\ncond do true -> false end"]
   b [label="fn … end\nfn x, y -> x + y end"]
   c [label="( … ) in typespecs\n(integer(), boolean() -> integer())"]
-  note [label="between the terminators, only\nother clauses are allowed:\nclauses and plain expressions can't mix" class=dim]
+  note [label="between the terminators, only\nother clauses are allowed:\nclauses and plain expressions cannot mix" class=dim]
   hub -> a
   hub -> b
   hub -> c

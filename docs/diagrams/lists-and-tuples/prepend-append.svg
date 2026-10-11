@@ -16,7 +16,7 @@
 <g id="clust2" class="cluster">
 <title>cluster_pre</title>
 <polygon fill="none" stroke="black" points="8,-95 8,-174 438,-174 438,-95 8,-95"/>
-<text xml:space="preserve" text-anchor="middle" x="223" y="-156.7" font-family="Roboto" font-size="14.00">[0] ++ list: fast, only [0] is copied; list is shared</text>
+<text xml:space="preserve" text-anchor="middle" x="223" y="-156.7" font-family="Roboto" font-size="14.00">[0] ++ list: fast. Only [0] is copied and list is shared</text>
 </g>
 <!-- b1 -->
 <g id="node1" class="node hl">

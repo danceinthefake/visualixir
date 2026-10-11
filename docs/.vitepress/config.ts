@@ -247,7 +247,7 @@ export default defineConfig({
     },
     snapshot,
     footer: {
-      message: `Site code: MIT. Pages and diagrams are derived from the Elixir documentation (Apache-2.0${snapshotText ? ", " + snapshotText : ""}). Not affiliated with the Elixir Team.`,
+      message: `Site code: MIT. Pages and diagrams come from the Elixir documentation (Apache-2.0${snapshotText ? ", " + snapshotText : ""}). This project is not affiliated with the Elixir Team.`,
       copyright: "Copyright © 2026 DanceInTheFake",
     },
     search: { provider: "local" },

@@ -8,7 +8,7 @@ digraph kw_vs_map {
     m2 [label="{2|:b}"]
   }
   subgraph cluster_kw {
-    label="keyword list [a: 1, b: 2, a: 3]\nordered · atom keys · keys may repeat"
+    label="keyword list [a: 1, b: 2, a: 3]\nordered · atom keys · keys can repeat"
     k1 [label="{:a, 1}"]
     k2 [label="{:b, 2}"]
     k3 [label="{:a, 3}"]

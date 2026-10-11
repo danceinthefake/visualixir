@@ -8,6 +8,6 @@ digraph closure {
     double [label="double = fn a -> add.(a, a) end" class=hl]
     setx [label="fn -> x = 0 end" class=hl]
     double -> add [label=" closes over"]
-    setx -> x [label=" own x only;\n outer stays 42" class=bad style=dashed]
+    setx -> x [label=" own x only\n outer stays 42" class=bad style=dashed]
   }
 }

@@ -7,6 +7,6 @@ digraph with_chain {
   r -> p [label=" match"]
   p -> u [label=" match"]
   u -> w [label=" :ok  or  {:error, :not_found}"]
-  r -> w [label=" {:error, :closed}: no match, so with\l returns it as is; write_line exits politely\l" class=bad style=dashed]
+  r -> w [label=" {:error, :closed}: no match, so with\l returns it unchanged.\l write_line exits normally\l" class=bad style=dashed]
   p -> w [label=" {:error, :unknown_command}\l" class=bad style=dashed]
 }

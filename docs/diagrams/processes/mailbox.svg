@@ -50,7 +50,7 @@
 <path fill="none" stroke="#333333" d="M487.44,-46C541.02,-46 623.6,-46 685.58,-46"/>
 <polygon fill="#333333" stroke="#333333" points="685.39,-49.5 695.39,-46 685.39,-42.5 685.39,-49.5"/>
 <text xml:space="preserve" text-anchor="start" x="505.25" y="-67.2" font-family="Roboto" font-size="14.00"> first message that matches</text>
-<text xml:space="preserve" text-anchor="start" x="505.25" y="-49.95" font-family="Roboto" font-size="14.00"> a pattern; the rest stay</text>
+<text xml:space="preserve" text-anchor="start" x="505.25" y="-49.95" font-family="Roboto" font-size="14.00"> a pattern. The rest stay</text>
 </g>
 <!-- res -->
 <g id="node4" class="node">

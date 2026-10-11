@@ -5,7 +5,7 @@ digraph contents {
   a [label="dependencies\nevery library and package"]
   b [label="versions\nthe exact one of each"]
   c [label="source locations\nHex, GitHub, …"]
-  d [label="checksums\nto verify integrity"]
+  d [label="checksums\nto make sure that\nthe files are intact"]
   e [label="licenses\nas each package declares them"]
   bom -> a
   bom -> b

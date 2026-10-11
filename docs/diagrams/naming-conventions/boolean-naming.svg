@@ -31,7 +31,7 @@
 <g id="node5" class="node">
 <title>other</title>
 <polygon fill="#f2f2f2" stroke="#333333" points="481.38,-138.25 309.38,-138.25 309.38,-95.75 481.38,-95.75 481.38,-138.25"/>
-<text xml:space="preserve" text-anchor="middle" x="395.38" y="-120.95" font-family="Roboto" font-size="14.00">not a boolean check:</text>
+<text xml:space="preserve" text-anchor="middle" x="395.38" y="-120.95" font-family="Roboto" font-size="14.00">not a boolean test:</text>
 <text xml:space="preserve" text-anchor="middle" x="395.38" y="-103.7" font-family="Roboto" font-size="14.00">no special prefix or suffix</text>
 </g>
 <!-- q&#45;&gt;other -->

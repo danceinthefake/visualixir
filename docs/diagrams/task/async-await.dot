@@ -3,7 +3,7 @@ digraph async_await {
   node [shape=box]
   caller [label="caller\nTask.async(fun)" class=hl]
   task [label="task process\nruns fun"]
-  caller -> task [id=step1 label=" spawns; linked and monitored"]
+  caller -> task [id=step1 label=" spawns, links, and monitors"]
   task -> caller [id=step2 label=" {ref, result}" style=dashed]
   task -> caller [id=step3 label=" {:DOWN, ref, :process, pid, reason}" style=dashed class=dim]
   aw [label="Task.await(task)\nreads {ref, result}"]

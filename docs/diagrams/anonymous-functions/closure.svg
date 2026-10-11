@@ -49,7 +49,7 @@
 <title>setx&#45;&gt;x</title>
 <path fill="none" stroke="#333333" stroke-dasharray="5,2" d="M168.35,-88C230.8,-88 335.43,-88 391.24,-88"/>
 <polygon fill="#333333" stroke="#333333" points="391.19,-91.5 401.19,-88 391.19,-84.5 391.19,-91.5"/>
-<text xml:space="preserve" text-anchor="middle" x="281.38" y="-109.2" font-family="Roboto" font-size="14.00"> own x only;</text>
+<text xml:space="preserve" text-anchor="middle" x="281.38" y="-109.2" font-family="Roboto" font-size="14.00"> own x only</text>
 <text xml:space="preserve" text-anchor="middle" x="281.38" y="-91.95" font-family="Roboto" font-size="14.00"> outer stays 42</text>
 </g>
 </g>

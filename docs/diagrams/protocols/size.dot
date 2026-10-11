@@ -10,6 +10,6 @@ digraph size {
   proto -> bs
   proto -> mp
   proto -> tp
-  proto -> ms [label=" own defimpl: structs\l don't reuse Map's\l"]
+  proto -> ms [label=" own defimpl: structs do not\l reuse Map's\l"]
   proto -> ls [label=" Protocol.UndefinedError" class=bad style=dashed]
 }

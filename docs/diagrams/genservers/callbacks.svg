@@ -71,7 +71,7 @@
 <title>c2&#45;&gt;s2</title>
 <path fill="none" stroke="#333333" d="M295.69,-157.05C346.59,-157.43 403.25,-157.86 450.52,-158.22"/>
 <polygon fill="#333333" stroke="#333333" points="450.47,-161.72 460.5,-158.29 450.52,-154.72 450.47,-161.72"/>
-<text xml:space="preserve" text-anchor="middle" x="371" y="-161.98" font-family="Roboto" font-size="14.00"> doesn&#39;t wait</text>
+<text xml:space="preserve" text-anchor="middle" x="371" y="-161.98" font-family="Roboto" font-size="14.00"> does not wait</text>
 </g>
 <!-- c1 -->
 <g id="node7" class="node hl">

@@ -17,6 +17,6 @@ digraph callbacks {
   }
   c0 -> s0 [label=" starts the server"]
   c1 -> s1 [label=" waits for the reply"]
-  c2 -> s2 [label=" doesn't wait"]
+  c2 -> s2 [label=" does not wait"]
   c3 -> s3 [label=" {:DOWN, …}"]
 }
